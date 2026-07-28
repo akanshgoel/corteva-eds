@@ -1,0 +1,311 @@
+{
+  "templates": [
+    {
+      "name": "homepage",
+      "representativePages": [
+        "https://www.hoegemeyer.com/"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/"
+      ],
+      "description": "Homepage: hero video with heading and intro copy, feature grid with US map and icon-based value props, dark CTA banner"
+    },
+    {
+      "name": "content-page",
+      "representativePages": [
+        "https://www.hoegemeyer.com/2026-seed-guide.html",
+        "https://www.hoegemeyer.com/seed-treatments.html",
+        "https://www.hoegemeyer.com/about/news.html",
+        "https://www.hoegemeyer.com/about/find-a-rep.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/2026-seed-guide.html",
+        "https://www.hoegemeyer.com/about/find-a-rep.html",
+        "https://www.hoegemeyer.com/about/news.html",
+        "https://www.hoegemeyer.com/about/news/2025-employee-awards.html",
+        "https://www.hoegemeyer.com/about/news/2025-hoegemeyer-cares-scholarship-now-open.html",
+        "https://www.hoegemeyer.com/about/news/2026-hoegemeyer-cares-scholarship-now-open.html",
+        "https://www.hoegemeyer.com/about/news/data-driven-farmer-beau-romsey.html",
+        "https://www.hoegemeyer.com/about/news/get-know-eastern-region-sales-intern-ryan-frazer.html",
+        "https://www.hoegemeyer.com/about/news/giving-locally-one-kernel-at-a-time.html",
+        "https://www.hoegemeyer.com/about/news/grain-rescue-tube-donated-to-atchison-county-emergency-services.html",
+        "https://www.hoegemeyer.com/about/news/growing-seed-business-generation-generation-holzwarth-seed.html",
+        "https://www.hoegemeyer.com/about/news/hoegemeyer-launches-enlimitedtm-grade-soybeans-2025-growing-season.html",
+        "https://www.hoegemeyer.com/about/news/meet-caspers-sowing-seeds-success.html",
+        "https://www.hoegemeyer.com/about/news/meet-our-2023-award-winners.html",
+        "https://www.hoegemeyer.com/dealer-brand-building-tools.html",
+        "https://www.hoegemeyer.com/products/2026-seed-guide.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/2025-employee-awards.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/3-tips-make-fall-burndown-count.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/5-tips-making-strong-bean-decisions.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/analyzing-yield-data-using-granular-insights.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/another-pest-add-our-scouting-list-corn-stunt-disease-confirmed-kansas.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/aquamaxr-and-drought-stressed-corn.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/assessing-early-season-corn-and-soybean-stands.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/automated-decision-zones-and-multi-year-yield-analysis.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/black-cutworm.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/brown-stem-rot-soybeans.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/charcoal-rot-soybeans.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/chinch-bugs.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/common-rust-corn.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/common-stalk-rots-corn.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/compaction-will-winter-freezing-and-thawing-remove-compaction-layers.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/corn-earworm.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/corn-flea-beetle.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/corn-root-lodging.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/corn-rootworm-management-using-rnai.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/create-granular-insights-account.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/determining-your-soybean-planting-date-early-vs-late.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/diplodia-ear-rot.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/dont-mistake-tar-spot-harvest.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/early-season-scouting-tips.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/early-season-stress-chill-injury-corn-seedlings.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/enlist-herbicides-and-crop-dicamba-herbicides.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/exporting-variable-rate-seeding-vrs-recommendations.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/fighting-white-mold-soybeans-what-farmers-need-know.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/five-ws-behind-tar-spot.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/getting-started-variable-rate-seeding-vrs-and-decision-zones.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/gosss-wilt-bacterial-wilt-leaf-blight.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/harvest-here-are-you-ready-it.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/how-manage-fertilizer-times-high-input-prices.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/iron-deficiency-chlorosis-soybeans.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/managing-aphids-in-corn.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/mechanisms-nitrogen-loss-soil.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/optimize-timing-corn-foliar-fungicides.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/planning-success-corn-and-soybean-weed-control-timelines.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/preparing-planting-essential-plantability-tips.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/prioritizing-drought-stressed-corn-early-harvest.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/rootworm-resilience-how-extended-diapause-challenges-rotated-acres.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/scouting-for-corn-rootworm-beetles-sticky-traps.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/scouting-for-fall-armyworm.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/seedcorn-maggot.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/southern-rust-corn-growing-concern-2025.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/southern-south-dakota-winds-hoegemeyer-hybrids-stand-strong.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/soybean-hail-decision-guide.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/spring-here-have-your-eye-out-these-soybean-diseases.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/tar-spot-corn.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/top-dress-side-dress-sulfur-corn-and-soybeans.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/using-analyze-evaluate-product-performance.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/using-corn-plantability-website.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/using-granulars-crop-imagery.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/variable-rate-planting-vrs-soybeans-what-do-you-need-consider.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/visualizing-harvest-data-maps.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/western-bean-cutworm-plan-manage-2022.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/western-bean-cutworm.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/white-grub.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/why-early-soybean-planting-pays-off-midwest.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/wireworms.html",
+        "https://www.hoegemeyer.com/regional-expertise/guess-that-pest.html",
+        "https://www.hoegemeyer.com/regional-expertise/the-right-seed-yield-contest.html",
+        "https://www.hoegemeyer.com/seed-treatments.html",
+        "https://www.hoegemeyer.com/stewardship.html",
+        "https://www.hoegemeyer.com/third-party-trial-performance.html",
+        "https://www.hoegemeyer.com/traits-technology/corn-traits.html",
+        "https://www.hoegemeyer.com/traits-technology/soybean-traits.html",
+        "https://www.hoegemeyer.com/yield.html"
+      ],
+      "description": "General content page: title header followed by flexible default content and simple hero/promo block; used for standard marketing, news articles, and info pages"
+    },
+    {
+      "name": "content-page-media",
+      "representativePages": [
+        "https://www.hoegemeyer.com/about/history.html",
+        "https://www.hoegemeyer.com/about/news/hoegemeyer-celebrates-2022-award-winners.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/about/history.html",
+        "https://www.hoegemeyer.com/about/news/hoegemeyer-celebrates-2022-award-winners.html",
+        "https://www.hoegemeyer.com/about/news/hoegemeyer-launches-enlimitedtm-grade-soybeans-2025-growing-season0.html"
+      ],
+      "description": "Content page variant with embedded media/video and richer text sections"
+    },
+    {
+      "name": "landing-page",
+      "representativePages": [
+        "https://www.hoegemeyer.com/about.html",
+        "https://www.hoegemeyer.com/regional-expertise/agronomy-first.html",
+        "https://www.hoegemeyer.com/become-dealer.html",
+        "https://www.hoegemeyer.com/traits-technology.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/about.html",
+        "https://www.hoegemeyer.com/become-dealer.html",
+        "https://www.hoegemeyer.com/deeproots.html",
+        "https://www.hoegemeyer.com/regional-expertise/agronomy-first.html",
+        "https://www.hoegemeyer.com/traits-technology.html",
+        "https://www.hoegemeyer.com/yield-results.html",
+        "https://www.hoegemeyer.com/yield-results/plot-results.html"
+      ],
+      "description": "Section landing page: full-width image hero banner, intro copy, embedded video, multi-column feature blocks and timeline/cards"
+    },
+    {
+      "name": "newsletter-signup",
+      "representativePages": [
+        "https://www.hoegemeyer.com/about/newsletter-sign-up.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/about/newsletter-sign-up.html"
+      ],
+      "description": "Newsletter sign-up page with embedded subscription form"
+    },
+    {
+      "name": "contact-form",
+      "representativePages": [
+        "https://www.hoegemeyer.com/contact-us.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/contact-us.html"
+      ],
+      "description": "Contact page: title and intro on left, multi-field contact form with checkboxes and submit on right"
+    },
+    {
+      "name": "request-form",
+      "representativePages": [
+        "https://www.hoegemeyer.com/dealer-brand-building-tools/2025-sign-up-program.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/dealer-brand-building-tools/2025-sign-up-program.html",
+        "https://www.hoegemeyer.com/dealer-brand-building-tools/billboard-ad-request.html",
+        "https://www.hoegemeyer.com/dealer-brand-building-tools/cost-share-reimbursement.html",
+        "https://www.hoegemeyer.com/dealer-brand-building-tools/hoegemeyer-highlighted.html",
+        "https://www.hoegemeyer.com/dealer-brand-building-tools/print-ad-request.html",
+        "https://www.hoegemeyer.com/dealer-brand-building-tools/radio-ad-request.html"
+      ],
+      "description": "Marketing request form page: breadcrumb, title on left, embedded multi-field form (region, name, dealership, zip) on right"
+    },
+    {
+      "name": "order-form",
+      "representativePages": [
+        "https://www.hoegemeyer.com/dealer-brand-building-tools/postcard-order-form.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/dealer-brand-building-tools/postcard-order-form.html"
+      ],
+      "description": "Order form page with embedded form for ordering marketing materials"
+    },
+    {
+      "name": "product-feature-page",
+      "representativePages": [
+        "https://www.hoegemeyer.com/enlimited-grade-soybeans.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/enlimited-grade-soybeans.html"
+      ],
+      "description": "Single product/feature marketing page with hero and supporting content sections"
+    },
+    {
+      "name": "category-landing",
+      "representativePages": [
+        "https://www.hoegemeyer.com/hometown-celebrations.html",
+        "https://www.hoegemeyer.com/regional-expertise/granular-insights.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/hometown-celebrations.html",
+        "https://www.hoegemeyer.com/products.html",
+        "https://www.hoegemeyer.com/regional-expertise/granular-insights.html"
+      ],
+      "description": "Category landing page: image hero banner, intro copy, regional cards/columns with map graphics and CTA buttons, related resources, find-a-rep banner"
+    },
+    {
+      "name": "legal-text-page",
+      "representativePages": [
+        "https://www.hoegemeyer.com/legal.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/legal.html"
+      ],
+      "description": "Legal/text-heavy page with long-form default content"
+    },
+    {
+      "name": "product-detail",
+      "representativePages": [
+        "https://www.hoegemeyer.com/products/corn.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/products/corn.html",
+        "https://www.hoegemeyer.com/products/sorghum.html",
+        "https://www.hoegemeyer.com/products/soybeans.html"
+      ],
+      "description": "Product detail page: hero header with product-specific content and supporting sections"
+    },
+    {
+      "name": "seed-guide-embed",
+      "representativePages": [
+        "https://www.hoegemeyer.com/products/east-seed-guide.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/products/east-seed-guide.html",
+        "https://www.hoegemeyer.com/products/north-seed-guide.html",
+        "https://www.hoegemeyer.com/products/west-seed-guide.html"
+      ],
+      "description": "Seed guide page: minimal layout with embedded PDF/flipbook viewer and download button"
+    },
+    {
+      "name": "article-with-sidebar",
+      "representativePages": [
+        "https://www.hoegemeyer.com/regional-expertise/articles/bean-leaf-beetle-management.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/regional-expertise/articles/bean-leaf-beetle-management.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/bean-leaf-beetle.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/gray-leaf-spot-corn.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/managing-phytophthora-root-stem-rot-soybeans.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/pests-late-planted-corn.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/refocusing-on-soybean-cyst-nematode-management.html",
+        "https://www.hoegemeyer.com/regional-expertise/articles/white-mold-management-soybeans.html",
+        "https://www.hoegemeyer.com/regional-expertise/product-placement.html"
+      ],
+      "description": "Agronomy article: breadcrumb, title, two-column layout with main summary content plus right sidebar promo and download CTA"
+    },
+    {
+      "name": "blog-listing",
+      "representativePages": [
+        "https://www.hoegemeyer.com/regional-expertise/articles.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/regional-expertise/articles.html"
+      ],
+      "description": "Blog/article listing page: title header, tabs, search bar and paginated list of article results with Load More"
+    },
+    {
+      "name": "blog-listing-dynamic",
+      "representativePages": [
+        "https://www.hoegemeyer.com/regional-expertise/the-dirt.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/regional-expertise/the-dirt.html"
+      ],
+      "description": "Dynamic blog landing page rendered client-side (JS-driven feed)"
+    },
+    {
+      "name": "search-results",
+      "representativePages": [
+        "https://www.hoegemeyer.com/search-results.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/search-results.html"
+      ],
+      "description": "Search results page with query input and dynamic result listing"
+    },
+    {
+      "name": "sitemap-page",
+      "representativePages": [
+        "https://www.hoegemeyer.com/site-map.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/site-map.html"
+      ],
+      "description": "Site map page with nested link listing of site structure"
+    },
+    {
+      "name": "info-hero-page",
+      "representativePages": [
+        "https://www.hoegemeyer.com/yield-data.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/yield-data.html"
+      ],
+      "description": "Informational page: centered title and intro, large text callout, full-width image CTA banner with button"
+    }
+  ]
+}
