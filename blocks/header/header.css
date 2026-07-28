@@ -147,7 +147,9 @@ header nav[aria-expanded='true'] .nav-hamburger-icon::after {
   transform: rotate(-45deg);
 }
 
-/* search */
+/* search — expandable inline field (matches legacy): the text input is
+   collapsed (width 0) and expands leftward on click; the magnifier submit
+   button is always visible and turns blue when the field is open. */
 header nav .nav-search {
   flex: 0 0 auto;
   display: flex;
@@ -157,7 +159,55 @@ header nav .nav-search {
   margin-left: auto;
 }
 
-header nav .nav-search-toggle {
+header nav .nav-search-form {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+header nav .nav-search-form input {
+  width: 0;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  background: #fff;
+  color: #686f7d;
+  font-size: 14px;
+  opacity: 0;
+  transition: width 0.4s ease-in-out, opacity 0.4s, padding 0.4s;
+}
+
+/* Mobile: the open search overlays the top bar full-width (from the logo edge
+   to the submit button) so the input never overflows the small viewport. */
+header nav .nav-search.is-open {
+  position: absolute;
+  inset: 0 16px 0 68px;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  z-index: 5;
+}
+
+header nav .nav-search.is-open .nav-search-form {
+  width: 100%;
+}
+
+header nav .nav-search.is-open .nav-search-form input {
+  flex: 1 1 auto;
+  width: auto;
+  padding: 0 12px;
+  border: 1px solid var(--hoeg-navy);
+  border-right: 0;
+  opacity: 1;
+}
+
+header nav .nav-search-form input::placeholder {
+  color: #757575;
+}
+
+/* magnifier submit button (always visible) */
+header nav .nav-search-submit {
+  flex: 0 0 auto;
   width: 40px;
   height: 40px;
   border: 1px solid var(--hoeg-border);
@@ -170,7 +220,7 @@ header nav .nav-search-toggle {
   justify-content: center;
 }
 
-header nav .nav-search-toggle::before {
+header nav .nav-search-submit::before {
   content: '';
   width: 16px;
   height: 16px;
@@ -180,43 +230,16 @@ header nav .nav-search-toggle::before {
   transform: translate(-2px, -2px);
 }
 
-header nav .nav-search-form {
-  display: none;
-  align-items: center;
+/* open state: submit button becomes the blue action button with white icon */
+header nav .nav-search.is-open .nav-search-submit {
+  background: #459aff;
+  border-color: #459aff;
+  border-radius: 0;
 }
 
-header nav .nav-search.is-open .nav-search-form {
-  display: flex;
-  position: fixed;
-  left: 16px;
-  right: 16px;
-  top: calc(var(--mobile-bar-height) + 8px);
-  background: #fff;
-  box-shadow: 0 6px 16px rgb(0 0 0 / 12%);
-  padding: 8px;
-  z-index: 30;
-}
-
-header nav .nav-search-form input {
-  border: 1px solid var(--hoeg-border);
-  padding: 8px 12px;
-  font-size: 14px;
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-header nav .nav-search-submit {
-  border: 0;
-  background: var(--hoeg-navy);
-  color: #fff;
-  padding: 0 14px;
-  height: 36px;
-  cursor: pointer;
-}
-
-header nav .nav-search-submit::before {
-  content: '\1F50D';
-  font-size: 14px;
+header nav .nav-search.is-open .nav-search-submit::before {
+  border-color: #fff;
+  box-shadow: 8px 8px 0 -6px #fff;
 }
 
 /* main nav: full-height drawer below the top bar, revealed by the hamburger */
@@ -423,6 +446,18 @@ header nav[aria-expanded='true'] .nav-tools li {
     margin-left: 0;
   }
 
+  /* Desktop: search expands inline (leftward) rather than overlaying the bar */
+  header nav .nav-search.is-open {
+    position: relative;
+    inset: auto;
+    background: transparent;
+  }
+
+  header nav .nav-search.is-open .nav-search-form input {
+    flex: 0 0 auto;
+    width: 220px;
+  }
+
   /* hamburger hidden on desktop */
   header nav .nav-hamburger {
     display: none;
@@ -537,18 +572,5 @@ header nav[aria-expanded='true'] .nav-tools li {
   /* Back button is desktop-hidden (used only in mobile slide-in panels) */
   header nav .nav-drop-back {
     display: none;
-  }
-
-  /* search form opens as an absolute panel under the icon */
-  header nav .nav-search.is-open .nav-search-form {
-    position: absolute;
-    left: auto;
-    right: 0;
-    top: calc(100% + 8px);
-  }
-
-  header nav .nav-search-form input {
-    flex: 0 0 auto;
-    min-width: 220px;
   }
 }

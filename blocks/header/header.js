@@ -31,18 +31,15 @@ function closeDropdowns(navSections, except) {
 }
 
 /**
- * Builds the expandable search control in the tools area.
+ * Builds the expandable inline search control, matching the legacy behavior:
+ * a search form whose text input is collapsed (width 0) by default and, on
+ * clicking the magnifier submit button, expands leftward and focuses. When the
+ * input already has a value, clicking the magnifier submits to search-results.
  * @param {Element} tools the nav tools container
  */
 function buildSearch(tools) {
   const wrapper = document.createElement('div');
   wrapper.className = 'nav-search';
-
-  const toggle = document.createElement('button');
-  toggle.type = 'button';
-  toggle.className = 'nav-search-toggle';
-  toggle.setAttribute('aria-label', 'Search');
-  toggle.setAttribute('aria-expanded', 'false');
 
   const form = document.createElement('form');
   form.className = 'nav-search-form';
@@ -51,26 +48,48 @@ function buildSearch(tools) {
   form.method = 'get';
 
   const input = document.createElement('input');
-  input.type = 'search';
+  input.type = 'text';
   input.name = 'q';
+  input.autocomplete = 'off';
   input.placeholder = 'Search';
   input.setAttribute('aria-label', 'Search');
 
   const submit = document.createElement('button');
   submit.type = 'submit';
   submit.className = 'nav-search-submit';
-  submit.setAttribute('aria-label', 'Submit search');
+  submit.setAttribute('aria-label', 'Search');
 
   form.append(input, submit);
 
-  toggle.addEventListener('click', () => {
-    const open = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', open ? 'false' : 'true');
-    wrapper.classList.toggle('is-open', !open);
-    if (!open) input.focus();
+  const open = () => {
+    wrapper.classList.add('is-open');
+    submit.setAttribute('aria-expanded', 'true');
+    input.focus();
+  };
+  const close = () => {
+    wrapper.classList.remove('is-open');
+    submit.setAttribute('aria-expanded', 'false');
+  };
+
+  // Magnifier click: first opens the field; once open, an empty field just
+  // stays open (native submit is prevented) while a filled field submits.
+  submit.setAttribute('aria-expanded', 'false');
+  submit.addEventListener('click', (e) => {
+    if (!wrapper.classList.contains('is-open')) {
+      e.preventDefault();
+      open();
+    } else if (!input.value.trim()) {
+      e.preventDefault();
+      input.focus();
+    }
   });
 
-  wrapper.append(toggle, form);
+  // Close when focus leaves an empty field.
+  input.addEventListener('blur', () => {
+    if (!input.value.trim()) close();
+  });
+
+  wrapper.append(form);
   tools.append(wrapper);
 }
 
@@ -265,9 +284,9 @@ export default async function decorate(block) {
     if (!nav.contains(e.target)) {
       if (navSections) closeDropdowns(navSections);
       const searchWrapper = nav.querySelector('.nav-search.is-open');
-      if (searchWrapper) {
+      if (searchWrapper && !searchWrapper.querySelector('input').value.trim()) {
         searchWrapper.classList.remove('is-open');
-        searchWrapper.querySelector('.nav-search-toggle')?.setAttribute('aria-expanded', 'false');
+        searchWrapper.querySelector('.nav-search-submit')?.setAttribute('aria-expanded', 'false');
       }
     }
   });
