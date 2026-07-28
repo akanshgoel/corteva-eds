@@ -117,45 +117,56 @@ export default async function decorate(block) {
   const nav = document.createElement('nav');
   nav.id = 'nav';
   nav.setAttribute('aria-expanded', 'false');
-  while (fragment.body.firstElementChild) nav.append(fragment.body.firstElementChild);
 
-  // classify the three sections: brand, sections (main nav), tools (utility)
-  const classes = ['brand', 'sections', 'tools'];
-  classes.forEach((c, i) => {
-    const section = nav.children[i];
-    if (section) section.classList.add(`nav-${c}`);
-  });
+  // Classify the three parts by CONTENT, not by top-level div position — the
+  // document pipeline may deliver them as three sibling <div>s OR collapse
+  // them into a single <div>. Brand = element holding the logo image; main
+  // nav = the <ul> that has nested <ul> dropdowns; tools = the remaining <ul>.
+  const src = fragment.body;
+  const logoImg = src.querySelector('img');
+  const lists = [...src.querySelectorAll('ul')].filter((ul) => !ul.closest('li'));
+  const sectionsList = lists.find((ul) => ul.querySelector('li ul')) || lists[0];
+  const toolsList = lists.find((ul) => ul !== sectionsList);
 
-  const navBrand = nav.querySelector('.nav-brand');
-  const navSections = nav.querySelector('.nav-sections');
-  const navTools = nav.querySelector('.nav-tools');
+  const navBrand = document.createElement('div');
+  navBrand.className = 'nav-brand';
+  if (logoImg) {
+    const brandLink = logoImg.closest('a') || logoImg;
+    navBrand.append(brandLink.closest('p') || brandLink);
+  }
 
-  // Reorder into two rows: utility bar on top, then the main nav row.
-  // nav.plain.html order is brand, sections, tools; the source shows
-  // the utility (tools) bar above the main nav.
-  if (navTools) nav.prepend(navTools);
+  const navSections = document.createElement('div');
+  navSections.className = 'nav-sections';
+  if (sectionsList) navSections.append(sectionsList);
 
-  // Brand: wrap the logo image in the Home link, drop the redundant "Home" text link
-  if (navBrand) {
-    const links = [...navBrand.querySelectorAll('a')];
-    const img = navBrand.querySelector('img');
-    const homeLink = links.find((a) => !a.querySelector('img'));
-    if (img && homeLink) {
-      // The document pipeline can leave a raw logo path unresolved (src="about:error").
-      // Fall back to the alt-derived source path so the brand logo always renders.
-      if (!img.getAttribute('src') || img.src.startsWith('about:')) {
-        img.src = '/images/hoegemeyer-logo.png';
-        img.closest('picture')?.querySelectorAll('source').forEach((s) => s.remove());
-      }
-      homeLink.textContent = '';
-      homeLink.setAttribute('aria-label', 'Hoegemeyer Hybrids home');
-      homeLink.append(img);
-      // remove any leftover empty paragraphs / duplicate anchors
-      navBrand.querySelectorAll('p').forEach((p) => {
-        if (!p.textContent.trim() && !p.querySelector('a, img')) p.remove();
-      });
-      links.filter((a) => a !== homeLink).forEach((a) => a.closest('p, li')?.remove());
+  const navTools = document.createElement('div');
+  navTools.className = 'nav-tools';
+  if (toolsList) navTools.append(toolsList);
+
+  // Two rows: utility bar on top, then the main nav row (brand + sections).
+  nav.append(navTools);
+
+  // Brand: ensure the logo image is wrapped in a link to the homepage.
+  const brandImg = navBrand.querySelector('img');
+  if (brandImg) {
+    // The document pipeline can leave a raw logo path unresolved (src="about:error").
+    // Fall back to the known logo path so the brand logo always renders.
+    if (!brandImg.getAttribute('src') || brandImg.src.startsWith('about:')) {
+      brandImg.src = '/images/hoegemeyer-logo.png';
+      brandImg.closest('picture')?.querySelectorAll('source').forEach((s) => s.remove());
     }
+    let brandLink = brandImg.closest('a');
+    if (!brandLink) {
+      brandLink = document.createElement('a');
+      brandLink.href = '/';
+      brandImg.replaceWith(brandLink);
+      brandLink.append(brandImg);
+    }
+    brandLink.setAttribute('href', '/');
+    brandLink.setAttribute('aria-label', 'Hoegemeyer Hybrids home');
+    // reset the brand container to just the logo link
+    navBrand.textContent = '';
+    navBrand.append(brandLink);
   }
 
   // Main nav: mark items with a nested list as dropdowns
