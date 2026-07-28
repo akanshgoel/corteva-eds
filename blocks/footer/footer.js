@@ -79,8 +79,9 @@ export default async function decorate(block) {
   // Collect the semantic pieces by content — robust whether the pipeline
   // delivers two section <div>s or collapses everything into one <div>.
   const allUls = [...footer.querySelectorAll('ul')];
-  const socialList = allUls.find((ul) => ul.querySelector('a img'));
-  const legalList = allUls.find((ul) => /Cookie Preferences|Privacy|Terms of Use/i.test(ul.textContent));
+  const socialList = allUls.find((ul) => ul.querySelector('img, picture'));
+  const legalList = allUls.find((ul) => ul !== socialList
+    && /Cookie Preferences|Privacy|Terms of Use/i.test(ul.textContent));
   const linkList = allUls.find((ul) => ul !== socialList && ul !== legalList);
 
   const paras = [...footer.querySelectorAll('p')];

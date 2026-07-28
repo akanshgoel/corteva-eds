@@ -84,9 +84,13 @@ footer .footer-links li {
   margin: 0;
 }
 
+/* social anchors carry a hidden text label (keeps DA from stripping the link
+   on image-only anchors); font-size:0 hides the label, only the icon shows */
 footer .footer-social a {
   display: inline-flex;
   align-items: center;
+  font-size: 0;
+  line-height: 0;
   opacity: 0.9;
   transition: opacity 0.2s ease;
 }
@@ -200,13 +204,10 @@ footer .footer-back-to-top::before {
     padding: 60px 40px;
   }
 
-  /* link grid becomes 3 columns, filled COLUMN-first (matches legacy:
-     col1 = Seedware Login/Seed Guide, col2 = Stewardship/Legal, col3 = 360 Brand Store) */
+  /* link grid becomes 2 columns at tablet, filled ROW-first (matches legacy) */
   footer .footer-links {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, auto);
-    grid-auto-flow: column;
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px 40px;
   }
 }
@@ -249,5 +250,10 @@ footer .footer-back-to-top::before {
 
   footer .footer-social {
     margin-bottom: 24px;
+  }
+
+  /* 3-column link grid on desktop (matches legacy) */
+  footer .footer-links {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
