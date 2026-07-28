@@ -200,19 +200,14 @@ export default async function decorate(block) {
         if (trigger) {
           trigger.setAttribute('role', 'button');
           trigger.setAttribute('aria-haspopup', 'true');
-          // A trigger is a "real" navigable link only when its href points to a
-          // path (starts with /) or an http(s) URL. Placeholder hrefs just toggle.
-          const isRealLink = (a) => {
-            const href = (a.getAttribute('href') || '').trim();
-            return href.startsWith('/') || /^https?:\/\//i.test(href);
-          };
+          // A dropdown trigger never navigates — it only toggles its panel. The
+          // real destinations are the child links. This also neutralizes any
+          // placeholder href the doc pipeline may emit (e.g. "#" or "/void-0").
           trigger.addEventListener('click', (e) => {
-            if (!isRealLink(trigger)) {
-              e.preventDefault();
-              const open = li.getAttribute('aria-expanded') === 'true';
-              closeDropdowns(navSections, li);
-              li.setAttribute('aria-expanded', open ? 'false' : 'true');
-            }
+            e.preventDefault();
+            const open = li.getAttribute('aria-expanded') === 'true';
+            closeDropdowns(navSections, li);
+            li.setAttribute('aria-expanded', open ? 'false' : 'true');
           });
         }
       }
