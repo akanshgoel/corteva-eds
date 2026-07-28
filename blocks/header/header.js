@@ -169,6 +169,17 @@ export default async function decorate(block) {
     navBrand.append(brandLink);
   }
 
+  // Normalize: the document pipeline wraps each list link in a <p>
+  // (li > p > a). Unwrap so links are direct children of their <li>, matching
+  // the CSS and both fragment shapes (with or without the <p> wrapper).
+  [navSections, navTools].forEach((container) => {
+    container.querySelectorAll('li > p').forEach((p) => {
+      if (p.children.length === 1 && p.firstElementChild.tagName === 'A') {
+        p.replaceWith(p.firstElementChild);
+      }
+    });
+  });
+
   // Main nav: mark items with a nested list as dropdowns
   if (navSections) {
     navSections.querySelectorAll(':scope ul > li').forEach((li) => {
