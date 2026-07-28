@@ -141,6 +141,12 @@ export default async function decorate(block) {
     const img = navBrand.querySelector('img');
     const homeLink = links.find((a) => !a.querySelector('img'));
     if (img && homeLink) {
+      // The document pipeline can leave a raw logo path unresolved (src="about:error").
+      // Fall back to the alt-derived source path so the brand logo always renders.
+      if (!img.getAttribute('src') || img.src.startsWith('about:')) {
+        img.src = '/images/hoegemeyer-logo.png';
+        img.closest('picture')?.querySelectorAll('source').forEach((s) => s.remove());
+      }
       homeLink.textContent = '';
       homeLink.setAttribute('aria-label', 'Hoegemeyer Hybrids home');
       homeLink.append(img);
