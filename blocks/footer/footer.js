@@ -76,36 +76,39 @@ export default async function decorate(block) {
   normalizeImages(footer);
   unwrapLinkParagraphs(footer);
 
-  // The pipeline delivers the two sections as sibling <div>s or (when collapsed)
-  // as one <div>. Classify by content: the section with the copyright line is
-  // the legal band; the other is the upper (brand + social + links) band.
-  const sections = [...footer.children].filter((el) => el.tagName === 'DIV');
-  const hasCopyright = (el) => /Trademarks of Corteva|©/.test(el.textContent);
-  const upper = sections.find((s) => !hasCopyright(s)) || sections[0];
-  const lower = sections.find((s) => hasCopyright(s)) || sections[1] || sections[0];
+  // Collect the semantic pieces by content — robust whether the pipeline
+  // delivers two section <div>s or collapses everything into one <div>.
+  const allUls = [...footer.querySelectorAll('ul')];
+  const socialList = allUls.find((ul) => ul.querySelector('a img'));
+  const legalList = allUls.find((ul) => /Cookie Preferences|Privacy|Terms of Use/i.test(ul.textContent));
+  const linkList = allUls.find((ul) => ul !== socialList && ul !== legalList);
 
-  if (upper) {
-    upper.classList.add('footer-top');
-    const lists = [...upper.querySelectorAll(':scope > ul')];
-    const socialList = lists.find((ul) => ul.querySelector('a img')) || lists[0];
-    const linkList = lists.find((ul) => ul !== socialList);
-    if (socialList) socialList.classList.add('footer-social');
-    if (linkList) linkList.classList.add('footer-links');
-    upper.querySelectorAll(':scope > p').forEach((p) => {
-      if (p.querySelector('img')) p.classList.add('footer-brand');
-      else if (p.textContent.trim() && !p.querySelector('a')) p.classList.add('footer-connect');
-    });
-  }
+  const paras = [...footer.querySelectorAll('p')];
+  const logos = paras.filter((p) => p.querySelector('img'));
+  const hoegLogo = logos.find((p) => /Hoegemeyer/i.test(p.querySelector('img')?.alt || ''))
+    || logos[0];
+  const cortevaLogo = logos.find((p) => /Corteva/i.test(p.querySelector('img')?.alt || ''))
+    || logos[1];
+  const connect = paras.find((p) => /Connect with us/i.test(p.textContent));
+  const copyright = paras.find((p) => /Trademarks of Corteva|©/.test(p.textContent));
 
-  if (lower) {
-    lower.classList.add('footer-bottom');
-    const links = [...lower.querySelectorAll(':scope > ul')][0];
-    if (links) links.classList.add('footer-legal');
-    lower.querySelectorAll(':scope > p').forEach((p) => {
-      if (p.querySelector('img')) p.classList.add('footer-brand');
-      else p.classList.add('footer-copyright');
-    });
-  }
+  // Build two fresh bands and distribute the pieces.
+  const top = document.createElement('div');
+  top.className = 'footer-top';
+  const bottom = document.createElement('div');
+  bottom.className = 'footer-bottom';
+
+  if (hoegLogo) { hoegLogo.classList.add('footer-brand'); top.append(hoegLogo); }
+  if (connect) { connect.classList.add('footer-connect'); top.append(connect); }
+  if (socialList) { socialList.classList.add('footer-social'); top.append(socialList); }
+  if (linkList) { linkList.classList.add('footer-links'); top.append(linkList); }
+
+  if (cortevaLogo) { cortevaLogo.classList.add('footer-brand'); bottom.append(cortevaLogo); }
+  if (legalList) { legalList.classList.add('footer-legal'); bottom.append(legalList); }
+  if (copyright) { copyright.classList.add('footer-copyright'); bottom.append(copyright); }
+
+  footer.textContent = '';
+  footer.append(top, bottom);
 
   // External links open in a new tab (matches source social + brand-store links).
   footer.querySelectorAll('a[href^="http"]').forEach((a) => {
