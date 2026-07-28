@@ -1,20 +1,253 @@
-footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+/* Hoegemeyer footer — two dark bands, Oswald typography.
+   Mobile-first: base = stacked; tablet (width >= 768px); desktop (width >= 1040px). */
+
+:root {
+  --footer-top-bg: #262626;
+  --footer-bottom-bg: #000;
+  --footer-muted: #95a0b4;
+  --footer-border: #464a54;
 }
 
-footer .footer > div {
-  margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+/* ===================================================================
+   BASE — MOBILE (< 768px): sections stack, content full-width padded
+   =================================================================== */
+footer .footer-inner {
+  font-family: oswald, var(--body-font-family), sans-serif;
 }
 
-footer .footer p {
+footer .footer-top,
+footer .footer-bottom {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 40px 20px;
+}
+
+footer .footer-top {
+  background: var(--footer-top-bg);
+}
+
+footer .footer-bottom {
+  background: var(--footer-bottom-bg);
+}
+
+/* brand logos */
+footer .footer-brand {
+  margin: 0 0 24px;
+}
+
+footer .footer-brand img {
+  width: 200px;
+  height: auto;
+  display: block;
+}
+
+/* "Connect with us:" heading */
+footer .footer-connect {
+  margin: 0 0 16px;
+  color: var(--footer-muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* social icons row */
+footer .footer-social {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 0 0 28px;
+  padding: 0;
+}
+
+footer .footer-social li {
   margin: 0;
 }
 
-@media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+footer .footer-social img {
+  height: 16px;
+  width: auto;
+  display: block;
+}
+
+/* divider above the link grid */
+footer .footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--footer-border);
+}
+
+footer .footer-links li {
+  margin: 0;
+}
+
+footer .footer-social a {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+footer .footer-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  transition: color 0.2s ease;
+}
+
+footer .footer-legal a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  transition: color 0.2s ease;
+}
+
+footer .footer-social a:hover {
+  opacity: 1;
+}
+
+footer .footer-links a:hover,
+footer .footer-legal a:hover {
+  color: var(--footer-muted);
+}
+
+/* legal links row */
+footer .footer-legal {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin: 20px 0 0;
+  padding: 0;
+}
+
+footer .footer-legal li {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* pipe separators between legal links (desktop look; hidden when wrapped tight) */
+footer .footer-legal li:not(:last-child)::after {
+  content: '|';
+  margin-left: 16px;
+  color: var(--footer-border);
+}
+
+footer .footer-legal img {
+  height: 16px;
+  width: auto;
+  vertical-align: middle;
+}
+
+/* copyright line */
+footer .footer-copyright {
+  margin: 20px 0 0;
+  color: var(--footer-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* back-to-top button */
+footer .footer-back-to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 2px;
+  background: #375172;
+  color: #fff;
+  cursor: pointer;
+  z-index: 15;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+footer .footer-back-to-top:hover {
+  opacity: 1;
+}
+
+footer .footer-back-to-top::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 2px 2px 0 0;
+  transform: rotate(-45deg);
+  margin-top: 4px;
+}
+
+/* ===================================================================
+   TABLET (width >= 768px)
+   =================================================================== */
+@media (width >= 768px) {
+  footer .footer-top,
+  footer .footer-bottom {
+    padding: 60px 40px;
+  }
+
+  /* link grid becomes 3 columns, filled COLUMN-first (matches legacy:
+     col1 = Seedware Login/Seed Guide, col2 = Stewardship/Legal, col3 = 360 Brand Store) */
+  footer .footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    grid-auto-flow: column;
+    gap: 24px 40px;
+  }
+}
+
+/* ===================================================================
+   DESKTOP (width >= 1040px): brand left, content offset; 80px band padding
+   =================================================================== */
+@media (width >= 1040px) {
+  footer .footer-top {
+    padding: 80px 0;
+  }
+
+  footer .footer-bottom {
+    padding: 40px 0;
+  }
+
+  /* Full-width dark band; content centered to ~1024px via symmetric inline
+     padding (keeps the band background edge-to-edge). Brand column on the left. */
+  footer .footer-top,
+  footer .footer-bottom {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    column-gap: 40px;
+    padding-inline: max(20px, calc((100% - 1024px) / 2));
+  }
+
+  footer .footer-brand {
+    grid-row: 1 / span 3;
+    grid-column: 1;
+    margin: 0;
+  }
+
+  footer .footer-connect,
+  footer .footer-social,
+  footer .footer-links,
+  footer .footer-legal,
+  footer .footer-copyright {
+    grid-column: 2;
+  }
+
+  footer .footer-social {
+    margin-bottom: 24px;
   }
 }
