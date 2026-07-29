@@ -168,6 +168,7 @@ a:hover {
 /* buttons */
 p.button-wrapper {
   margin: 12px 0;
+  text-align: center;
 }
 
 a.button:any-link,
@@ -199,8 +200,8 @@ button.button:disabled {
 
 a.button.primary,
 button.button.primary {
-  border-color: var(--text-color);
-  background-color: var(--text-color);
+  border-color: #375172;
+  background-color: #375172;
   color: var(--background-color);
 }
 
