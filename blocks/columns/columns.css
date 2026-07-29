@@ -1,6 +1,14 @@
+/* Columns block — mobile-first. Container capped at 1024px, centered.
+   Breakpoints: tablet >= 768px, desktop >= 1040px. */
+.columns {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
 .columns > div {
   display: flex;
   flex-direction: column;
+  gap: 24px;
 }
 
 .columns img {
@@ -19,11 +27,11 @@
   display: block;
 }
 
-@media (width >= 900px) {
+@media (width >= 768px) {
   .columns > div {
     align-items: center;
     flex-direction: unset;
-    gap: 24px;
+    gap: 40px;
   }
 
   .columns > div > div {

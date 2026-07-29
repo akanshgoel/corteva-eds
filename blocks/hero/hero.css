@@ -1,3 +1,6 @@
+/* Hero block — dark CTA banner. Mobile-first. Full-width dark band with a
+   background image; content capped at 1024px and centered.
+   Breakpoints: tablet >= 768px, desktop >= 1040px. */
 .hero-container .hero-wrapper {
   max-width: unset;
   padding: 0;
@@ -5,33 +8,58 @@
 
 .hero {
   position: relative;
-  padding: 40px 24px;
-  min-height: 300px;
+  overflow: hidden;
+  background: #1c2b4a;
+  padding: 48px 24px;
 }
 
-.hero h1 {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  color: var(--background-color);
-}
-
-.hero picture {
+.hero .hero-background {
   position: absolute;
-  z-index: -1;
   inset: 0;
-  object-fit: cover;
-  box-sizing: border-box;
+  z-index: 0;
 }
 
-.hero img {
-  object-fit: cover;
+.hero .hero-background picture,
+.hero .hero-background img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-@media (width >= 900px) {
+.hero .hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1024px;
+  margin: 0 auto;
+  text-align: center;
+  color: #fff;
+}
+
+.hero .hero-content h1,
+.hero .hero-content h2,
+.hero .hero-content h3 {
+  color: #fff;
+  margin: 0 0 16px;
+}
+
+.hero .hero-content p {
+  margin: 0 0 24px;
+}
+
+.hero .hero-content a.button {
+  background: #fff;
+  color: #1c2b4a;
+}
+
+@media (width >= 768px) {
   .hero {
-    padding: 40px 32px;
+    padding: 72px 40px;
+  }
+}
+
+@media (width >= 1040px) {
+  .hero {
+    padding: 96px 40px;
   }
 }

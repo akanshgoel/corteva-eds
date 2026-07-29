@@ -1,9 +1,16 @@
+/* Cards block — mobile-first. Container capped at 1024px, centered.
+   Breakpoints: tablet >= 768px, desktop >= 1040px. */
+.cards {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
 .cards > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
+  grid-template-columns: 1fr;
   gap: 24px;
 }
 
@@ -24,4 +31,36 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+}
+
+/* icons variant — value props: centered icon over centered text, no card chrome */
+.cards.icons > ul > li {
+  border: 0;
+  background: none;
+  text-align: center;
+}
+
+.cards.icons .cards-card-image img,
+.cards.icons .cards-card-body img {
+  width: 80px;
+  height: 80px;
+  aspect-ratio: 1;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+.cards.icons .cards-card-body {
+  margin: 12px 0 0;
+}
+
+@media (width >= 768px) {
+  .cards > ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 1040px) {
+  .cards:not(.icons) > ul {
+    grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
+  }
 }
