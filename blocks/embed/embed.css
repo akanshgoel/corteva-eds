@@ -1,4 +1,11 @@
+/* Embed block. Default is capped at 1024px and centered.
+   The "full-width" variant spans the full container width. */
 .embed {
   max-width: 1024px;
   margin: 0 auto;
+}
+
+.embed.full-width {
+  max-width: none;
+  margin: 0;
 }
