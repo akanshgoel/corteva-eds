@@ -301,10 +301,16 @@ main > .section {
   margin: 40px 0;
 }
 
+/* Section wrappers provide horizontal gutters only. Max-width is NOT set here
+   generically — each block/component controls its own width (and default
+   authored content is capped via .default-content-wrapper below). */
 main > .section > div {
-  max-width: 1200px;
   margin: auto;
   padding: 0 24px;
+}
+
+main > .section > div.default-content-wrapper {
+  max-width: 1200px;
 }
 
 main > .section:first-of-type {

@@ -9,3 +9,8 @@
   max-width: none;
   margin: 0;
 }
+
+/* full-width embed spans edge-to-edge: cancel the section wrapper gutters */
+.embed-wrapper:has(.embed.full-width) {
+  padding: 0;
+}
