@@ -1,30 +1,24 @@
-import { decorateBlock, loadBlock } from '../../scripts/aem.js';
-
 /*
- * Converts a nested block authored as a table (e.g. a Cards block inside a
- * Columns cell) into the block div structure EDS expects. The pipeline only
- * auto-converts top-level tables, so nested ones arrive here as raw <table>.
+ * Groups the flat image+text pairs the pipeline delivers in a column cell into
+ * discrete value-prop items (icon over text). Used by the "value-props" variant
+ * so a Columns block can render a map beside a 2-up icon grid without nesting a
+ * second block (DA flattens nested blocks on upload).
  */
-function tableToBlock(table) {
-  const rows = [...table.querySelectorAll(':scope > tbody > tr, :scope > tr')];
-  if (!rows.length) return null;
-  const nameText = rows[0].textContent.trim();
-  const match = nameText.match(/^([^(]+)(?:\(([^)]*)\))?/);
-  if (!match) return null;
-  const name = match[1].trim().toLowerCase();
-  const variants = match[2] ? match[2].split(/[\s,]+/).map((v) => v.trim().toLowerCase()) : [];
-  const blockEl = document.createElement('div');
-  blockEl.className = [name, ...variants].filter(Boolean).join(' ');
-  rows.slice(1).forEach((tr) => {
-    const rowDiv = document.createElement('div');
-    [...tr.children].forEach((td) => {
-      const cell = document.createElement('div');
-      while (td.firstChild) cell.append(td.firstChild);
-      rowDiv.append(cell);
-    });
-    blockEl.append(rowDiv);
-  });
-  return blockEl;
+function buildValueProps(cell) {
+  const grid = document.createElement('div');
+  grid.className = 'columns-valueprops-grid';
+  const children = [...cell.children];
+  for (let i = 0; i < children.length; i += 2) {
+    const iconP = children[i];
+    const textP = children[i + 1];
+    if (!iconP?.querySelector('picture, img')) break;
+    const item = document.createElement('div');
+    item.className = 'columns-valueprop';
+    item.append(iconP);
+    if (textP) item.append(textP);
+    grid.append(item);
+  }
+  if (grid.children.length) cell.replaceChildren(grid);
 }
 
 export default function decorate(block) {
@@ -45,17 +39,14 @@ export default function decorate(block) {
     });
   });
 
-  // convert any nested block authored as a table into a real block element
-  block.querySelectorAll(':scope table').forEach((table) => {
-    const nested = tableToBlock(table);
-    if (nested) table.replaceWith(nested);
-  });
-
-  // decorate + load any nested blocks (e.g. a Cards block inside a column cell),
-  // which the top-level decorateBlocks pass does not reach
-  block.querySelectorAll(':scope div[class]').forEach((nested) => {
-    if (nested.dataset.blockStatus || nested.classList.contains('columns-img-col')) return;
-    decorateBlock(nested);
-    loadBlock(nested);
-  });
+  // value-props variant: turn the non-image cell's image+text pairs into a grid
+  if (block.classList.contains('value-props')) {
+    [...block.children].forEach((row) => {
+      [...row.children].forEach((col) => {
+        if (!col.classList.contains('columns-img-col') && col.querySelector('picture, img')) {
+          buildValueProps(col);
+        }
+      });
+    });
+  }
 }
