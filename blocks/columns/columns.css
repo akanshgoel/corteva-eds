@@ -1,4 +1,4 @@
-/* Columns block — mobile-first. Container capped at 1024px, centered.
+/* Column control — mobile-first, ratio-driven. Container capped at 1024px.
    Breakpoints: tablet >= 768px, desktop >= 1040px. */
 .columns {
   max-width: 1024px;
@@ -15,34 +15,32 @@
   width: 100%;
 }
 
-.columns > div > div {
-  order: 1;
-}
-
-.columns > div > .columns-img-col {
-  order: 0;
-}
-
 .columns > div > .columns-img-col img {
   display: block;
 }
 
-/* value-props variant: icon grid beside the map. Mobile = single column. */
-.columns.value-props .columns-valueprops-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
+@media (width >= 768px) {
+  /* bottom wrapper becomes a horizontal row; ratio variants drive the widths */
+  .columns > div {
+    display: grid;
+    grid-template-columns: repeat(var(--columns-count, 2), 1fr);
+    align-items: center;
+    gap: 40px;
+  }
+
+  /* ratio-driven templates (set from JS via --columns-template) */
+  .columns[data-ratio] > div {
+    grid-template-columns: var(--columns-template);
+    align-items: start;
+  }
 }
 
-.columns.value-props .columns-valueprop {
+/* value-props variant: cells hold stacked icon-over-text items */
+.columns.value-props > div > div {
   text-align: center;
 }
 
-.columns.value-props .columns-valueprop p {
-  margin: 0 0 8px;
-}
-
-.columns.value-props .columns-valueprop img {
+.columns.value-props > div > div img {
   width: 80px;
   height: 80px;
   aspect-ratio: 1;
@@ -50,19 +48,7 @@
   margin: 0 auto;
 }
 
-@media (width >= 768px) {
-  .columns > div {
-    align-items: center;
-    flex-direction: unset;
-    gap: 40px;
-  }
-
-  .columns > div > div {
-    flex: 1;
-    order: unset;
-  }
-
-  .columns.value-props .columns-valueprops-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.columns.value-props > div > .columns-img-col img {
+  width: 100%;
+  height: auto;
 }

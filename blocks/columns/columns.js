@@ -1,33 +1,38 @@
 /*
- * Groups the flat image+text pairs the pipeline delivers in a column cell into
- * discrete value-prop items (icon over text). Used by the "value-props" variant
- * so a Columns block can render a map beside a 2-up icon grid without nesting a
- * second block (DA flattens nested blocks on upload).
+ * Column control — ratio-driven, modeled on the legacy column control.
+ *
+ * A section's top wrapper (heading/intro) is authored as default content
+ * before the block. The block itself is the "bottom wrapper": a single row of
+ * cells whose widths are set by a ratio variant on the block, e.g.
+ * "Columns (50-25-25)" or "Columns (25-25-25-25)". The ratio class can't drive
+ * CSS grid directly (a class can't start with a digit), so it is parsed here
+ * and applied as grid-template-columns. Mobile stacks; the ratio applies from
+ * the tablet breakpoint up (handled in CSS via the data attribute hook).
  */
-function buildValueProps(cell) {
-  const grid = document.createElement('div');
-  grid.className = 'columns-valueprops-grid';
-  const children = [...cell.children];
-  for (let i = 0; i < children.length; i += 2) {
-    const iconP = children[i];
-    const textP = children[i + 1];
-    if (!iconP?.querySelector('picture, img')) break;
-    const item = document.createElement('div');
-    item.className = 'columns-valueprop';
-    item.append(iconP);
-    if (textP) item.append(textP);
-    grid.append(item);
-  }
-  if (grid.children.length) cell.replaceChildren(grid);
+
+/** Reads a ratio variant class like "50-25-25" and returns [50,25,25]. */
+function parseRatio(block) {
+  const ratioClass = [...block.classList].find((c) => /^\d+(-\d+)+$/.test(c));
+  if (!ratioClass) return null;
+  return ratioClass.split('-').map(Number);
 }
 
 export default function decorate(block) {
-  const cols = [...block.firstElementChild.children];
+  const row = block.firstElementChild;
+  const cols = [...row.children];
   block.classList.add(`columns-${cols.length}-cols`);
+  block.style.setProperty('--columns-count', cols.length);
+
+  // apply the authored ratio (bottom wrapper), if present
+  const ratio = parseRatio(block);
+  if (ratio && ratio.length === cols.length) {
+    block.dataset.ratio = ratio.join('-');
+    block.style.setProperty('--columns-template', ratio.map((r) => `${r}fr`).join(' '));
+  }
 
   // setup image columns
-  [...block.children].forEach((row) => {
-    [...row.children].forEach((col) => {
+  [...block.children].forEach((r) => {
+    [...r.children].forEach((col) => {
       const pic = col.querySelector('picture');
       if (pic) {
         const picWrapper = pic.closest('div');
@@ -38,15 +43,4 @@ export default function decorate(block) {
       }
     });
   });
-
-  // value-props variant: turn the non-image cell's image+text pairs into a grid
-  if (block.classList.contains('value-props')) {
-    [...block.children].forEach((row) => {
-      [...row.children].forEach((col) => {
-        if (!col.classList.contains('columns-img-col') && col.querySelector('picture, img')) {
-          buildValueProps(col);
-        }
-      });
-    });
-  }
 }
