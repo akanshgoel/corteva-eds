@@ -1,0 +1,64 @@
+/* Button block — matches hoegemeyer.com cmp-button variations.
+   Design tokens extracted from source (computed styles):
+   - Brand blue:        #375172
+   - Hover accent blue: #459AFF
+   - Secondary hover bg:#F5F6F8
+   - Type: Oswald Bold, 14px / 14px line-height, weight 700
+   - Padding: 23px 24px, radius 2px, height 60px */
+
+.button.block .button-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.button.block .button-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 60px;
+  margin: 0;
+  padding: 23px 24px;
+  border: 0;
+  border-radius: 2px;
+  font-family: oswald, 'Helvetica Now Text Bold', arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 14px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: normal;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Secondary: white background, brand-blue label (default when no variant) */
+.button.block .button-cta,
+.button.block.secondary .button-cta {
+  background-color: #fff;
+  color: #375172;
+}
+
+/* Primary: solid brand-blue background, white label */
+.button.block.primary .button-cta {
+  background-color: #375172;
+  color: #fff;
+}
+
+/* Hover / focus states */
+.button.block .button-cta:hover,
+.button.block .button-cta:focus-visible,
+.button.block.secondary .button-cta:hover,
+.button.block.secondary .button-cta:focus-visible {
+  background-color: #f5f6f8;
+  color: #459aff;
+  text-decoration: none;
+}
+
+.button.block.primary .button-cta:hover,
+.button.block.primary .button-cta:focus-visible {
+  background-color: #459aff;
+  color: #fff;
+}
