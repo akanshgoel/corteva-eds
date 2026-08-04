@@ -10,6 +10,9 @@ import {
   loadSections,
   loadCSS,
   buildBlock,
+  readBlockConfig,
+  toClassName,
+  toCamelCase,
 } from './aem.js';
 
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
@@ -143,6 +146,32 @@ function decorateButtons(main) {
 }
 
 /**
+ * Applies Section Metadata "Style" values as classes on the parent section.
+ * The base aem.js decorateSections in this project does not process the
+ * Section Metadata block, so we handle it here. Authors add a "Section
+ * Metadata" block with a "Style" row (e.g. "columns", "columns, columns-3")
+ * to lay the section's blocks out in a responsive grid.
+ * @param {Element} main The main element
+ */
+function decorateSectionMetadata(main) {
+  main.querySelectorAll('.section .section-metadata').forEach((metaBlock) => {
+    const section = metaBlock.closest('.section');
+    if (!section) return;
+    const meta = readBlockConfig(metaBlock);
+    Object.keys(meta).forEach((key) => {
+      if (key === 'style') {
+        const styles = Array.isArray(meta.style) ? meta.style : meta.style.split(',');
+        styles.forEach((style) => section.classList.add(toClassName(style.trim())));
+      } else {
+        section.dataset[toCamelCase(key)] = meta[key];
+      }
+    });
+    // remove the metadata block (and its wrapper) so it doesn't render
+    (metaBlock.closest('.section-metadata-wrapper') || metaBlock).remove();
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -151,6 +180,7 @@ export function decorateMain(main) {
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  decorateSectionMetadata(main);
   decorateBlocks(main);
   decorateButtons(main);
 }

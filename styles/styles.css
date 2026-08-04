@@ -347,3 +347,53 @@ main .section.highlight {
   margin: 0;
   padding: 40px 0;
 }
+
+/* Section columns — the EDS-native replacement for the legacy column-control
+   when a column held a *block* (e.g. teaser cards) rather than plain content.
+   Authors add a Section Metadata "Style" of "columns" (2-up default), or
+   "columns, columns-3" / "columns, columns-4" for more columns. Each block in
+   the section becomes a grid cell; full-width default content (a heading/intro
+   authored before the blocks) spans all columns. Mobile stacks to one column;
+   the grid applies from the tablet breakpoint up. */
+main > .section.columns > div:not(.default-content-wrapper) {
+  padding: 0;
+}
+
+@media (width >= 768px) {
+  main > .section.columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+  }
+
+  main > .section.columns.columns-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  main > .section.columns.columns-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* default content (heading/intro) authored before the blocks spans the row */
+  main > .section.columns > .default-content-wrapper {
+    grid-column: 1 / -1;
+    padding: 0;
+  }
+
+  /* grid cells manage their own width, so reset the auto-centering gutter */
+  main > .section.columns > div:not(.default-content-wrapper) {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@media (width >= 900px) {
+  main > .section.columns {
+    padding: 0 32px;
+  }
+}
