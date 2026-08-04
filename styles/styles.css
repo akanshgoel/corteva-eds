@@ -36,7 +36,9 @@
   --heading-font-size-s: 24px;
   --heading-font-size-xs: 22px;
 
-  /* nav height */
+  /* nav height — must match the fixed header's rendered height so authored
+     content clears it. Mobile bar is 60px; desktop is the two-row nav (see
+     the 1040px override below). */
   --nav-height: 64px;
 }
 
@@ -86,6 +88,15 @@ body.appear {
 
 header {
   height: var(--nav-height);
+}
+
+/* Desktop (>= 1040px) the fixed header becomes a two-row nav (utility bar +
+   main nav ≈ 118px). Reserve the matching space so authored content in <main>
+   clears the fixed header instead of sliding underneath it. */
+@media (width >= 1040px) {
+  :root {
+    --nav-height: 118px;
+  }
 }
 
 header .header,
