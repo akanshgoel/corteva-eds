@@ -47,6 +47,38 @@
   color: #fff;
 }
 
+/* Large: full-height boxed CTA. Same box metrics as primary/secondary but
+   sized to fill its container (source: cmp-button--large, 60px tall). */
+.button.block.large .button-cta {
+  width: 100%;
+  min-height: 60px;
+  padding: 23px 32px;
+}
+
+/* Link-internal: text-only brand-blue link with a trailing arrow (source:
+   cmp-button--link-internal, icomoon arrow drawn here in pure CSS). */
+.button.block.link-internal .button-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 0;
+  padding: 0 30px 0 0;
+  background-color: transparent;
+  color: #375172;
+  line-height: 23px;
+  text-align: left;
+}
+
+.button.block.link-internal .button-cta::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  margin-left: 9px;
+  border: solid #375172;
+  border-width: 0 2px 2px 0;
+  transform: rotate(-45deg);
+  transition: margin-left 0.2s ease;
+}
+
 /* Hover / focus states */
 .button.block .button-cta:hover,
 .button.block .button-cta:focus-visible,
@@ -61,4 +93,16 @@
 .button.block.primary .button-cta:focus-visible {
   background-color: #459aff;
   color: #fff;
+}
+
+.button.block.link-internal .button-cta:hover,
+.button.block.link-internal .button-cta:focus-visible {
+  background-color: transparent;
+  color: #375172;
+  text-decoration: none;
+}
+
+.button.block.link-internal .button-cta:hover::after,
+.button.block.link-internal .button-cta:focus-visible::after {
+  margin-left: 15px;
 }
