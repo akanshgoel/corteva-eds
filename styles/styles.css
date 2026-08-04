@@ -19,6 +19,12 @@
   --link-color: #3b63fb;
   --link-hover-color: #1d3ecf;
 
+  /* brand colors (Hoegemeyer) — shared across blocks */
+  --hoeg-navy: #375172;
+  --hoeg-navy-hover: #459aff;
+  --hoeg-surface: #f5f6f8;
+  --hoeg-ink: #20242d;
+
   /* fonts */
   --body-font-family: roboto, roboto-fallback, sans-serif;
   --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
