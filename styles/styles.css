@@ -30,6 +30,8 @@
   --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
 
   /* body sizes */
+  --body-font-size-xl: 30px;
+  --body-font-size-l: 26px;
   --body-font-size-m: 22px;
   --body-font-size-s: 19px;
   --body-font-size-xs: 17px;
@@ -64,6 +66,8 @@
 @media (width >= 900px) {
   :root {
     /* body sizes */
+    --body-font-size-xl: 24px;
+    --body-font-size-l: 20px;
     --body-font-size-m: 18px;
     --body-font-size-s: 16px;
     --body-font-size-xs: 14px;
@@ -396,4 +400,28 @@ main > .section.columns > div:not(.default-content-wrapper) {
   main > .section.columns {
     padding: 0 32px;
   }
+}
+
+/* Section text styles — the EDS-native replacement for the legacy cmp-text
+   presentation modifiers. Rich text is default content (no block needed); these
+   section-level styles carry the alignment and lead-text sizing that cmp-text--*
+   used to provide. Authors add a Section Metadata "Style" such as "text-center"
+   or "text-large" (combine e.g. "text-center, text-large"). Sizes reference the
+   project body type scale so they stay consistent site-wide. */
+main > .section.text-center .default-content-wrapper {
+  text-align: center;
+}
+
+main > .section.text-left .default-content-wrapper {
+  text-align: left;
+}
+
+main > .section.text-large .default-content-wrapper {
+  font-size: var(--body-font-size-l);
+  line-height: 1.5;
+}
+
+main > .section.text-x-large .default-content-wrapper {
+  font-size: var(--body-font-size-xl);
+  line-height: 1.4;
 }
