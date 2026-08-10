@@ -330,8 +330,12 @@ main > .section > div {
   padding: 0 24px;
 }
 
+/* Site-wide content width standard: 1024px, centered — matches the footer and
+   every block (cards, columns, hero, embed). The header is the intentional
+   exception (full bleed). Keeping this in sync prevents default content from
+   sitting wider/further-left than blocks and the footer on the same page. */
 main > .section > div.default-content-wrapper {
-  max-width: 1200px;
+  max-width: 1024px;
 }
 
 main > .section:first-of-type {
