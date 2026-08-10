@@ -418,12 +418,17 @@ header nav[aria-expanded='true'] .nav-tools li {
     padding: 0 30px;
   }
 
-  /* utility bar (row 0) restored to the top, right-aligned */
+  /* utility bar (row 0) restored to the top, right-aligned. The row breaks out
+     of the nav's side padding (negative inline margin) so its bottom border is
+     full-bleed — matching the source — while its own inline padding keeps the
+     utility links inset to the same 30px gutter as the rest of the content. */
   header nav .nav-tools {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     min-height: var(--hoeg-util-height);
+    margin-inline: -30px;
+    padding-inline: 30px;
     border-bottom: 1px solid var(--hoeg-border);
   }
 
