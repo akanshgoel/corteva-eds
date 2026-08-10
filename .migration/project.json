@@ -1,0 +1,9 @@
+{
+  "sites": {
+    "corteva-eds": {
+      "previewOrg": "akanshgoel",
+      "previewSite": "corteva-eds",
+      "libraryUrl": "https://content.da.live/akanshgoel/corteva-eds/docs/library/blocks.json"
+    }
+  }
+}
