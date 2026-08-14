@@ -1,0 +1,688 @@
+/* stylelint-disable selector-class-pattern --
+   The `video-gallery*`, `carousel-content*` and `cmp-image` BEM class names are
+   preserved verbatim from the source site markup (AEM Core Components) so the
+   styling maps 1:1. The standard kebab-case selector rule is disabled here. */
+
+/* Carousel (Video Gallery) block — Hoegemeyer.
+   Values mirror the source stylesheet (fetched from site.css) exactly, including
+   the three breakpoints it uses: base (mobile) / 768px / 1040px.
+
+   Key measured facts:
+     - main image aspect 16/9 (mobile) → 21/9 (>=1040)
+     - dark overlay rgba(0,0,0,.45) on poster
+     - play button 5rem (mobile) → 7.5rem (>=1040); white disc + ring shadow;
+       navy (#375172) triangle
+     - title/text: mobile block below video → overlaid on video (>=1040)
+     - prev/next arrows hidden until >=1040 (multi-slide only)
+     - content max-width 64rem (1024px), gutter calc(100% - 2.5rem) → 5rem
+     - bottom thumbnail nav: 16/9 thumbs, width 11.125rem → 14.25rem;
+       title 14→16px #20242d bold; duration #375172; selected top accent bar. */
+
+:root {
+  --carousel-navy: #375172;
+  --carousel-overlay: rgb(0 0 0 / 45%);
+  --carousel-ring: rgb(255 255 255 / 70%);
+  --carousel-thumb-title: #20242d;
+}
+
+/* Full-bleed by default: the block's section wrapper must not add gutters.
+   Scoped through `main > .section` to outweigh the global gutter rule. */
+main > .section > .carousel-wrapper {
+  max-width: none;
+  padding: 0;
+}
+
+.carousel .video-gallery {
+  font-family: var(--body-font-family);
+}
+
+/* optional gallery heading */
+.carousel .video-gallery h2 {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 20px 30px;
+}
+
+/* ===================================================================
+   MAIN SLIDE
+   =================================================================== */
+.carousel .video-gallery__content-slides {
+  position: relative;
+  overflow: hidden;
+
+  /* Let our swipe handler own horizontal gestures while vertical page scroll
+     still works (mobile/tablet, where the arrows are hidden). */
+  touch-action: pan-y;
+
+  /* Avoid selecting text/dragging the poster mid-swipe on desktop. */
+  user-select: none;
+}
+
+/* Inner track: slides sit side-by-side and the track translates horizontally
+   with a transition, so slide changes GLIDE instead of swapping instantly. */
+.carousel .video-gallery__slides-track {
+  display: flex;
+  transition: transform 450ms cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.carousel .video-gallery__carousel-cell {
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 0;
+}
+
+/* multi-slide viewport hints that it's draggable on touch devices */
+.carousel .video-gallery:not(.single-slide) .video-gallery__content-slides {
+  cursor: grab;
+}
+
+.carousel .video-gallery:not(.single-slide) .video-gallery__content-slides:active {
+  cursor: grabbing;
+}
+
+/* Respect reduced-motion: no glide animation. */
+@media (prefers-reduced-motion: reduce) {
+  .carousel .video-gallery__slides-track {
+    transition: none;
+  }
+}
+
+.carousel .carousel-content {
+  position: relative;
+}
+
+/* poster image + dark overlay. Height is driven purely by aspect-ratio (from
+   the width) — matching the source. Do NOT set height:100%, which would let the
+   image stretch to fill available viewport height and push the play button off. */
+.carousel .carousel-content__image {
+  position: relative;
+}
+
+.carousel .carousel-content__image img,
+.carousel .carousel-content__image picture {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  aspect-ratio: 16 / 9;
+}
+
+.carousel .carousel-content__image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--carousel-overlay);
+  display: block;
+  pointer-events: none;
+}
+
+/* when playing, the poster/overlay give way to the player */
+.carousel .carousel-content__image.is-playing::after {
+  content: none;
+}
+
+.carousel .carousel-content__player {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+/* description wrapper overlays the image at every breakpoint so the play
+   button (and, on desktop, the overlaid title/text) sit ON the video. The
+   image box is sized by aspect-ratio, and this wrapper fills it via inset:0.
+   The mobile title/text is a SEPARATE `-left-mobile` block below .carousel-content,
+   so overlaying here never hides it. */
+.carousel .carousel-content__description-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel .carousel-content__description {
+  position: relative;
+  max-width: 1024px;
+  margin: 0 auto;
+  width: calc(100% - 40px);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel .carousel-content__description:has(.title),
+.carousel .carousel-content__description:has(.text) {
+  justify-content: space-between;
+}
+
+.carousel .carousel-content__description-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* desktop overlaid title/text hidden on mobile (mobile block used instead) */
+.carousel .carousel-content__description-left .title,
+.carousel .carousel-content__description-left .text {
+  display: none;
+}
+
+/* ----- play button (mobile: 5rem, absolutely centered over the image) ----- */
+.carousel .carousel-content__play-btn {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.carousel .carousel-content__play-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 8px var(--carousel-ring);
+  transition: all 400ms ease;
+}
+
+.carousel .carousel-content__play-btn:hover::before {
+  box-shadow: 0 0 0 12px var(--carousel-ring), 0 0 30px 12px rgb(0 0 0 / 40%);
+}
+
+/* Glyph height tracks the source icon-font size (1.625rem mobile → 2.5rem
+   desktop); the tight viewBox lets the triangle fill the box. Optical centering
+   nudges the triangle right by the source's amount (+4px mobile, +6px desktop). */
+.carousel .carousel-content__play-btn .carousel-play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(calc(-50% + 4px), -50%);
+  width: 28px;
+  height: 31px;
+  fill: var(--carousel-navy);
+  z-index: 1;
+}
+
+/* ----- prev / next / counter (hidden on mobile) ----- */
+.carousel .video-gallery__buttons {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+
+.carousel .carousel-content .prev-btn,
+.carousel .carousel-content .next-btn {
+  display: none;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.carousel .carousel-content .prev-btn svg,
+.carousel .carousel-content .next-btn svg {
+  width: 100%;
+  height: 100%;
+}
+
+.carousel .carousel-content .prev-btn:hover,
+.carousel .carousel-content .next-btn:hover {
+  color: var(--carousel-navy);
+}
+
+.carousel .carousel-content .count {
+  padding: 0 20px;
+  white-space: nowrap;
+}
+
+/* single-slide: no controls, no nav */
+.carousel .video-gallery.single-slide .video-gallery__buttons {
+  display: none;
+}
+
+/* ----- mobile title/text block (below the video) ----- */
+.carousel .carousel-content__description-left-mobile {
+  display: block;
+  padding: 20px 20px 0;
+}
+
+.carousel .carousel-content__description-left-mobile .title {
+  margin: 0;
+  padding-bottom: 10px; /* mobile/tablet: 10px title→text gap */
+  font-family: var(--heading-font-family);
+  font-weight: 600;
+}
+
+.carousel .carousel-content__description-left-mobile .text {
+  margin: 0;
+}
+
+/* Zero the authored paragraph margins so the title→text gap is exactly the
+   title's padding-bottom (global `p { margin-top: .8em }` would otherwise add). */
+.carousel .carousel-content__description-left-mobile .text > *,
+.carousel .carousel-content__description-left .text > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* ===================================================================
+   BOTTOM THUMBNAIL NAV (multi-slide only)
+   =================================================================== */
+.carousel .video-gallery__carousel-nav {
+  position: relative;
+  max-width: 1024px;
+  margin: 20px auto 0;
+  padding-left: 20px;
+}
+
+.carousel .video-gallery.single-slide .video-gallery__carousel-nav {
+  display: none;
+}
+
+.carousel .video-gallery__carousel-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.carousel .video-gallery__carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel .video-gallery__carousel-nav .video-gallery__carousel-cell {
+  display: block;
+  flex: 0 0 auto;
+  width: 178px; /* 11.125rem */
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
+.carousel .video-gallery__carousel-nav .video-gallery__carousel-cell:last-child {
+  margin-right: 0;
+}
+
+.carousel .video-gallery__carousel-thumb {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.carousel .video-gallery__carousel-thumb-image {
+  position: relative;
+}
+
+.carousel .video-gallery__carousel-nav .cmp-image {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  display: block;
+}
+
+.carousel .video-gallery__carousel-nav .cmp-image img,
+.carousel .video-gallery__carousel-nav .cmp-image picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 16 / 9;
+}
+
+/* Dark overlay on the thumb image — always present, opacity toggled so it
+   fades in/out smoothly on hover/selection instead of blinking. */
+.carousel .video-gallery__carousel-nav .cmp-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--carousel-overlay);
+  display: block;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.carousel .video-gallery__carousel-nav .is-nav-selected .cmp-image::after,
+.carousel .video-gallery__carousel-nav a:hover .cmp-image::after {
+  opacity: 1;
+}
+
+/* Top accent bar — always present, scales in from 0 so selection eases in. */
+.carousel .video-gallery__carousel-nav .cmp-image::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -10px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: var(--carousel-navy);
+  z-index: 1;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 300ms ease;
+}
+
+.carousel .video-gallery__carousel-nav .is-nav-selected .cmp-image::before {
+  transform: scaleX(1);
+}
+
+/* small play glyph (disc + triangle) centered on each thumbnail */
+.carousel .video-gallery__carousel-nav .carousel-content__play-btn {
+  width: 44px;
+  height: 44px;
+}
+
+.carousel .video-gallery__carousel-nav .carousel-content__play-btn::before {
+  content: none;
+}
+
+.carousel .video-gallery__carousel-nav .carousel-content__play-btn .carousel-thumb-play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  z-index: 1;
+}
+
+/* thumbnail title + duration */
+.carousel .video-gallery__carousel-nav .video-gallery__carousel-cell p {
+  margin: 0;
+  padding-top: 15px;
+  font-size: 14px;
+  line-height: 26px;
+  font-weight: 700;
+  color: var(--carousel-thumb-title);
+}
+
+.carousel .video-gallery__carousel-nav .video-gallery__carousel-cell span {
+  display: block;
+  padding-top: 6px;
+  font-size: 13px;
+  line-height: 22px;
+  color: var(--carousel-navy);
+}
+
+/* thumbnail strip scroll arrows — hidden until desktop (source: flickity-button;
+   86px-wide gradient-fade hotspot with a 36px chevron inset 10px from the edge,
+   spanning the thumbnail image height only). */
+.carousel .video-gallery__nav-arrow {
+  display: none;
+  position: absolute;
+  top: 0;
+  z-index: 10;
+  width: 86px; /* 5.375rem */
+  height: 128px; /* thumbnail image height (228px * 9/16) */
+  border: 0;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  align-items: center;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel .video-gallery__nav-arrow svg {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; /* 2.25rem */
+  height: 36px;
+  color: #fff;
+  pointer-events: auto;
+}
+
+.carousel .video-gallery__nav-arrow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.carousel .video-gallery__nav-arrow:disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.carousel .video-gallery__nav-arrow.prev {
+  left: 0;
+  justify-content: flex-start;
+}
+
+.carousel .video-gallery__nav-arrow.prev svg {
+  margin-left: 10px; /* .625rem */
+}
+
+.carousel .video-gallery__nav-arrow.prev::after {
+  background: linear-gradient(to right, rgb(0 0 0), rgb(0 0 0 / 0%));
+}
+
+.carousel .video-gallery__nav-arrow.next {
+  right: 0;
+  justify-content: flex-end;
+}
+
+.carousel .video-gallery__nav-arrow.next svg {
+  margin-right: 10px; /* .625rem */
+}
+
+.carousel .video-gallery__nav-arrow.next::after {
+  background: linear-gradient(to left, rgb(0 0 0), rgb(0 0 0 / 0%));
+}
+
+/* ===================================================================
+   VARIANT: non-bleed (contained content width)
+   =================================================================== */
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel.non-bleed .video-gallery__content-slides {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.carousel.non-bleed .carousel-content__description {
+  max-width: 850px; /* 53.125rem */
+}
+
+/* ===================================================================
+   TABLET (>= 768px)
+   =================================================================== */
+@media (width >= 768px) {
+  .carousel .video-gallery h2 {
+    padding: 0 40px 30px;
+  }
+
+  .carousel .carousel-content__description {
+    width: calc(100% - 80px);
+  }
+
+  .carousel .carousel-content__description-left-mobile {
+    padding: 20px 40px 0;
+  }
+
+  .carousel .video-gallery__buttons {
+    right: 40px;
+    bottom: 20px;
+  }
+
+  .carousel .video-gallery__carousel-nav {
+    padding-left: 40px;
+  }
+
+  .carousel .video-gallery__carousel-nav .video-gallery__carousel-cell {
+    width: 180px; /* 11.25rem */
+    margin-right: 16px;
+  }
+
+  .carousel.non-bleed .video-gallery__content-slides {
+    padding: 0 40px;
+  }
+}
+
+/* ===================================================================
+   DESKTOP (>= 1040px)
+   =================================================================== */
+@media (width >= 1040px) {
+  .carousel .video-gallery h2 {
+    padding: 0 0 30px;
+  }
+
+  /* image widens to 21/9 */
+  .carousel .carousel-content__image img,
+  .carousel .carousel-content__image picture,
+  .carousel .carousel-content__player {
+    aspect-ratio: 21 / 9;
+  }
+
+  /* description overlays the image */
+  .carousel .carousel-content__description-wrapper {
+    position: absolute;
+    inset: 0;
+  }
+
+  .carousel .carousel-content__description-right {
+    width: auto;
+  }
+
+  /* overlaid title/text shown; mobile block hidden */
+  .carousel .carousel-content__description-left .title,
+  .carousel .carousel-content__description-left .text {
+    display: block;
+  }
+
+  .carousel .carousel-content__description-left {
+    max-width: 502px; /* 31.375rem */
+    padding: 0;
+    color: #fff;
+  }
+
+  .carousel .carousel-content__description-left .title {
+    padding-bottom: 20px;
+    font-family: var(--heading-font-family);
+    font-weight: 600;
+  }
+
+  .carousel .carousel-content__description-left-mobile {
+    display: none;
+  }
+
+  .carousel .carousel-content__description .video-gallery__buttons {
+    right: 0;
+  }
+
+  /* main-slide play button grows and sits in the right region (not absolute).
+     Scoped to description-right so the thumbnail nav play glyphs (which stay
+     absolutely centered on their thumb) are unaffected. */
+  .carousel .carousel-content__description-right .carousel-content__play-btn {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    top: 0;
+    left: auto;
+    transform: none;
+  }
+
+  .carousel .carousel-content__description-right .carousel-content__play-btn::before {
+    width: 120px;
+    height: 120px;
+    box-shadow: 0 0 0 12px var(--carousel-ring);
+  }
+
+  /* Hover: the ring keeps its white halo and a dark aura grows gradually around
+     it (transition inherited from the base ::before). Scoped to desktop
+     description-right to override the sizing rule above at equal specificity. */
+  .carousel .carousel-content__description-right .carousel-content__play-btn:hover::before {
+    box-shadow: 0 0 0 12px var(--carousel-ring), 0 0 40px 16px rgb(0 0 0 / 45%);
+  }
+
+  .carousel .carousel-content__description-right .carousel-content__play-btn .carousel-play-icon {
+    width: 42px;
+    height: 46px;
+    transform: translate(calc(-50% + 6px), -50%);
+  }
+
+  /* prev/next shown on multi-slide */
+  .carousel .video-gallery:not(.single-slide) .carousel-content .prev-btn,
+  .carousel .video-gallery:not(.single-slide) .carousel-content .next-btn {
+    display: block;
+  }
+
+  /* nav strip */
+  .carousel .video-gallery__carousel-nav {
+    padding: 0;
+  }
+
+  .carousel .video-gallery__carousel-nav .video-gallery__carousel-cell {
+    width: 228px; /* 14.25rem */
+    margin-right: 20px;
+  }
+
+  .carousel .video-gallery__carousel-nav .video-gallery__carousel-cell p {
+    font-size: 16px;
+  }
+
+  .carousel .video-gallery__carousel-nav .video-gallery__carousel-cell span {
+    font-size: 14px;
+    line-height: 23px;
+  }
+
+  .carousel .video-gallery__carousel-nav.has-overflow .video-gallery__nav-arrow {
+    display: flex;
+  }
+
+  .carousel.non-bleed .video-gallery__content-slides {
+    padding: 0;
+  }
+}
+
+/* ===================================================================
+   VARIANT: text-bottom (title/text below the video, not overlaid)
+   Applies at desktop where text would otherwise overlay.
+   =================================================================== */
+@media (width >= 1040px) {
+  .carousel.text-bottom .carousel-content__description-left .title,
+  .carousel.text-bottom .carousel-content__description-left .text {
+    display: none;
+  }
+
+  .carousel.text-bottom .carousel-content__description-left-mobile {
+    display: block;
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .carousel.text-bottom .carousel-content__description-left-mobile .title {
+    padding: 20px 0;
+  }
+
+  .carousel.text-bottom .carousel-content__description-left-mobile .text {
+    padding-bottom: 20px;
+  }
+
+  .carousel.text-bottom .carousel-content__description {
+    justify-content: center;
+  }
+}
