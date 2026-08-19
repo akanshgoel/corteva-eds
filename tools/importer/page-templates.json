@@ -65,6 +65,30 @@
           "section": "banner"
         }
       ]
+    },
+    {
+      "name": "yield-data-page",
+      "urls": [
+        "https://www.hoegemeyer.com/yield.html"
+      ],
+      "coverageGaps": [],
+      "description": "Local Yield Results: breadcrumb, intro heading + copy, and heritage-brand sections (logo + crop-link buttons) as columns, separated by dividers.",
+      "blocks": [
+        {
+          "name": "breadcrumb",
+          "instances": [".social-share"]
+        },
+        {
+          "name": "columns",
+          "instances": [".column-control-cmp__wrapper--33-33-33", ".column-control__wrapper--33-33-33"],
+          "section": "33-33-33"
+        },
+        {
+          "name": "columns",
+          "instances": [".column-control-cmp__wrapper--50-50"],
+          "section": "50-50"
+        }
+      ]
     }
   ]
 }
