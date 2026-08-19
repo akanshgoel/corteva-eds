@@ -14,3 +14,24 @@
 .embed-wrapper:has(.embed.full-width) {
   padding: 0;
 }
+
+/* Iframe embeds (store locators, maps, forms). The source Bullseye locator
+   auto-resizes via postMessage; without that script we give it a tall,
+   scrollable frame that comfortably fits the locator UI. */
+.embed .embed-iframe {
+  position: relative;
+  width: 100%;
+}
+
+.embed .embed-iframe iframe {
+  display: block;
+  width: 100%;
+  min-height: 1400px;
+  border: 0;
+}
+
+@media (width >= 900px) {
+  .embed .embed-iframe iframe {
+    min-height: 1200px;
+  }
+}

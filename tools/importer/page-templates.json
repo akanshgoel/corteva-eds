@@ -67,6 +67,25 @@
       ]
     },
     {
+      "name": "find-a-rep-page",
+      "urls": [
+        "https://www.hoegemeyer.com/about/find-a-rep.html"
+      ],
+      "coverageGaps": [],
+      "description": "Find A Rep: breadcrumb, centered intro (H1 + H2 + copy), and a full-width Bullseye store-locator iframe embed.",
+      "blocks": [
+        {
+          "name": "breadcrumb",
+          "instances": [".social-share"]
+        },
+        {
+          "name": "embed",
+          "instances": [".cmp-embed"],
+          "section": "full-width"
+        }
+      ]
+    },
+    {
       "name": "yield-data-page",
       "urls": [
         "https://www.hoegemeyer.com/yield.html"
