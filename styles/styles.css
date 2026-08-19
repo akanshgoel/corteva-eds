@@ -430,6 +430,16 @@ main > .section.text-x-large .default-content-wrapper {
   line-height: 1.4;
 }
 
+/* Logo section style — caps inline logo images to their intended small size
+   instead of stretching to the full content width. The source sets an explicit
+   `width` on brand logos (e.g. 300px); that attribute is lost in the markdown
+   round-trip, so EDS renders them full-bleed. Authors add Section Metadata
+   "Style" of "logo" (combine e.g. "logo, text-center") to restore the scale. */
+main > .section.logo .default-content-wrapper img {
+  max-width: 300px;
+  height: auto;
+}
+
 /* Hoegemeyer content typography — matches the source rich-text/columns styling
    (Oswald Bold headings in ink #20242d, 16px body). Scoped to migrated default
    content and the columns block so it doesn't affect the teaser/hero or other
