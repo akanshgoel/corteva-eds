@@ -3,15 +3,15 @@
     {
       "name": "homepage",
       "representativePages": [
-        "https://www.hoegemeyer.com/"
+        "https://www.hoegemeyer.com"
       ],
       "urls": [
-        "https://www.hoegemeyer.com/"
+        "https://www.hoegemeyer.com"
       ],
-      "description": "Homepage: hero video with heading and intro copy, feature grid with US map and icon-based value props, dark CTA banner"
+      "description": "Site homepage with hero, feature sections, and content blocks"
     },
     {
-      "name": "content-page",
+      "name": "content-landing",
       "representativePages": [
         "https://www.hoegemeyer.com/2026-seed-guide.html",
         "https://www.hoegemeyer.com/seed-treatments.html",
@@ -104,10 +104,25 @@
         "https://www.hoegemeyer.com/traits-technology/soybean-traits.html",
         "https://www.hoegemeyer.com/yield.html"
       ],
-      "description": "General content page: title header followed by flexible default content and simple hero/promo block; used for standard marketing, news articles, and info pages"
+      "description": "General content/landing page with mixed default content and blocks; largest template covering most marketing and informational pages"
     },
     {
-      "name": "content-page-media",
+      "name": "feature-landing",
+      "representativePages": [
+        "https://www.hoegemeyer.com/90years.html",
+        "https://www.hoegemeyer.com/regional-expertise/granular-insights.html",
+        "https://www.hoegemeyer.com/hometown-celebrations.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/90years.html",
+        "https://www.hoegemeyer.com/hometown-celebrations.html",
+        "https://www.hoegemeyer.com/products.html",
+        "https://www.hoegemeyer.com/regional-expertise/granular-insights.html"
+      ],
+      "description": "Feature/campaign landing page with rich media hero and promotional sections"
+    },
+    {
+      "name": "news-article",
       "representativePages": [
         "https://www.hoegemeyer.com/about/history.html",
         "https://www.hoegemeyer.com/about/news/hoegemeyer-celebrates-2022-award-winners.html"
@@ -117,10 +132,10 @@
         "https://www.hoegemeyer.com/about/news/hoegemeyer-celebrates-2022-award-winners.html",
         "https://www.hoegemeyer.com/about/news/hoegemeyer-launches-enlimitedtm-grade-soybeans-2025-growing-season0.html"
       ],
-      "description": "Content page variant with embedded media/video and richer text sections"
+      "description": "News/article detail page with article body content"
     },
     {
-      "name": "landing-page",
+      "name": "section-overview",
       "representativePages": [
         "https://www.hoegemeyer.com/about.html",
         "https://www.hoegemeyer.com/regional-expertise/agronomy-first.html",
@@ -136,7 +151,7 @@
         "https://www.hoegemeyer.com/yield-results.html",
         "https://www.hoegemeyer.com/yield-results/plot-results.html"
       ],
-      "description": "Section landing page: full-width image hero banner, intro copy, embedded video, multi-column feature blocks and timeline/cards"
+      "description": "Section overview page with intro content and supporting blocks"
     },
     {
       "name": "newsletter-signup",
@@ -146,7 +161,7 @@
       "urls": [
         "https://www.hoegemeyer.com/about/newsletter-sign-up.html"
       ],
-      "description": "Newsletter sign-up page with embedded subscription form"
+      "description": "Newsletter signup page with form"
     },
     {
       "name": "contact-form",
@@ -156,10 +171,10 @@
       "urls": [
         "https://www.hoegemeyer.com/contact-us.html"
       ],
-      "description": "Contact page: title and intro on left, multi-field contact form with checkboxes and submit on right"
+      "description": "Contact us page with contact form"
     },
     {
-      "name": "request-form",
+      "name": "dealer-form",
       "representativePages": [
         "https://www.hoegemeyer.com/dealer-brand-building-tools/2025-sign-up-program.html"
       ],
@@ -171,7 +186,7 @@
         "https://www.hoegemeyer.com/dealer-brand-building-tools/print-ad-request.html",
         "https://www.hoegemeyer.com/dealer-brand-building-tools/radio-ad-request.html"
       ],
-      "description": "Marketing request form page: breadcrumb, title on left, embedded multi-field form (region, name, dealership, zip) on right"
+      "description": "Dealer brand-building tools request/order form page"
     },
     {
       "name": "order-form",
@@ -181,43 +196,30 @@
       "urls": [
         "https://www.hoegemeyer.com/dealer-brand-building-tools/postcard-order-form.html"
       ],
-      "description": "Order form page with embedded form for ordering marketing materials"
+      "description": "Postcard order form page"
     },
     {
-      "name": "product-feature-page",
+      "name": "product-campaign",
       "representativePages": [
         "https://www.hoegemeyer.com/enlimited-grade-soybeans.html"
       ],
       "urls": [
         "https://www.hoegemeyer.com/enlimited-grade-soybeans.html"
       ],
-      "description": "Single product/feature marketing page with hero and supporting content sections"
+      "description": "Product campaign landing page (Enlimited soybeans)"
     },
     {
-      "name": "category-landing",
-      "representativePages": [
-        "https://www.hoegemeyer.com/hometown-celebrations.html",
-        "https://www.hoegemeyer.com/regional-expertise/granular-insights.html"
-      ],
-      "urls": [
-        "https://www.hoegemeyer.com/hometown-celebrations.html",
-        "https://www.hoegemeyer.com/products.html",
-        "https://www.hoegemeyer.com/regional-expertise/granular-insights.html"
-      ],
-      "description": "Category landing page: image hero banner, intro copy, regional cards/columns with map graphics and CTA buttons, related resources, find-a-rep banner"
-    },
-    {
-      "name": "legal-text-page",
+      "name": "legal",
       "representativePages": [
         "https://www.hoegemeyer.com/legal.html"
       ],
       "urls": [
         "https://www.hoegemeyer.com/legal.html"
       ],
-      "description": "Legal/text-heavy page with long-form default content"
+      "description": "Legal/terms text-heavy page"
     },
     {
-      "name": "product-detail",
+      "name": "product-category",
       "representativePages": [
         "https://www.hoegemeyer.com/products/corn.html"
       ],
@@ -226,10 +228,10 @@
         "https://www.hoegemeyer.com/products/sorghum.html",
         "https://www.hoegemeyer.com/products/soybeans.html"
       ],
-      "description": "Product detail page: hero header with product-specific content and supporting sections"
+      "description": "Crop product category page (corn, soybeans, sorghum)"
     },
     {
-      "name": "seed-guide-embed",
+      "name": "seed-guide",
       "representativePages": [
         "https://www.hoegemeyer.com/products/east-seed-guide.html"
       ],
@@ -238,10 +240,10 @@
         "https://www.hoegemeyer.com/products/north-seed-guide.html",
         "https://www.hoegemeyer.com/products/west-seed-guide.html"
       ],
-      "description": "Seed guide page: minimal layout with embedded PDF/flipbook viewer and download button"
+      "description": "Regional seed guide page"
     },
     {
-      "name": "article-with-sidebar",
+      "name": "agronomy-article",
       "representativePages": [
         "https://www.hoegemeyer.com/regional-expertise/articles/bean-leaf-beetle-management.html"
       ],
@@ -255,27 +257,27 @@
         "https://www.hoegemeyer.com/regional-expertise/articles/white-mold-management-soybeans.html",
         "https://www.hoegemeyer.com/regional-expertise/product-placement.html"
       ],
-      "description": "Agronomy article: breadcrumb, title, two-column layout with main summary content plus right sidebar promo and download CTA"
+      "description": "Agronomy/pest management article detail page"
+    },
+    {
+      "name": "article-listing",
+      "representativePages": [
+        "https://www.hoegemeyer.com/regional-expertise/articles.html"
+      ],
+      "urls": [
+        "https://www.hoegemeyer.com/regional-expertise/articles.html"
+      ],
+      "description": "Article listing/index page"
     },
     {
       "name": "blog-listing",
       "representativePages": [
-        "https://www.hoegemeyer.com/regional-expertise/articles.html"
-      ],
-      "urls": [
-        "https://www.hoegemeyer.com/regional-expertise/articles.html"
-      ],
-      "description": "Blog/article listing page: title header, tabs, search bar and paginated list of article results with Load More"
-    },
-    {
-      "name": "blog-listing-dynamic",
-      "representativePages": [
         "https://www.hoegemeyer.com/regional-expertise/the-dirt.html"
       ],
       "urls": [
         "https://www.hoegemeyer.com/regional-expertise/the-dirt.html"
       ],
-      "description": "Dynamic blog landing page rendered client-side (JS-driven feed)"
+      "description": "The Dirt blog listing page"
     },
     {
       "name": "search-results",
@@ -285,27 +287,27 @@
       "urls": [
         "https://www.hoegemeyer.com/search-results.html"
       ],
-      "description": "Search results page with query input and dynamic result listing"
+      "description": "Search results page"
     },
     {
-      "name": "sitemap-page",
+      "name": "site-map",
       "representativePages": [
         "https://www.hoegemeyer.com/site-map.html"
       ],
       "urls": [
         "https://www.hoegemeyer.com/site-map.html"
       ],
-      "description": "Site map page with nested link listing of site structure"
+      "description": "Sitemap page with link listing"
     },
     {
-      "name": "info-hero-page",
+      "name": "yield-data",
       "representativePages": [
         "https://www.hoegemeyer.com/yield-data.html"
       ],
       "urls": [
         "https://www.hoegemeyer.com/yield-data.html"
       ],
-      "description": "Informational page: centered title and intro, large text callout, full-width image CTA banner with button"
+      "description": "Yield data interactive page"
     }
   ]
 }
