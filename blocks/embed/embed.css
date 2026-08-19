@@ -35,3 +35,23 @@
     min-height: 1200px;
   }
 }
+
+/* Aspect-ratio embeds (e.g. the Ceros interactive hero). The wrapper carries an
+   inline `aspect-ratio` and the iframe simply fills it — no fixed min-height.
+   The source uses a taller ratio on mobile; embed.js sets the desktop ratio and
+   this narrows to a portrait ratio below the tablet breakpoint. */
+.embed .embed-iframe.embed-iframe-ratio {
+  width: 100%;
+}
+
+.embed .embed-iframe.embed-iframe-ratio iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+@media (width < 900px) {
+  .embed .embed-iframe.embed-iframe-ratio {
+    aspect-ratio: 0.636 !important; /* source mobile aspect ratio */
+  }
+}
