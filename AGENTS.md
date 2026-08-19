@@ -8,6 +8,13 @@ This project is based on the https://github.com/adobe/aem-boilerplate/ project a
 
 The repository provides the basic structure, blocks, and configuration needed to run a complete site with `*.aem.live` as the backend.
 
+> **Migrating pages from hoegemeyer.com?** Read the migration playbook skill at
+> [`.claude/skills/hoegemeyer-migration/SKILL.md`](.claude/skills/hoegemeyer-migration/SKILL.md)
+> first. It captures the repeatable per-page pipeline (scrape → template →
+> parser/transformer → import → Document Authoring publish), the parser/CSS
+> gotchas, Dynamic Media handling, the `embed` block for third-party forms, and
+> known deltas — so migrations match the live site without back-and-forth.
+
 ### Key Technologies
 - Edge Delivery Services for AEM Sites (documentation at https://www.aem.live/ – search with `site:www.aem.live` to restrict web search results)
 - Vanilla JavaScript (ES6+), no transpiling, no build steps
