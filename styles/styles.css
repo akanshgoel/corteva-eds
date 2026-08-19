@@ -322,6 +322,13 @@ main > .section {
   margin: 40px 0;
 }
 
+/* An empty trailing section (a stray artifact of the metadata <hr> during
+   import) must not reserve vertical space — otherwise its 40px margin shows as
+   a gap between the last content block and the footer. */
+main > .section:empty {
+  margin: 0;
+}
+
 /* Section wrappers provide horizontal gutters only. Max-width is NOT set here
    generically — each block/component controls its own width (and default
    authored content is capped via .default-content-wrapper below). */

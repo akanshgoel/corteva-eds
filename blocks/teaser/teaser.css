@@ -57,12 +57,14 @@ main > .section > .teaser-wrapper:has(.teaser.block.banner) {
   margin: 0;
 }
 
-/* Remove the section's vertical margin so a full-bleed hero sits flush against
-   the block above it (e.g. the breadcrumb) with no white gap. */
+/* Remove the section's vertical margin AND padding so a full-bleed hero/banner
+   sits flush against the block above it (e.g. the breadcrumb) and, when it's the
+   last section, flush against the footer with no white gap below it. */
 main > .section:has(.teaser.block.hero-l1),
 main > .section:has(.teaser.block.hero-l2),
 main > .section:has(.teaser.block.banner) {
   margin: 0;
+  padding: 0;
 }
 
 .teaser.block.hero-l1,
