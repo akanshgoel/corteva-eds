@@ -88,6 +88,16 @@ main > .section:has(.teaser.block.banner) {
   display: block;
 }
 
+/* Dark overlay on the hero image so the white title stays legible — matches
+   the source `.cmp-teaser::after { background-color: rgba(0,0,0,0.4) }`. */
+.teaser.block.hero-l2 .teaser-image::after,
+.teaser.block.banner .teaser-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgb(0 0 0 / 40%);
+}
+
 .teaser.block.hero-l1 .teaser-content,
 .teaser.block.hero-l2 .teaser-content,
 .teaser.block.banner .teaser-content {

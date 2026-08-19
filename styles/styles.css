@@ -438,13 +438,18 @@ main > .section.text-x-large .default-content-wrapper {
      body copy  = 16px/24 */
 main .default-content-wrapper :is(h1, h2, h3, h4, h5, h6),
 main .columns :is(h1, h2, h3, h4, h5, h6) {
+  /* Real Oswald Bold family (weight 700) — not faux-bold on single-weight
+     Oswald. The source declares "Oswald Bold" and renders at 700/800. */
   font-family: 'Oswald Bold', oswald, var(--heading-font-family);
-  font-weight: 800;
+  font-weight: 700;
   color: var(--hoeg-ink);
 }
 
 main .default-content-wrapper p,
 main .columns p {
+  /* Source body copy is oswald 400 (not the global roboto body font). */
+  font-family: oswald, var(--body-font-family);
+  font-weight: 400;
   font-size: 16px;
   line-height: 24px;
   color: var(--hoeg-ink);
@@ -463,4 +468,32 @@ main .columns h3 {
 main .columns h4 {
   font-size: 20px;
   line-height: 28px;
+}
+
+/* Solid CTA button inside migrated content — matches the source `.c-button`
+   (navy #375172, white, Oswald Bold 14px, radius 2px, padding 23px 24px),
+   overriding the boilerplate rounded-pill primary button. Scoped to columns /
+   default content so it doesn't alter the generic button style elsewhere. */
+main .columns a.button.primary,
+main .default-content-wrapper a.button.primary {
+  display: inline-flex;
+  border: 0;
+  border-radius: 2px;
+  padding: 23px 24px;
+  background-color: var(--hoeg-navy);
+  color: #fff;
+  font-family: 'Oswald Bold', oswald, sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 14px;
+  text-transform: none;
+}
+
+main .columns a.button.primary:hover,
+main .columns a.button.primary:focus-visible,
+main .default-content-wrapper a.button.primary:hover,
+main .default-content-wrapper a.button.primary:focus-visible {
+  background-color: var(--hoeg-navy-hover);
+  border: 0;
+  color: #fff;
 }

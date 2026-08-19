@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.hoegemeyer.com/products.html",
+  "path": "products",
+  "timestamp": "2026-08-19T09:35:17.586Z",
+  "title": "Products | Hoegemeyer Hybrids",
+  "template": "products-page",
+  "blocks": [
+    "teaser",
+    "columns",
+    "columns",
+    "teaser"
+  ]
+}

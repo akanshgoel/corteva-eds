@@ -35,6 +35,36 @@
           "section": "50-50"
         }
       ]
+    },
+    {
+      "name": "products-page",
+      "urls": [
+        "https://www.hoegemeyer.com/products.html"
+      ],
+      "coverageGaps": [],
+      "description": "Products landing: slim hero, intro copy, three-up region seed-guide columns, related-resources two-up columns, and a find-a-rep banner.",
+      "blocks": [
+        {
+          "name": "teaser",
+          "instances": [".teaser.cmp-teaser--hero-l2"],
+          "section": "hero-l2 slim"
+        },
+        {
+          "name": "columns",
+          "instances": [".column-control-cmp__wrapper--33-33-33", ".column-control__wrapper--33-33-33"],
+          "section": "33-33-33"
+        },
+        {
+          "name": "columns",
+          "instances": [".column-control-cmp__wrapper--50-50"],
+          "section": "50-50"
+        },
+        {
+          "name": "teaser",
+          "instances": [".teaser.cmp-teaser--banner"],
+          "section": "banner"
+        }
+      ]
     }
   ]
 }

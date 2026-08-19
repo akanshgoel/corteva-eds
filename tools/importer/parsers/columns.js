@@ -31,6 +31,25 @@ export default function parse(element, { document }) {
     return;
   }
 
+  // Rebuild a CTA paragraph so it round-trips as a button. The source marks
+  // solid navy CTAs with a <span class="c-button"> inside the link; that class
+  // is lost through the markdown round-trip, so we wrap the link in <strong>,
+  // which EDS decorateButtons() promotes to a.button.primary (the navy button).
+  const buttonize = (p) => {
+    const a = p.querySelector('a[href]');
+    if (!a) return p;
+    const isPrimary = !!a.querySelector('.c-button') || !!p.querySelector('.c-button');
+    if (!isPrimary) return p; // plain text-links (e.g. "LEARN MORE →") stay links
+    const link = document.createElement('a');
+    link.href = a.getAttribute('href');
+    const strong = document.createElement('strong');
+    strong.textContent = a.textContent.trim();
+    link.appendChild(strong);
+    const wrap = document.createElement('p');
+    wrap.appendChild(link);
+    return wrap;
+  };
+
   // For each column, collect its meaningful content nodes (images, headings, paragraphs).
   const row = columns.map((col) => {
     const contentCell = [];
@@ -45,7 +64,8 @@ export default function parse(element, { document }) {
       if (n.tagName === 'P' && n.querySelector('img, picture')) {
         ordered.push(n.querySelector('picture') || n.querySelector('img'));
       } else if (nodes.includes(n)) {
-        ordered.push(n);
+        // Promote solid CTA links to buttons; pass everything else through.
+        ordered.push(n.tagName === 'P' && n.querySelector('a[href]') ? buttonize(n) : n);
       }
     });
     ordered.forEach((n) => contentCell.push(n));
