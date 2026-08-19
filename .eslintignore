@@ -1,3 +1,4 @@
 helix-importer-ui
 *.min.js
 migration-work/
+catalog/
