@@ -13,3 +13,6 @@ helix-importer-ui
 !AGENTS.md
 migration-work/navigation-validation/
 migration-work/footer-validation/
+
+# Developer-side migration tooling — not used by the live site, kept local only
+tools/importer/
