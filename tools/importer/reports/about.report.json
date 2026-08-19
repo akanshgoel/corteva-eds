@@ -2,7 +2,7 @@
   "status": "success",
   "url": "https://www.hoegemeyer.com/about.html",
   "path": "about",
-  "timestamp": "2026-08-19T05:48:08.201Z",
+  "timestamp": "2026-08-19T08:26:29.394Z",
   "title": "About | Hoegemeyer Hybrids",
   "template": "about-page",
   "blocks": [
@@ -14,8 +14,6 @@
     "columns",
     "columns",
     "columns",
-    "columns",
-    "fragment",
-    "fragment"
+    "columns"
   ]
 }

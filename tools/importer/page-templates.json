@@ -29,10 +29,6 @@
           "name": "columns",
           "instances": [".column-control-cmp__wrapper--50-50"],
           "section": "50-50"
-        },
-        {
-          "name": "fragment",
-          "instances": [".cmp-experiencefragment"]
         }
       ]
     }

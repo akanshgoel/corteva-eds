@@ -429,3 +429,38 @@ main > .section.text-x-large .default-content-wrapper {
   font-size: var(--body-font-size-xl);
   line-height: 1.4;
 }
+
+/* Hoegemeyer content typography — matches the source rich-text/columns styling
+   (Oswald Bold headings in ink #20242d, 16px body). Scoped to migrated default
+   content and the columns block so it doesn't affect the teaser/hero or other
+   blocks that own their own type. Sizes measured from the live about page:
+     section h2 = 32px/38  ·  column h3 = 24px/28  ·  timeline h4 = 20px/28
+     body copy  = 16px/24 */
+main .default-content-wrapper :is(h1, h2, h3, h4, h5, h6),
+main .columns :is(h1, h2, h3, h4, h5, h6) {
+  font-family: 'Oswald Bold', oswald, var(--heading-font-family);
+  font-weight: 800;
+  color: var(--hoeg-ink);
+}
+
+main .default-content-wrapper p,
+main .columns p {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--hoeg-ink);
+}
+
+main .default-content-wrapper h2 {
+  font-size: 32px;
+  line-height: 38px;
+}
+
+main .columns h3 {
+  font-size: 24px;
+  line-height: 28px;
+}
+
+main .columns h4 {
+  font-size: 20px;
+  line-height: 28px;
+}

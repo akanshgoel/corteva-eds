@@ -59,8 +59,16 @@ var CustomImportScript = (() => {
   // tools/importer/parsers/carousel.js
   function parse2(element, { document }) {
     const rows = [];
-    const slideEls = element.querySelectorAll(".video-gallery__carousel-cell");
-    const slides = slideEls.length ? [...slideEls] : [element];
+    let slides;
+    if (element.classList.contains("single-slide")) {
+      slides = [element];
+    } else {
+      const contentSlides = element.querySelector(".video-gallery__content-slides");
+      const scope = contentSlides || element;
+      const cells = scope.querySelectorAll(".video-gallery__carousel-cell");
+      slides = cells.length ? [...cells] : [element];
+    }
+    const seenVideoIds = /* @__PURE__ */ new Set();
     slides.forEach((slide) => {
       const poster = slide.querySelector(".carousel-content__image img, .carousel-content__image picture, img");
       let videoId = slide.getAttribute("data-video-id") || slide.querySelector("[data-video-id]") && slide.querySelector("[data-video-id]").getAttribute("data-video-id") || null;
@@ -70,6 +78,10 @@ var CustomImportScript = (() => {
         if (ytMatch) videoId = ytMatch[1];
       }
       if (!poster && !videoId) return;
+      if (videoId) {
+        if (seenVideoIds.has(videoId)) return;
+        seenVideoIds.add(videoId);
+      }
       const imageCell = poster || "";
       const content = [];
       const titleEl = slide.querySelector(".carousel-content__description .title, .carousel-content__title, h1, h2, h3, h4");
@@ -134,34 +146,24 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
-  // tools/importer/parsers/fragment.js
-  function parse4(element, { document }) {
-    let path = null;
-    let label = "Fragment";
-    if (element.querySelector(".globalheader, header")) {
-      path = "/fragments/header";
-      label = "Header";
-    } else if (element.querySelector(".globalfooter, footer")) {
-      path = "/fragments/footer";
-      label = "Footer";
-    }
-    if (!path) {
-      element.replaceWith(...element.childNodes);
-      return;
-    }
-    const link = document.createElement("a");
-    link.href = path;
-    link.textContent = label;
-    const cells = [[[link]]];
-    const block = WebImporter.Blocks.createBlock(document, { name: "fragment", cells });
-    element.replaceWith(block);
-  }
-
   // tools/importer/transformers/hoegemeyer-cleanup.js
   var H = { before: "beforeTransform", after: "afterTransform" };
   function transform(hookName, element, payload) {
     if (hookName === H.before) {
-      WebImporter.DOMUtils.remove(element, [".social-share"]);
+      WebImporter.DOMUtils.remove(element, [
+        // Global header/footer chrome (each wrapped in an experience fragment).
+        // EDS supplies its own header/footer, so these are not page content.
+        ".globalheader",
+        ".globalfooter",
+        ".cmp-experiencefragment",
+        // Auto-generated breadcrumb chrome (div.social-share wrapper).
+        ".social-share",
+        // TrustArc cookie-consent band ("Corteva Cookie Policy …") — injected
+        // shell UI, not present as content on the live site.
+        "#consent_blackbar",
+        ".consent_blackbar",
+        '[class*="truste"]'
+      ]);
     }
     if (hookName === H.after) {
       WebImporter.DOMUtils.remove(element, ["meta", "source", "noscript", "link"]);
@@ -237,16 +239,74 @@ var CustomImportScript = (() => {
     });
   }
 
+  // tools/importer/transformers/hoegemeyer-sections.js
+  var H2 = { before: "beforeTransform", after: "afterTransform" };
+  function classify(el) {
+    var _a;
+    if (el.tagName === "TABLE") {
+      const head = (((_a = el.querySelector("td, th")) == null ? void 0 : _a.textContent) || "").toLowerCase();
+      if (head.includes("teaser")) return "teaser";
+      if (head.includes("carousel")) return "carousel";
+      if (head.includes("columns")) return head.includes("50-50") ? "timeline" : "cols3";
+      if (head.includes("metadata")) return "skip";
+      return "block";
+    }
+    return "text";
+  }
+  function transform3(hookName, element, payload) {
+    if (hookName !== H2.after) return;
+    const main = element;
+    const doc = main.ownerDocument;
+    const items = [...main.querySelectorAll("table, h1, h2, h3, h4, h5, h6, p, ul, ol")].filter((el) => el.tagName === "TABLE" ? true : !el.closest("table")).map((el) => ({ el, type: classify(el) })).filter((it) => it.type !== "skip");
+    if (items.length < 2) return;
+    const sections = [];
+    let cur = null;
+    items.forEach(({ el, type }) => {
+      const mergeable = type === "timeline" || type === "text";
+      if (!cur || !(mergeable && cur.type === type)) {
+        cur = { type, els: [] };
+        sections.push(cur);
+      }
+      cur.els.push(el);
+    });
+    if (sections.length < 2) return;
+    const makeMetadata = (styleValue) => {
+      const meta = doc.createElement("table");
+      const head = doc.createElement("tr");
+      const th = doc.createElement("td");
+      th.textContent = "Section Metadata";
+      head.append(th);
+      const row = doc.createElement("tr");
+      const k = doc.createElement("td");
+      k.textContent = "Style";
+      const v = doc.createElement("td");
+      v.textContent = styleValue;
+      row.append(k, v);
+      meta.append(head, row);
+      return meta;
+    };
+    sections.forEach((section, i) => {
+      const first = section.els[0];
+      const last = section.els[section.els.length - 1];
+      if (i > 0 && first.parentNode) {
+        first.parentNode.insertBefore(doc.createElement("hr"), first);
+      }
+      if (section.type === "text" && last.parentNode) {
+        last.parentNode.insertBefore(makeMetadata("text-center"), last.nextSibling);
+      }
+    });
+  }
+
   // tools/importer/import-about-page.js
   var parsers = {
     teaser: parse,
     carousel: parse2,
-    columns: parse3,
-    fragment: parse4
+    columns: parse3
   };
   var transformers = [
     transform,
-    transform2
+    transform2,
+    transform3
   ];
   var PAGE_TEMPLATE = {
     name: "about-page",
@@ -273,10 +333,6 @@ var CustomImportScript = (() => {
         name: "columns",
         instances: [".column-control-cmp__wrapper--50-50"],
         section: "50-50"
-      },
-      {
-        name: "fragment",
-        instances: [".cmp-experiencefragment"]
       }
     ]
   };

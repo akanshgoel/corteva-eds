@@ -5,24 +5,26 @@
 import teaserParser from './parsers/teaser.js';
 import carouselParser from './parsers/carousel.js';
 import columnsParser from './parsers/columns.js';
-import fragmentParser from './parsers/fragment.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/hoegemeyer-cleanup.js';
 import dmImagesTransformer from './transformers/hoegemeyer-dm-images.js';
+import sectionsTransformer from './transformers/hoegemeyer-sections.js';
 
 // PARSER REGISTRY
 const parsers = {
   teaser: teaserParser,
   carousel: carouselParser,
   columns: columnsParser,
-  fragment: fragmentParser,
 };
 
-// TRANSFORMER REGISTRY (order matters: cleanup first, then DM image rewriting)
+// TRANSFORMER REGISTRY. Order matters: cleanup (strip chrome) → DM image
+// rewriting → sections (group into <hr>-separated sections + alignment metadata,
+// runs last so it operates on the final node set).
 const transformers = [
   cleanupTransformer,
   dmImagesTransformer,
+  sectionsTransformer,
 ];
 
 // PAGE TEMPLATE CONFIGURATION - embedded from page-templates.json
@@ -51,10 +53,6 @@ const PAGE_TEMPLATE = {
       name: 'columns',
       instances: ['.column-control-cmp__wrapper--50-50'],
       section: '50-50',
-    },
-    {
-      name: 'fragment',
-      instances: ['.cmp-experiencefragment'],
     },
   ],
 };

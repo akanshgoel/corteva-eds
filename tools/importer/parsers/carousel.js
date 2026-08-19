@@ -17,8 +17,21 @@ export default function parse(element, { document }) {
   const rows = [];
 
   // Each source slide is a carousel cell; fall back to the element itself.
-  const slideEls = element.querySelectorAll('.video-gallery__carousel-cell');
-  const slides = slideEls.length ? [...slideEls] : [element];
+  // A `single-slide` gallery may still expose a duplicate nav cell — treat the
+  // whole gallery as one slide. Otherwise iterate the main content-slide cells,
+  // and dedupe by video id so repeated cells (nav thumbnails) don't produce
+  // duplicate slides.
+  let slides;
+  if (element.classList.contains('single-slide')) {
+    slides = [element];
+  } else {
+    const contentSlides = element.querySelector('.video-gallery__content-slides');
+    const scope = contentSlides || element;
+    const cells = scope.querySelectorAll('.video-gallery__carousel-cell');
+    slides = cells.length ? [...cells] : [element];
+  }
+
+  const seenVideoIds = new Set();
 
   slides.forEach((slide) => {
     const poster = slide.querySelector('.carousel-content__image img, .carousel-content__image picture, img');
@@ -33,6 +46,12 @@ export default function parse(element, { document }) {
       if (ytMatch) videoId = ytMatch[1];
     }
     if (!poster && !videoId) return;
+
+    // Skip duplicate slides (source repeats the cell for nav thumbnails).
+    if (videoId) {
+      if (seenVideoIds.has(videoId)) return;
+      seenVideoIds.add(videoId);
+    }
 
     // Cell 1: the poster image (mandatory).
     const imageCell = poster || '';
