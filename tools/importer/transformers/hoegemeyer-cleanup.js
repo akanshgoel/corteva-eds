@@ -22,8 +22,8 @@ export default function transform(hookName, element, payload) {
       '.globalheader',
       '.globalfooter',
       '.cmp-experiencefragment',
-      // Auto-generated breadcrumb chrome (div.social-share wrapper).
-      '.social-share',
+      // NOTE: the .social-share wrapper is intentionally NOT stripped — it hosts
+      // the breadcrumb trail, which is migrated via the `breadcrumb` block.
       // TrustArc cookie-consent band ("Corteva Cookie Policy …") — injected
       // shell UI, not present as content on the live site.
       '#consent_blackbar',

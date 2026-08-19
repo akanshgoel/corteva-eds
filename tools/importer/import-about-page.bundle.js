@@ -41,8 +41,34 @@ var CustomImportScript = (() => {
     default: () => import_about_page_default
   });
 
-  // tools/importer/parsers/teaser.js
+  // tools/importer/parsers/breadcrumb.js
   function parse(element, { document }) {
+    const nav = element.querySelector(".cmp-breadcrumb") || element;
+    const items = [...nav.querySelectorAll(".cmp-breadcrumb__item")];
+    const rows = [];
+    items.forEach((li) => {
+      const link = li.querySelector("a[href]");
+      const name = (li.querySelector('[itemprop="name"]') || li).textContent.trim();
+      if (!name) return;
+      if (link) {
+        const a = document.createElement("a");
+        a.href = link.getAttribute("href");
+        a.textContent = name;
+        rows.push([a]);
+      } else {
+        rows.push([name]);
+      }
+    });
+    if (!rows.length) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const block = WebImporter.Blocks.createBlock(document, { name: "breadcrumb", cells: rows });
+    element.replaceWith(block);
+  }
+
+  // tools/importer/parsers/teaser.js
+  function parse2(element, { document }) {
     const image = element.querySelector(".cmp-teaser__image picture, .cmp-teaser__image img, picture, img");
     const heading = element.querySelector(".cmp-teaser__title, h1, h2, h3, h4, h5, h6");
     if (!image && !heading) {
@@ -57,7 +83,7 @@ var CustomImportScript = (() => {
   }
 
   // tools/importer/parsers/carousel.js
-  function parse2(element, { document }) {
+  function parse3(element, { document }) {
     const rows = [];
     let slides;
     if (element.classList.contains("single-slide")) {
@@ -114,7 +140,7 @@ var CustomImportScript = (() => {
   }
 
   // tools/importer/parsers/columns.js
-  function parse3(element, { document }) {
+  function parse4(element, { document }) {
     let ratio = "";
     const cls = element.className || "";
     const ratioMatch = cls.match(/wrapper--([\d-]+)/);
@@ -156,8 +182,8 @@ var CustomImportScript = (() => {
         ".globalheader",
         ".globalfooter",
         ".cmp-experiencefragment",
-        // Auto-generated breadcrumb chrome (div.social-share wrapper).
-        ".social-share",
+        // NOTE: the .social-share wrapper is intentionally NOT stripped — it hosts
+        // the breadcrumb trail, which is migrated via the `breadcrumb` block.
         // TrustArc cookie-consent band ("Corteva Cookie Policy …") — injected
         // shell UI, not present as content on the live site.
         "#consent_blackbar",
@@ -299,9 +325,10 @@ var CustomImportScript = (() => {
 
   // tools/importer/import-about-page.js
   var parsers = {
-    teaser: parse,
-    carousel: parse2,
-    columns: parse3
+    breadcrumb: parse,
+    teaser: parse2,
+    carousel: parse3,
+    columns: parse4
   };
   var transformers = [
     transform,
@@ -315,6 +342,10 @@ var CustomImportScript = (() => {
       "https://www.hoegemeyer.com/about.html"
     ],
     blocks: [
+      {
+        name: "breadcrumb",
+        instances: [".social-share"]
+      },
       {
         name: "teaser",
         instances: [".teaser.cmp-teaser--hero-l2"],

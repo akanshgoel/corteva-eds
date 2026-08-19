@@ -12,6 +12,10 @@
       "description": "About page: hero teaser, intro copy, embedded video, three-up value columns, and a vertical timeline of two-column milestone rows.",
       "blocks": [
         {
+          "name": "breadcrumb",
+          "instances": [".social-share"]
+        },
+        {
           "name": "teaser",
           "instances": [".teaser.cmp-teaser--hero-l2"],
           "section": "hero-l2"

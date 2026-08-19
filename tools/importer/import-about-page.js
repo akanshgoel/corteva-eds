@@ -2,6 +2,7 @@
 /* global WebImporter */
 
 // PARSER IMPORTS
+import breadcrumbParser from './parsers/breadcrumb.js';
 import teaserParser from './parsers/teaser.js';
 import carouselParser from './parsers/carousel.js';
 import columnsParser from './parsers/columns.js';
@@ -13,6 +14,7 @@ import sectionsTransformer from './transformers/hoegemeyer-sections.js';
 
 // PARSER REGISTRY
 const parsers = {
+  breadcrumb: breadcrumbParser,
   teaser: teaserParser,
   carousel: carouselParser,
   columns: columnsParser,
@@ -35,6 +37,10 @@ const PAGE_TEMPLATE = {
     'https://www.hoegemeyer.com/about.html',
   ],
   blocks: [
+    {
+      name: 'breadcrumb',
+      instances: ['.social-share'],
+    },
     {
       name: 'teaser',
       instances: ['.teaser.cmp-teaser--hero-l2'],
