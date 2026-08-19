@@ -44,6 +44,27 @@
    FULL-BLEED variants (hero-l1, hero-l2, banner) — image fills the
    block as an absolutely positioned background layer.
    =================================================================== */
+
+/* The block's section wrapper must not add horizontal gutters or a max-width,
+   so the hero image spans edge-to-edge. Scoped through `main > .section` to
+   outweigh the global `main > .section > div { padding: 0 24px }` gutter rule.
+   The teaser-wrapper is the section child that holds the block. */
+main > .section > .teaser-wrapper:has(.teaser.block.hero-l1),
+main > .section > .teaser-wrapper:has(.teaser.block.hero-l2),
+main > .section > .teaser-wrapper:has(.teaser.block.banner) {
+  max-width: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Remove the section's vertical margin so a full-bleed hero sits flush against
+   the block above it (e.g. the breadcrumb) with no white gap. */
+main > .section:has(.teaser.block.hero-l1),
+main > .section:has(.teaser.block.hero-l2),
+main > .section:has(.teaser.block.banner) {
+  margin: 0;
+}
+
 .teaser.block.hero-l1,
 .teaser.block.hero-l2,
 .teaser.block.banner {

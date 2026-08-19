@@ -38,6 +38,13 @@ main > .section > .breadcrumb-wrapper {
   padding: 0;
 }
 
+/* Remove the section's vertical margin so the breadcrumb band sits flush with
+   the block below it (e.g. a full-bleed hero) — matches the live site, which
+   has no white gap after the breadcrumb. */
+main > .section:has(.breadcrumb) {
+  margin: 0;
+}
+
 /* ===================================================================
    Full-bleed navy band (the social-share host)
    =================================================================== */
