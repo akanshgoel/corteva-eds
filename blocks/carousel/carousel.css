@@ -556,6 +556,15 @@ main > .section > .carousel-wrapper {
     aspect-ratio: 21 / 9;
   }
 
+  /* non-bleed gallery (e.g. homepage National Brand Video): the DM poster
+     preset renders a 16:9 frame, so keep the box 16/9 (the 21/9 crop above is
+     for the full-bleed gallery only). */
+  .carousel.non-bleed .carousel-content__image img,
+  .carousel.non-bleed .carousel-content__image picture,
+  .carousel.non-bleed .carousel-content__player {
+    aspect-ratio: 16 / 9;
+  }
+
   /* description overlays the image */
   .carousel .carousel-content__description-wrapper {
     position: absolute;

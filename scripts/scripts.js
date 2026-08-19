@@ -84,7 +84,13 @@ function buildScene7Rendition(src, { width, format }) {
     const k = p.split('=')[0];
     return k !== 'wid' && k !== 'fmt';
   });
-  filtered.push(`wid=${width}`);
+  // A bare `$preset$` param (e.g. `$galleryVideoPlayer_desktop$`) is a named
+  // Scene7 image preset that already fixes the output dimensions. Forcing a
+  // larger `wid` on top of it makes Scene7 fit the preset frame into that wider
+  // canvas and pad the sides with grey. When a preset is present, let it own the
+  // width and only override the format.
+  const hasPreset = filtered.some((p) => /^\$.*\$$/.test(p));
+  if (!hasPreset) filtered.push(`wid=${width}`);
   filtered.push(`fmt=${format}`);
   return `${base}?${filtered.join('&')}`;
 }
