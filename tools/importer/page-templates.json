@@ -1,0 +1,40 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "about-page",
+      "urls": [
+        "https://www.hoegemeyer.com/about.html"
+      ],
+      "coverageGaps": [],
+      "description": "About page: hero teaser, intro copy, embedded video, three-up value columns, and a vertical timeline of two-column milestone rows.",
+      "blocks": [
+        {
+          "name": "teaser",
+          "instances": [".teaser.cmp-teaser--hero-l2"],
+          "section": "hero-l2"
+        },
+        {
+          "name": "carousel",
+          "instances": [".galleryvideoplayer .video-gallery"]
+        },
+        {
+          "name": "columns",
+          "instances": [".column-control-cmp__wrapper--33-33-33", ".column-control__wrapper--33-33-33"],
+          "section": "33-33-33"
+        },
+        {
+          "name": "columns",
+          "instances": [".column-control-cmp__wrapper--50-50"],
+          "section": "50-50"
+        },
+        {
+          "name": "fragment",
+          "instances": [".cmp-experiencefragment"]
+        }
+      ]
+    }
+  ]
+}
