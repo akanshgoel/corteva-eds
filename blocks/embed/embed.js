@@ -1,13 +1,71 @@
 /*
- * Embed block — renders an embedded external experience (iframe) or, when the
- * author pastes raw code, injects that markup verbatim.
+ * Embed block — renders an embedded external experience (iframe), a self-
+ * contained HTML fragment (e.g. a third-party form with its own scripts), or
+ * raw pasted markup, verbatim.
  *
- * Two authoring shapes are supported:
- *  1. A link to the source to embed (preferred). The block contains an anchor;
- *     we build a responsive <iframe> pointing at its href. This survives the
- *     Document Authoring markdown round-trip cleanly.
- *  2. Raw pasted markup (iframe, HTML, etc.) inside a code block. Injected as-is.
+ * Authoring shapes (in priority order):
+ *  1. A link to an HTML fragment committed in the project (href ends in .html,
+ *     e.g. /embeds/contact-form.html). We fetch it and inject it as-is, then
+ *     re-create its <script> elements so they actually execute — scripts added
+ *     via innerHTML never run. Used for migrated reCAPTCHA/Eloqua forms whose
+ *     markup we preserve exactly from the source site.
+ *  2. A link to an external experience to embed in an <iframe> (e.g. a store
+ *     locator). Survives the Document Authoring markdown round-trip cleanly.
+ *  3. Raw pasted markup inside a code block. Injected as-is.
  */
+
+/**
+ * Re-creates every <script> in a container so the browser executes it. Scripts
+ * inserted via innerHTML are inert; cloning them into fresh <script> nodes (in
+ * document order, external ones awaited) runs them.
+ * @param {Element} container element whose scripts should execute
+ */
+async function runScripts(container) {
+  const scripts = [...container.querySelectorAll('script')];
+  // eslint-disable-next-line no-restricted-syntax
+  for (const old of scripts) {
+    const script = document.createElement('script');
+    [...old.attributes].forEach((attr) => script.setAttribute(attr.name, attr.value));
+    if (old.src) {
+      // Await external scripts so later inline scripts see their globals (jQuery, grecaptcha…).
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise((resolve) => {
+        script.onload = resolve;
+        script.onerror = resolve;
+        old.replaceWith(script);
+      });
+    } else {
+      script.textContent = old.textContent;
+      old.replaceWith(script);
+    }
+  }
+}
+
+/**
+ * Rebinds inline event-handler attributes (onsubmit, onclick, …) as proper
+ * addEventListener calls. EDS serves pages under a Content-Security-Policy that
+ * blocks inline handlers, so migrated third-party markup that relies on them
+ * (e.g. <form onsubmit="return submitUserForm()">) would otherwise be dead.
+ * @param {Element} container element whose inline handlers should be rebound
+ */
+function rebindInlineHandlers(container) {
+  const HANDLERS = ['onsubmit', 'onclick', 'onchange', 'onkeyup', 'onblur', 'onfocus', 'onload'];
+  HANDLERS.forEach((attr) => {
+    const event = attr.slice(2);
+    container.querySelectorAll(`[${attr}]`).forEach((el) => {
+      const code = el.getAttribute(attr);
+      el.removeAttribute(attr);
+      el.addEventListener(event, function handler(e) {
+        // Run the original handler body with `this` bound to the element.
+        // `return false` in the source suppresses default (e.g. form submit).
+        // eslint-disable-next-line no-new-func
+        const fn = new Function('event', `${code}`);
+        const result = fn.call(el, e);
+        if (result === false) e.preventDefault();
+      });
+    });
+  });
+}
 
 /**
  * Builds a responsive iframe wrapper for a given source URL.
@@ -29,19 +87,35 @@ function buildIframe(src, title) {
   return wrapper;
 }
 
-export default function decorate(block) {
-  // Shape 1: a link to embed.
+export default async function decorate(block) {
   const link = block.querySelector('a[href]');
   if (link) {
-    const src = link.href;
+    const url = new URL(link.href);
+    const isFragment = url.pathname.endsWith('.html');
+    if (isFragment) {
+      // Shape 1: local HTML fragment (form + scripts) — inject and run scripts.
+      try {
+        const resp = await fetch(link.href);
+        if (resp.ok) {
+          block.innerHTML = await resp.text();
+          rebindInlineHandlers(block);
+          await runScripts(block);
+          return;
+        }
+      } catch (e) {
+        // fall through to iframe/markup handling on failure
+      }
+    }
+    // Shape 2: external experience — embed in an iframe.
     const title = link.textContent.trim() || link.title;
     block.textContent = '';
-    block.append(buildIframe(src, title));
+    block.append(buildIframe(link.href, title));
     return;
   }
 
-  // Shape 2: raw pasted markup.
+  // Shape 3: raw pasted markup.
   const code = block.querySelector('pre code') || block.querySelector('pre');
   const markup = code ? code.textContent : block.textContent;
   block.innerHTML = markup.trim();
+  await runScripts(block);
 }
