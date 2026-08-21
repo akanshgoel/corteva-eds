@@ -24,25 +24,34 @@
   width: 100%;
 }
 
-/* An image authored inline within a text cell (its own paragraph, NOT a
-   dedicated image column) floats right at 51% of the cell with 20px side
-   padding, so the following copy wraps to its left — exactly as the source
-   does (inline style `width:51%; padding:0 20px; float:right`). This holds at
-   ALL widths, INCLUDING mobile (the source never stacks it full-width).
-   Scoped to `p:has(picture)` so standalone image columns (`.columns-img-col`)
-   and value-props image cells are unaffected. */
-.columns p:has(picture) {
+/* ---- Body images: two source patterns ----
+   The source uses two distinct image treatments in the article body, and the
+   parser preserves the distinction so CSS can tell them apart:
+     1. FULL-WIDTH — a bare `<p><picture>…</picture></p>` (no float wrapper in
+        source). Spans the full column width. This is the DEFAULT below.
+     2. INLINE (float) — the source wraps it in `<div style="width:51%;
+        float:right">`; the parser marks it by wrapping the <picture> in <em>,
+        i.e. `<p><em><picture>…</picture></em></p>`. Floated right at 51%. */
+
+/* Full-width body image (default): span the column, intrinsic height. */
+.columns p:has(> picture) img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Inline (floated) body image: <p><em><picture>…</picture></em></p>. Float
+   right at 51% with 20px side padding so copy wraps to its left — at ALL widths
+   (the source never stacks it). Image renders at intrinsic size, capped to the
+   wrapper (never upscaled), centred. */
+.columns p:has(> em > picture) {
   float: right;
   width: 51%;
   margin: 0 0 12px;
   padding: 0 20px;
 }
 
-.columns p:has(picture) img {
-  /* Render at the image's intrinsic size, capped to the wrapper — matching the
-     source (`img { width:<natural>; max-width:100% }`). Do NOT force width:100%,
-     which would upscale a small image (e.g. the 250px FFA photo) to fill the
-     51% box and appear larger than live. Centre it within the wrapper. */
+.columns p:has(> em > picture) img {
   width: auto;
   max-width: 100%;
   height: auto;
@@ -50,12 +59,10 @@
   display: block;
 }
 
-/* Image caption. In the source, a floated image is often followed by a caption
-   in its own float wrapper (same 51% width), so the caption stacks directly
-   UNDER the image — centred, italic, 14px — while body copy wraps to the left.
-   Our import emits the caption as a `<p>` containing only <em> immediately after
-   the floated image `<p>`. Float it the same way so it tucks under the image. */
-.columns p:has(picture) + p:has(> em:only-child) {
+/* Image caption: a `<p>` whose only child is a text <em> (no picture),
+   immediately following a floated inline image. Stacks under the image in the
+   same 51% float — centred, italic, 14px — while body copy wraps to the left. */
+.columns p:has(> em > picture) + p:has(> em:only-child):not(:has(picture)) {
   float: right;
   clear: right;
   width: 51%;

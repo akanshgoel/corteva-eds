@@ -530,6 +530,37 @@ main .default-content-wrapper p + h1:last-child {
   margin-bottom: 90px;
 }
 
+/* Article-header spacing. More than the title can live in the header wrapper:
+   an intro paragraph, a full-width hero image, and/or an H2 subtitle. Values
+   measured from the source.
+
+   Full-width hero image in the article header spans the content column with a
+   40px gap above (title) and 35px below (subtitle/body). The hero is a Dynamic
+   Media <a> that the client-side auto-block rebuilds into a <picture>, so we
+   size the rebuilt image full width. (img rule first to keep specificity
+   ascending vs the earlier `.logo` image cap.) */
+/* stylelint-disable-next-line no-descending-specificity --
+   Different context from the earlier `.section.logo` image cap; ordering here
+   is intentional and does not conflict. */
+main .default-content-wrapper p:has(> a[href*="/is/image/"]) img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Title H1 -> plain intro paragraph: 70px (e.g. holzwarth, awards). */
+main .default-content-wrapper h1 + p {
+  margin-top: 70px;
+}
+
+/* The hero paragraph itself: full width, 40px above / 35px below. Placed after
+   the `h1 + p` rule so it overrides that 70px top for the hero case. */
+main .default-content-wrapper p:has(> a[href*="/is/image/"]) {
+  display: block;
+  width: 100%;
+  margin: 40px 0 35px;
+}
+
 main .columns h3 {
   font-size: 24px;
   line-height: 28px;
