@@ -43,7 +43,7 @@
  * belongs with those blocks when they are built, so it is intentionally not
  * defined here (keeps this block self-contained and its selectors scoped).
  */
-.separator.bold .cmp-separator__horizontal-rule {
+.cmp-separator--bold .cmp-separator__horizontal-rule {
   height: 0.3125rem;
   margin: -0.0625rem 0;
   background-color: var(--color-separator-bold);
