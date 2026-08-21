@@ -39,9 +39,31 @@
 }
 
 .columns p:has(picture) img {
-  width: 100%;
+  /* Render at the image's intrinsic size, capped to the wrapper — matching the
+     source (`img { width:<natural>; max-width:100% }`). Do NOT force width:100%,
+     which would upscale a small image (e.g. the 250px FFA photo) to fill the
+     51% box and appear larger than live. Centre it within the wrapper. */
+  width: auto;
+  max-width: 100%;
   height: auto;
+  margin: 0 auto;
   display: block;
+}
+
+/* Image caption. In the source, a floated image is often followed by a caption
+   in its own float wrapper (same 51% width), so the caption stacks directly
+   UNDER the image — centred, italic, 14px — while body copy wraps to the left.
+   Our import emits the caption as a `<p>` containing only <em> immediately after
+   the floated image `<p>`. Float it the same way so it tucks under the image. */
+.columns p:has(picture) + p:has(> em:only-child) {
+  float: right;
+  clear: right;
+  width: 51%;
+  margin: 0 0 12px;
+  padding: 0 20px;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
 }
 
 .columns > div > .columns-img-col img {
