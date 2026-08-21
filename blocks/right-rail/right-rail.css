@@ -1,0 +1,114 @@
+/* stylelint-disable selector-class-pattern --
+   The `cmp-right-rail`, `cmp-separator*`, `cmp-title*`, `cmp-text*` and
+   `c-button` class names are preserved verbatim from the source site markup
+   (AEM Core Components) so the styling maps 1:1. The standard kebab-case
+   selector rule is disabled here. */
+
+/*
+ * Right Rail block — Hoegemeyer.
+ *
+ * Reproduces the source AEM "rightrail" (.cmp-right-rail) 1:1, including the
+ * styling it applies to the components nested inside it. Values are resolved
+ * computed styles from https://www.hoegemeyer.com/:
+ *   - container : max 64rem, near-black text (#20242d)
+ *   - separator : bold 5px #375172 rule, 1.25rem padding-bottom (right-rail ctx)
+ *   - title     : Oswald Bold h4, 20px / 28px, weight 800
+ *   - text      : left aligned, 1.875rem bottom margin, blue links
+ *   - c-button  : primary blue (#375172) CTA, white text, 2px radius
+ */
+
+.right-rail {
+  --right-rail-text: #20242d;
+  --right-rail-link: #375172;
+  --right-rail-button: #375172;
+  --right-rail-button-hover: #459aff;
+  --right-rail-button-text: #fff;
+}
+
+/* ----- container ----- */
+.right-rail .cmp-right-rail {
+  max-width: 64rem;
+  margin: 0 auto;
+  color: var(--right-rail-text);
+}
+
+/* ----- nested separator: bold rule + right-rail bottom spacing ----- */
+.right-rail .cmp-right-rail .cmp-separator {
+  padding: 0;
+  margin: 0;
+}
+
+.right-rail .cmp-right-rail .cmp-separator--bold {
+  /* The 1.25rem bottom padding is specific to the right-rail context. */
+  padding-bottom: 1.25rem;
+}
+
+.right-rail .cmp-right-rail .cmp-separator__horizontal-rule {
+  height: 0.3125rem;
+  margin: -0.0625rem 0;
+  background-color: var(--right-rail-button);
+  border: none;
+}
+
+/* ----- nested title (h4) ----- */
+.right-rail .cmp-right-rail .title,
+.right-rail .cmp-right-rail .cmp-title {
+  margin: 0;
+}
+
+.right-rail .cmp-right-rail .cmp-title__text {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 800;
+  color: var(--right-rail-text);
+}
+
+/* ----- nested text block ----- */
+.right-rail .cmp-right-rail .text {
+  margin-bottom: 1.875rem;
+  padding-top: 1.875rem;
+}
+
+.right-rail .cmp-right-rail .cmp-text--left {
+  text-align: left;
+}
+
+.right-rail .cmp-right-rail .text p:not(:first-child) {
+  padding-top: 1.25rem;
+}
+
+/* Text links inside the rail are bold and brand-blue (non-button links). */
+.right-rail .cmp-right-rail .text a {
+  text-decoration: none;
+  font-weight: 700;
+  color: var(--right-rail-link);
+}
+
+.right-rail .cmp-right-rail .text img {
+  height: 8.375rem;
+}
+
+/* ----- nested CTA: c-button (primary) ----- */
+.right-rail .cmp-right-rail .c-button {
+  display: inline-block;
+  padding: 1.4375rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 0.875rem;
+  border-radius: 0.125rem;
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--right-rail-button-text);
+  background-color: var(--right-rail-button);
+}
+
+/* The CTA text stays white even though generic rail links are blue. */
+.right-rail .cmp-right-rail .c-button a,
+.right-rail .cmp-right-rail a .c-button {
+  color: var(--right-rail-button-text);
+}
+
+.right-rail .cmp-right-rail a:hover .c-button {
+  background-color: var(--right-rail-button-hover);
+}
