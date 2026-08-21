@@ -25,20 +25,21 @@
 }
 
 /* An image authored inline within a text cell (its own paragraph, NOT a
-   dedicated image column) must not stretch to the full column width. The
-   source floats such an image to the right at roughly half the column and lets
-   the following copy wrap alongside it — mirror that. Base (mobile): natural
-   size, no float (single stacked column). The float is applied from the tablet
-   breakpoint up, below. Scoped to `p:has(picture)` so standalone image columns
-   (`.columns-img-col`) and value-props image cells are unaffected. */
+   dedicated image column) floats right at 51% of the cell with 20px side
+   padding, so the following copy wraps to its left — exactly as the source
+   does (inline style `width:51%; padding:0 20px; float:right`). This holds at
+   ALL widths, INCLUDING mobile (the source never stacks it full-width).
+   Scoped to `p:has(picture)` so standalone image columns (`.columns-img-col`)
+   and value-props image cells are unaffected. */
 .columns p:has(picture) {
-  width: auto;
+  float: right;
+  width: 51%;
   margin: 0 0 12px;
+  padding: 0 20px;
 }
 
 .columns p:has(picture) img {
-  width: auto;
-  max-width: 100%;
+  width: 100%;
   height: auto;
   display: block;
 }
@@ -69,19 +70,6 @@
   .columns[data-ratio="65-35"] > div {
     display: flex;
     flex-direction: column;
-  }
-
-  /* Inline text-cell image: float right so the copy wraps to its left, as on
-     the source. Source wrapper is 357px with 20px padding on BOTH sides, so the
-     image renders ~317px (matches live). max-width keeps it ~half on narrower
-     cells. The headings that precede this <p> in source order stay full width;
-     only the paragraphs after it wrap alongside the image. */
-  .columns p:has(picture) {
-    float: right;
-    width: 357px;
-    max-width: 50%;
-    margin: 0 0 12px;
-    padding: 0 20px;
   }
 }
 
