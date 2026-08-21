@@ -36,8 +36,9 @@
   --body-font-size-s: 19px;
   --body-font-size-xs: 17px;
 
-  /* heading sizes */
-  --heading-font-size-xxl: 55px;
+  /* heading sizes. h1 (xxl) matches the source scale: 40px mobile stepping to
+     56px at the desktop breakpoint (see the 1040px h1 override below). */
+  --heading-font-size-xxl: 40px;
   --heading-font-size-xl: 44px;
   --heading-font-size-l: 34px;
   --heading-font-size-m: 27px;
@@ -72,8 +73,10 @@
     --body-font-size-s: 16px;
     --body-font-size-xs: 14px;
 
-    /* heading sizes */
-    --heading-font-size-xxl: 45px;
+    /* heading sizes. xxl (h1) holds at 40px through the tablet range and steps
+       to 56px only at the 1040px desktop breakpoint (h1 override below), per
+       the source. */
+    --heading-font-size-xxl: 40px;
     --heading-font-size-xl: 36px;
     --heading-font-size-l: 28px;
     --heading-font-size-m: 22px;
@@ -133,12 +136,26 @@ h6 {
   scroll-margin: 40px;
 }
 
-h1 { font-size: var(--heading-font-size-xxl); }
+/* h1 matches the source: 40px/42px mobile+tablet, 56px/60px desktop (below),
+   weight 800. Global so every h1 shares one consistent scale. */
+h1 {
+  font-size: var(--heading-font-size-xxl);
+  line-height: 42px;
+  font-weight: 800;
+}
+
 h2 { font-size: var(--heading-font-size-xl); }
 h3 { font-size: var(--heading-font-size-l); }
 h4 { font-size: var(--heading-font-size-m); }
 h5 { font-size: var(--heading-font-size-s); }
 h6 { font-size: var(--heading-font-size-xs); }
+
+@media (width >= 1040px) {
+  h1 {
+    font-size: 56px;
+    line-height: 60px;
+  }
+}
 
 p,
 dl,
@@ -472,9 +489,76 @@ main .columns p {
   color: var(--hoeg-ink);
 }
 
+/* Inline text links in migrated article content are navy (#375172), no
+   underline — matching the source (the global --link-color #3b63fb blue is not
+   used here). Scoped to default content + columns so other blocks keep their
+   own link styling. Buttonised CTAs (a.button) are excluded — they own their
+   colours. */
+main .default-content-wrapper a:any-link:not(.button),
+main .columns a:any-link:not(.button) {
+  color: var(--hoeg-navy);
+  text-decoration: none;
+}
+
+main .default-content-wrapper a:not(.button):hover,
+main .columns a:not(.button):hover {
+  color: var(--hoeg-navy);
+  text-decoration: underline;
+}
+
 main .default-content-wrapper h2 {
   font-size: 32px;
   line-height: 38px;
+}
+
+/* Article title tight under the publish-date line. The default content opens
+   with the date paragraph immediately followed by the page-title <h1>; the
+   global `h1 { margin-top: 0.8em }` opens too large a gap. The source keeps the
+   title ~10px below the date, so tighten just this date -> title pairing. */
+main .default-content-wrapper p + h1 {
+  margin-top: 10px;
+}
+
+/* Space below the article title before the body. When the title <h1> is the
+   LAST child of its default-content wrapper (the body opens straight into the
+   65-35 columns block in the next wrapper, e.g. the scholarship article), the
+   source leaves ~90px between the title and the first body line. Applied as the
+   H1's bottom margin. Where the intro is default content in the same wrapper
+   — e.g. the awards article — the H1 is not the last child, so this won't fire
+   and that page's spacing is unaffected. */
+main .default-content-wrapper p + h1:last-child {
+  margin-bottom: 90px;
+}
+
+/* Article-header spacing. More than the title can live in the header wrapper:
+   an intro paragraph, a full-width hero image, and/or an H2 subtitle. Values
+   measured from the source.
+
+   Full-width hero image in the article header spans the content column with a
+   40px gap above (title) and 35px below (subtitle/body). The hero is a Dynamic
+   Media <a> that the client-side auto-block rebuilds into a <picture>, so we
+   size the rebuilt image full width. (img rule first to keep specificity
+   ascending vs the earlier `.logo` image cap.) */
+/* stylelint-disable-next-line no-descending-specificity --
+   Different context from the earlier `.section.logo` image cap; ordering here
+   is intentional and does not conflict. */
+main .default-content-wrapper p:has(> a[href*="/is/image/"]) img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Title H1 -> plain intro paragraph: 70px (e.g. holzwarth, awards). */
+main .default-content-wrapper h1 + p {
+  margin-top: 70px;
+}
+
+/* The hero paragraph itself: full width, 40px above / 35px below. Placed after
+   the `h1 + p` rule so it overrides that 70px top for the hero case. */
+main .default-content-wrapper p:has(> a[href*="/is/image/"]) {
+  display: block;
+  width: 100%;
+  margin: 40px 0 35px;
 }
 
 main .columns h3 {

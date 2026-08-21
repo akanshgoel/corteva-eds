@@ -161,38 +161,43 @@ footer .footer-copyright {
   line-height: 1.5;
 }
 
-/* back-to-top button */
+/* back-to-top button. Matches the source: a 35px ink (#20242d) circle at
+   right:90px / bottom:15px, hidden (opacity 0, non-interactive) at the top and
+   fading in once the page is scrolled (JS toggles `.is-visible`). */
 footer .footer-back-to-top {
   position: fixed;
-  right: 20px;
-  bottom: 20px;
-  width: 44px;
-  height: 44px;
+  right: 90px;
+  bottom: 15px;
+  width: 35px;
+  height: 35px;
   border: 0;
-  border-radius: 2px;
-  background: #375172;
+  border-radius: 50%;
+  background: #20242d;
   color: #fff;
   cursor: pointer;
   z-index: 15;
-  opacity: 0.9;
-  transition: opacity 0.2s ease;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-footer .footer-back-to-top:hover {
+/* revealed after scrolling */
+footer .footer-back-to-top.is-visible {
+  opacity: 0.87;
+  pointer-events: auto;
+}
+
+footer .footer-back-to-top.is-visible:hover {
   opacity: 1;
 }
 
-footer .footer-back-to-top::before {
-  content: '';
-  width: 10px;
-  height: 10px;
-  border: solid #fff;
-  border-width: 2px 2px 0 0;
-  transform: rotate(-45deg);
-  margin-top: 4px;
+footer .footer-back-to-top-icon {
+  width: 16px;
+  height: 16px;
+  display: block;
 }
 
 /* ===================================================================

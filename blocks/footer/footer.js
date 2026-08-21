@@ -55,9 +55,27 @@ function buildBackToTop() {
   btn.type = 'button';
   btn.className = 'footer-back-to-top';
   btn.setAttribute('aria-label', 'Scroll to top');
+  // Up-arrow icon (matches the source glyph: a vertical stem with a top cap /
+  // arrowhead). Inline SVG so it renders crisply without the icomoon font.
+  btn.innerHTML = `
+    <svg class="footer-back-to-top-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 4 L12 20 M12 4 L6 10 M12 4 L18 10" fill="none" stroke="currentColor"
+        stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter"/>
+    </svg>`;
   btn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
+
+  // Visible only once the page is scrolled (matches the source: hidden and
+  // non-interactive at the top, fading in after ~300px). The `is-visible`
+  // class drives opacity + pointer-events in CSS.
+  const THRESHOLD = 300;
+  const toggle = () => {
+    btn.classList.toggle('is-visible', window.scrollY > THRESHOLD);
+  };
+  window.addEventListener('scroll', toggle, { passive: true });
+  toggle();
+
   return btn;
 }
 
