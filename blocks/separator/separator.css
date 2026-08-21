@@ -8,14 +8,14 @@
  *
  * Reproduces the source AEM Core "separator" component 1:1. Values are the
  * resolved computed styles from https://www.hoegemeyer.com/ (the theme's
- * --color-separator-bold resolves to #375172, --color-separator-simple to a
- * dark grey). Selectors mirror the source's cmp-separator* class names.
+ * --color-separator-bold resolves to #375172). Selectors mirror the source's
+ * cmp-separator* class names. Only the two styles used on the source site are
+ * implemented: the default rule and the bold rule.
  */
 
 /* Theme tokens (from the site's "therightseed" theme). */
 .separator {
   --color-separator-bold: #375172;
-  --color-separator-simple: #6b7280;
 }
 
 /* Inner wrapper — the source's <div class="cmp-separator">. */
@@ -35,65 +35,17 @@
   border-top: 1px inset #808080;
 }
 
-/* ----- bold: thick brand-blue rule (the site's primary usage) ----- */
-.separator.bold {
-  padding-bottom: 1.25rem;
-}
-
+/*
+ * bold: thick brand-blue rule (the site's primary usage). The bold separator
+ * has NO padding of its own — it is just the 5px rule. On the source site the
+ * 1.25rem bottom spacing seen in some places comes from a container context
+ * (right rail / product-tile list), not the separator. That contextual spacing
+ * belongs with those blocks when they are built, so it is intentionally not
+ * defined here (keeps this block self-contained and its selectors scoped).
+ */
 .separator.bold .cmp-separator__horizontal-rule {
   height: 0.3125rem;
   margin: -0.0625rem 0;
   background-color: var(--color-separator-bold);
   border: none;
-}
-
-/* ----- simple: thin 1px light-grey rule, fixed narrow width ----- */
-.separator.simple {
-  width: 7.5rem;
-  margin: 0;
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
-  margin-bottom: 1.25rem;
-}
-
-.separator.simple .cmp-separator__horizontal-rule {
-  height: 0.0625rem;
-  margin: -0.0625rem 0;
-  background-color: var(--color-separator-simple);
-  border: none;
-}
-
-/* ----- content-width: constrain the rule to 64rem, centered ----- */
-.separator.content-width {
-  max-width: 64rem;
-  margin: 0 auto;
-}
-
-.separator.content-width .cmp-separator__horizontal-rule {
-  margin: 0;
-}
-
-/* ----- padding-top / padding-bottom: extra spacing around the rule ----- */
-.separator.padding-top .cmp-separator {
-  padding-top: 3.125rem;
-}
-
-.separator.padding-bottom .cmp-separator {
-  padding-bottom: 3.125rem;
-}
-
-.separator.padding-bottom .cmp-separator__horizontal-rule {
-  margin: 0;
-}
-
-/* ----- left-right-padding: inset the rule with side gutters ----- */
-.separator.left-right-padding .cmp-separator {
-  width: calc(100% - 2.5rem);
-  margin: 0 auto;
-}
-
-@media (width >= 900px) {
-  .separator.left-right-padding .cmp-separator {
-    width: calc(100% - 5rem);
-  }
 }

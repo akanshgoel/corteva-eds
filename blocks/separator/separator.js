@@ -16,15 +16,10 @@
  * block variant classes.
  *
  * Authoring (block name: Separator). The block has no content — it is authored
- * as an empty block. The style is selected with a block variant, e.g.
- * "Separator (bold)". Variants (may be combined):
- *   - (default)             a plain browser <hr> (1px inset rule)
- *   - bold                  thick 5px brand-blue rule  (the site's default use)
- *   - simple                thin 1px light-grey rule, 7.5rem wide
- *   - content-width         constrain the rule to 64rem, centered
- *   - padding-top           add 3.125rem space above the rule
- *   - padding-bottom        add 3.125rem space below the rule
- *   - left-right-padding    inset the rule with side gutters
+ * as an empty block. The style is selected with a block variant. Only the two
+ * styles used on the source site are supported:
+ *   - (default)   a plain browser <hr> (1px inset rule)
+ *   - bold        thick 5px brand-blue rule (the site's primary usage)
  *
  * Any authored content is ignored — only the rule is rendered.
  */
@@ -33,11 +28,6 @@
 // modifier onto the block lets us reuse the source's exact CSS selectors.
 const VARIANT_MODIFIERS = {
   bold: 'cmp-separator--bold',
-  simple: 'cmp-separator--simple',
-  'content-width': 'cmp-separator--content-width',
-  'padding-top': 'cmp-separator--padding-top',
-  'padding-bottom': 'cmp-separator--padding-bottom',
-  'left-right-padding': 'cmp-separator--left-right-padding',
 };
 
 /**
