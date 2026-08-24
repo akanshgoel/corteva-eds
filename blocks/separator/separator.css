@@ -1,0 +1,51 @@
+/* stylelint-disable selector-class-pattern --
+   The `cmp-separator*` BEM class names are preserved verbatim from the source
+   site markup (AEM Core Components) so the styling maps 1:1. The standard
+   kebab-case selector rule is disabled here. */
+
+/*
+ * Separator block — Hoegemeyer.
+ *
+ * Reproduces the source AEM Core "separator" component 1:1. Values are the
+ * resolved computed styles from https://www.hoegemeyer.com/ (the theme's
+ * --color-separator-bold resolves to #375172). Selectors mirror the source's
+ * cmp-separator* class names. Only the two styles used on the source site are
+ * implemented: the default rule and the bold rule.
+ */
+
+/* Theme tokens (from the site's "therightseed" theme). */
+.separator {
+  --color-separator-bold: #375172;
+}
+
+/* Inner wrapper — the source's <div class="cmp-separator">. */
+.separator .cmp-separator {
+  padding: 0;
+  margin: 0;
+}
+
+/*
+ * Default rule. With no variant the source shows a plain browser <hr>:
+ * a 1px inset border, pulled up 1px so it sits flush.
+ */
+.separator .cmp-separator__horizontal-rule {
+  height: 0;
+  margin: -0.0625rem 0;
+  border: none;
+  border-top: 1px inset #808080;
+}
+
+/*
+ * bold: thick brand-blue rule (the site's primary usage). The bold separator
+ * has NO padding of its own — it is just the 5px rule. On the source site the
+ * 1.25rem bottom spacing seen in some places comes from a container context
+ * (right rail / product-tile list), not the separator. That contextual spacing
+ * belongs with those blocks when they are built, so it is intentionally not
+ * defined here (keeps this block self-contained and its selectors scoped).
+ */
+.cmp-separator--bold .cmp-separator__horizontal-rule {
+  height: 0.3125rem;
+  margin: -0.0625rem 0;
+  background-color: var(--color-separator-bold);
+  border: none;
+}
