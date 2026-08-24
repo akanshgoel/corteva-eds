@@ -472,10 +472,10 @@ main > .section.logo .default-content-wrapper img {
      body copy  = 16px/24 */
 main .default-content-wrapper :is(h1, h2, h3, h4, h5, h6),
 main .columns :is(h1, h2, h3, h4, h5, h6) {
-  /* Real Oswald Bold family (weight 700) — not faux-bold on single-weight
-     Oswald. The source declares "Oswald Bold" and renders at 700/800. */
+  /* Real Oswald Bold family — the source renders every content heading at
+     weight 800 (measured on live: h1 40, h2 32, h3 24, h4 20, all 800). */
   font-family: 'Oswald Bold', oswald, var(--heading-font-family);
-  font-weight: 700;
+  font-weight: 800;
   color: var(--hoeg-ink);
 }
 
@@ -506,9 +506,48 @@ main .columns a:not(.button):hover {
   text-decoration: underline;
 }
 
-main .default-content-wrapper h2 {
+/* Content heading sizes — the source uses a RESPONSIVE scale (measured on live
+   at both breakpoints). Base (<1040px): h2 32/38, h3 24/28, h4 20/28. Desktop
+   (>=1040px): h2 44/50, h3 32/36, h4 24/30 (see the media query below). Applied
+   to BOTH default content and the columns body so the regional-expertise
+   (columns) and news (default-content) articles match. h1 keeps its 40/56
+   scale set globally. */
+main .default-content-wrapper h2,
+main .columns h2 {
   font-size: 32px;
   line-height: 38px;
+}
+
+main .default-content-wrapper h3,
+main .columns h3 {
+  font-size: 24px;
+  line-height: 28px;
+}
+
+main .default-content-wrapper h4,
+main .columns h4 {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+@media (width >= 1040px) {
+  main .default-content-wrapper h2,
+  main .columns h2 {
+    font-size: 44px;
+    line-height: 50px;
+  }
+
+  main .default-content-wrapper h3,
+  main .columns h3 {
+    font-size: 32px;
+    line-height: 36px;
+  }
+
+  main .default-content-wrapper h4,
+  main .columns h4 {
+    font-size: 24px;
+    line-height: 30px;
+  }
 }
 
 /* Article title tight under the publish-date line. The default content opens
@@ -559,16 +598,6 @@ main .default-content-wrapper p:has(> a[href*="/is/image/"]) {
   display: block;
   width: 100%;
   margin: 40px 0 35px;
-}
-
-main .columns h3 {
-  font-size: 24px;
-  line-height: 28px;
-}
-
-main .columns h4 {
-  font-size: 20px;
-  line-height: 28px;
 }
 
 /* Solid CTA button inside migrated content — matches the source `.c-button`

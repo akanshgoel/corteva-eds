@@ -179,9 +179,10 @@
   padding: 20px 0;
   border-bottom: 1px solid #95a0b4;
 
-  /* Date line: Oswald 400, grey (the title link overrides to Oswald Bold navy). */
+  /* Date line: Oswald bold (700), grey (the title link overrides to navy). */
   font-family: oswald, var(--body-font-family);
   font-size: 16px;
+  font-weight: 700;
   line-height: 20px;
   color: #686f7d;
 }
@@ -190,11 +191,12 @@
   display: inline-block;
   margin-bottom: 6px;
 
-  /* Title: the site heading font (Oswald Bold), navy, 18px. */
+  /* Title: the site heading font (Oswald Bold), navy, 18px. Weight 700 keeps it
+     within the Oswald Bold face's declared 700–800 range. */
   font-family: 'Oswald Bold', oswald, var(--heading-font-family);
   font-size: 18px;
   line-height: 24px;
-  font-weight: 400;
+  font-weight: 700;
   color: var(--hoeg-navy, #375172);
   text-decoration: none;
 }
