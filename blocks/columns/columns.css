@@ -33,9 +33,13 @@
         float:right">`; the parser marks it by wrapping the <picture> in <em>,
         i.e. `<p><em><picture>…</picture></em></p>`. Floated right at 51%. */
 
-/* Full-width body image (default): span the column, intrinsic height. */
+/* Default (non-floated) body image. The source renders these at their INTRINSIC
+   size, capped to the column — NOT stretched to fill it (e.g. a 230px figure
+   stays 230px, it does not upscale to the full column). So width:auto +
+   max-width:100%, never width:100%. */
 .columns p:has(> picture) img {
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   height: auto;
   display: block;
 }
@@ -137,6 +141,7 @@
 .columns .button-wrapper {
   text-align: left;
 }
+
 
 /* value-props variant: cells hold stacked icon-over-text items */
 .columns.value-props > div > div {
