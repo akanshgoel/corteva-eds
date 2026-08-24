@@ -1,0 +1,78 @@
+/* stylelint-disable selector-class-pattern --
+   The `article-header*` and `cmp-title*` BEM class names are preserved verbatim
+   from the source site markup (AEM Core Components) so the styling maps 1:1.
+   The standard kebab-case selector rule is disabled here. */
+
+/*
+ * Article Header block — Hoegemeyer.
+ *
+ * Reproduces the source AEM "articleheader" (article-header--variant1) 1:1.
+ * Values are the resolved computed styles from https://www.hoegemeyer.com/:
+ *   - header : 3.125rem top padding, contained to 64rem, side gutters
+ *   - title  : Oswald Bold, 40px / 42px, weight 800, color #20242d
+ *   - date   : bold, 14px, same near-black color, shown above the title
+ *   - image  : full-width banner below the header, object-fit: cover
+ */
+
+.article-header {
+  --article-header-text-color: #20242d;
+
+  padding: 3.125rem 0 0;
+}
+
+/* Contained column — 64rem max, side gutters (2.5rem mobile / 5rem desktop). */
+.article-header.article-header--variant1 .article-header__section {
+  max-width: 64rem;
+  width: calc(100% - 2.5rem);
+  margin: 0 auto;
+  color: var(--article-header-text-color);
+  align-items: center;
+}
+
+@media (width >= 900px) {
+  .article-header.article-header--variant1 .article-header__section {
+    width: calc(100% - 5rem);
+  }
+}
+
+/* Page details (the date row) — bold, sits above the title. */
+.article-header .article-header__page-details {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 0.625rem;
+  padding-bottom: 0.625rem;
+  font-size: 0.875rem;
+  line-height: 1.4375rem;
+  font-weight: 700;
+}
+
+.article-header .article-header__other-info-container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  gap: 0.625rem;
+}
+
+/* Title — big Oswald Bold heading. */
+.article-header .title,
+.article-header .cmp-title {
+  margin: 0;
+}
+
+.article-header .cmp-title__text {
+  margin: 0;
+  font-size: 2.5rem;
+  line-height: 2.625rem;
+  font-weight: 800;
+  color: var(--article-header-text-color);
+}
+
+/* Optional full-width banner image below the header. */
+.article-header.article-header--variant1 .article-header__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center center;
+}
