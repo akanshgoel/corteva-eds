@@ -53,14 +53,14 @@
   src: url('../fonts/Oswald.woff2') format('woff2');
 }
 
-/* Oswald Bold — the source site uses a dedicated bold family (weight 700/800)
-   for headings and CTAs. Registered as its own family name to match the source
-   font-family declarations exactly (avoids faux-bold on the single-weight
-   Oswald above). */
+/* Oswald Bold — the source site uses a dedicated bold family for headings and
+   CTAs, rendered at weight 700–800. It's a single heavy weight file; declare the
+   700–800 range so a request for weight 800 (our content headings, matching the
+   source) maps to the real bold face instead of faux-bolding it. */
 @font-face {
   font-family: 'Oswald Bold';
   font-style: normal;
-  font-weight: 700;
+  font-weight: 700 800;
   font-display: swap;
   src: url('../fonts/OswaldBold.woff2') format('woff2');
 }

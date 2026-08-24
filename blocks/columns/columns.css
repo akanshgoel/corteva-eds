@@ -11,8 +11,66 @@
   gap: 24px;
 }
 
+/* Content rhythm inside columns cells. The source spaces every heading and
+   paragraph with a uniform 30px below and 0 above, so each gap (H2->H3->H4->
+   body, para->para, and last para->next award H2) is 30px. Placed before the
+   image / right-rail rules so their more specific overrides win. */
+.columns :is(h1, h2, h3, h4, h5, h6),
+.columns p {
+  margin: 0 0 30px;
+}
+
 .columns img {
   width: 100%;
+}
+
+/* ---- Body images: two source patterns ----
+   The source uses two distinct image treatments in the article body, and the
+   parser preserves the distinction so CSS can tell them apart:
+     1. FULL-WIDTH — a bare `<p><picture>…</picture></p>` (no float wrapper in
+        source). Spans the full column width. This is the DEFAULT below.
+     2. INLINE (float) — the source wraps it in `<div style="width:51%;
+        float:right">`; the parser marks it by wrapping the <picture> in <em>,
+        i.e. `<p><em><picture>…</picture></em></p>`. Floated right at 51%. */
+
+/* Full-width body image (default): span the column, intrinsic height. */
+.columns p:has(> picture) img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Inline (floated) body image: <p><em><picture>…</picture></em></p>. Float
+   right at 51% with 20px side padding so copy wraps to its left — at ALL widths
+   (the source never stacks it). Image renders at intrinsic size, capped to the
+   wrapper (never upscaled), centred. */
+.columns p:has(> em > picture) {
+  float: right;
+  width: 51%;
+  margin: 0 0 12px;
+  padding: 0 20px;
+}
+
+.columns p:has(> em > picture) img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Image caption: a `<p>` whose only child is a text <em> (no picture),
+   immediately following a floated inline image. Stacks under the image in the
+   same 51% float — centred, italic, 14px — while body copy wraps to the left. */
+.columns p:has(> em > picture) + p:has(> em:only-child):not(:has(picture)) {
+  float: right;
+  clear: right;
+  width: 51%;
+  margin: 0 0 12px;
+  padding: 0 20px;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
 }
 
 .columns > div > .columns-img-col img {
@@ -33,6 +91,32 @@
     grid-template-columns: var(--columns-template);
     align-items: start;
   }
+
+  /* The 65-35 article layout (content + NEWS rail) stays STACKED on tablet —
+     the source only splits it into two columns at the desktop breakpoint
+     (1040px, matching the header nav switch). Revert it to a single column
+     between 768px and 1040px; the 1040px rule below restores the split. */
+  .columns[data-ratio="65-35"] > div {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Desktop (>=1040px): the 65-35 article splits into its two columns, matching
+   the source (which keeps it stacked below this width). */
+@media (width >= 1040px) {
+  .columns[data-ratio="65-35"] > div {
+    display: grid;
+    grid-template-columns: var(--columns-template);
+    align-items: start;
+  }
+}
+
+/* Left-align a buttonised CTA inside a columns cell. The global
+   `p.button-wrapper` rule centres buttons, but within a column (e.g. the right
+   rail's SEE ALL) the source left-aligns it under the heading/blurb. */
+.columns .button-wrapper {
+  text-align: left;
 }
 
 /* value-props variant: cells hold stacked icon-over-text items */
@@ -51,4 +135,72 @@
 .columns.value-props > div > .columns-img-col img {
   width: 100%;
   height: auto;
+}
+
+/* Right-rail top rule. The source right rail opens with a bold navy separator
+   (a 5px #375172 bar, full rail width, ~19px above the heading). That <hr> does
+   not survive the block -> markdown round-trip, so we restore it as a top
+   border on the rail cell — the last cell of the 65-35 control. */
+.columns[data-ratio="65-35"] > div > div:last-child {
+  border-top: 5px solid var(--hoeg-navy, #375172);
+  padding-top: 19px;
+}
+
+/* Right-rail spacing differs from the award column: the source sets NEWS 10px
+   above the blurb, and the SEE ALL button 20px below the blurb. Override the
+   uniform 30px rhythm for the rail cell only. */
+.columns[data-ratio="65-35"] > div > div:last-child :is(h1, h2, h3, h4, h5, h6) {
+  margin-bottom: 10px;
+}
+
+.columns[data-ratio="65-35"] > div > div:last-child p {
+  margin: 0;
+}
+
+/* SEE ALL button sits 20px under the blurb (source uses top padding on the
+   button's wrapper paragraph, not a margin). */
+.columns[data-ratio="65-35"] > div > div:last-child p.button-wrapper {
+  padding-top: 20px;
+}
+
+/* RELATED ARTICLES rail list. The source renders each item as a navy 18px
+   title link over a grey date, separated by 1px dividers, with NO bullets and
+   20px vertical padding. Our import emits `<li><a>title</a><br>date</li>`, so
+   the <li> carries the grey date colour and the <a> the navy title. Scoped to
+   the rail cell's list. */
+.columns[data-ratio="65-35"] > div > div:last-child ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.columns[data-ratio="65-35"] > div > div:last-child li {
+  margin: 0;
+  padding: 20px 0;
+  border-bottom: 1px solid #95a0b4;
+
+  /* Date line: Oswald bold (700), grey (the title link overrides to navy). */
+  font-family: oswald, var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  color: #686f7d;
+}
+
+.columns[data-ratio="65-35"] > div > div:last-child li a {
+  display: inline-block;
+  margin-bottom: 6px;
+
+  /* Title: the site heading font (Oswald Bold), navy, 18px. Weight 700 keeps it
+     within the Oswald Bold face's declared 700–800 range. */
+  font-family: 'Oswald Bold', oswald, var(--heading-font-family);
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--hoeg-navy, #375172);
+  text-decoration: none;
+}
+
+.columns[data-ratio="65-35"] > div > div:last-child li a:hover {
+  text-decoration: underline;
 }
