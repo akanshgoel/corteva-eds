@@ -33,10 +33,33 @@
         float:right">`; the parser marks it by wrapping the <picture> in <em>,
         i.e. `<p><em><picture>…</picture></em></p>`. Floated right at 51%. */
 
-/* Full-width body image (default): span the column, intrinsic height. */
+/* Default (non-floated) body image. The source renders these at their INTRINSIC
+   size, capped to the column — NOT stretched to fill it (e.g. a 230px figure
+   stays 230px, it does not upscale to the full column). So width:auto +
+   max-width:100%, never width:100%. */
 .columns p:has(> picture) img {
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   height: auto;
+  display: block;
+}
+
+/* Centered body image: <p><strong><picture>…</picture></strong></p>. The source
+   wraps it in a centered block narrower than the column (e.g. 81%), NOT floated.
+   Render the block centred at that width; the image fills it (capped to natural
+   size). */
+.columns p:has(> strong > picture) {
+  width: 81%;
+  margin: 0 auto 12px;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.columns p:has(> strong > picture) img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
   display: block;
 }
 
@@ -118,6 +141,7 @@
 .columns .button-wrapper {
   text-align: left;
 }
+
 
 /* value-props variant: cells hold stacked icon-over-text items */
 .columns.value-props > div > div {
@@ -203,4 +227,44 @@
 
 .columns[data-ratio="65-35"] > div > div:last-child li a:hover {
   text-decoration: underline;
+}
+
+/* Data tables in the article body (e.g. the Enlist-vs-dicamba comparison).
+   Matched to the source: full column width, collapsed 1px #686f7d borders,
+   light-blue-grey header, Oswald 14px, 15px/5px/15px/20px cell padding, cells
+   top-aligned. */
+.columns table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 30px;
+  font-family: oswald, var(--body-font-family);
+  font-size: 14px;
+}
+
+.columns table th,
+.columns table td {
+  border: 1px solid #686f7d;
+  padding: 15px 5px 15px 20px;
+  text-align: left;
+  vertical-align: top;
+  color: #000;
+}
+
+.columns table th {
+  background: #e9eff2;
+  font-weight: 700;
+}
+
+/* stylelint-disable-next-line no-descending-specificity --
+   table cell paragraphs are a distinct context from the earlier image-caption
+   paragraph rule; ordering here is intentional. */
+.columns table td p {
+  margin: 0 0 8px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.columns table td p:last-child {
+  margin-bottom: 0;
 }
