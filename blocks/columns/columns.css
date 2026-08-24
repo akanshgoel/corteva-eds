@@ -40,6 +40,25 @@
   display: block;
 }
 
+/* Centered body image: <p><strong><picture>…</picture></strong></p>. The source
+   wraps it in a centered block narrower than the column (e.g. 81%), NOT floated.
+   Render the block centred at that width; the image fills it (capped to natural
+   size). */
+.columns p:has(> strong > picture) {
+  width: 81%;
+  margin: 0 auto 12px;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.columns p:has(> strong > picture) img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
 /* Inline (floated) body image: <p><em><picture>…</picture></em></p>. Float
    right at 51% with 20px side padding so copy wraps to its left — at ALL widths
    (the source never stacks it). Image renders at intrinsic size, capped to the

@@ -480,13 +480,33 @@ main .columns :is(h1, h2, h3, h4, h5, h6) {
 }
 
 main .default-content-wrapper p,
-main .columns p {
-  /* Source body copy is oswald 400 (not the global roboto body font). */
+main .default-content-wrapper li,
+main .columns p,
+main .columns li {
+  /* Source body copy is oswald 400 (not the global roboto body font). Includes
+     list items — the source renders body <li> at the same 16px/24px as <p>.
+     (The RELATED ARTICLES rail <li> is styled separately and more specifically,
+     so this doesn't affect it.) */
   font-family: oswald, var(--body-font-family);
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
   color: var(--hoeg-ink);
+}
+
+/* Body list spacing — the source indents the list 40px and puts ~4.8px (0.3em)
+   vertical padding on each item so numbered/bulleted items are visually
+   separated. Scoped to body lists in default content + the columns LEFT cell;
+   the RELATED ARTICLES rail list (last cell) is styled separately. */
+main .default-content-wrapper :is(ol, ul),
+main .columns > div > div:first-child :is(ol, ul) {
+  margin: 30px 0;
+  padding-left: 40px;
+}
+
+main .default-content-wrapper :is(ol, ul) li,
+main .columns > div > div:first-child :is(ol, ul) li {
+  padding: 4.8px 0;
 }
 
 /* Inline text links in migrated article content are navy (#375172), no
