@@ -5,10 +5,21 @@
   margin: 0 auto;
 }
 
+/* The 65-35 article layout sits below the article header; the source's
+   columncontrol adds 50px top AND bottom padding (top = title→body gap;
+   bottom = the controlled space below the rail button before the footer). */
+.columns[data-ratio="65-35"] {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+/* Wrapper — matches the live `.column-control-cmp__wrapper`: always a
+   single-column grid with a 1.875rem (30px) gap. Ratio variants below set a
+   multi-column template at their own breakpoint. */
 .columns > div {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.875rem;
 }
 
 /* Content rhythm inside columns cells. The source spaces every heading and
@@ -100,47 +111,79 @@
   display: block;
 }
 
+/* Non-65-35 ratio layouts (e.g. 50-50, 50-25-25, value-props) split into their
+   multi-column template at the tablet breakpoint. The 65-35 article layout is
+   deliberately excluded here — it stays single-column until desktop (below). */
 @media (width >= 768px) {
-  /* bottom wrapper becomes a horizontal row; ratio variants drive the widths */
-  .columns > div {
-    display: grid;
-    grid-template-columns: repeat(var(--columns-count, 2), 1fr);
-    align-items: center;
+  .columns[data-ratio]:not([data-ratio="65-35"]) > div {
+    grid-template-columns: var(--columns-template);
+    align-items: start;
     gap: 40px;
   }
-
-  /* ratio-driven templates (set from JS via --columns-template) */
-  .columns[data-ratio] > div {
-    grid-template-columns: var(--columns-template);
-    align-items: start;
-  }
-
-  /* The 65-35 article layout (content + NEWS rail) stays STACKED on tablet —
-     the source only splits it into two columns at the desktop breakpoint
-     (1040px, matching the header nav switch). Revert it to a single column
-     between 768px and 1040px; the 1040px rule below restores the split. */
-  .columns[data-ratio="65-35"] > div {
-    display: flex;
-    flex-direction: column;
-  }
 }
 
-/* Desktop (>=1040px): the 65-35 article splits into its two columns, matching
-   the source (which keeps it stacked below this width). */
+/* The 65-35 article layout matches the live `--65-35` wrapper: it stays a
+   single full-width column (rail full-width on mobile AND tablet) and only
+   splits into 13fr/7fr with a 1.25rem (20px) gap at >= 1040px. */
 @media (width >= 1040px) {
   .columns[data-ratio="65-35"] > div {
-    display: grid;
-    grid-template-columns: var(--columns-template);
+    grid-template-columns: minmax(0, 13fr) minmax(0, 7fr);
+    gap: 1.25rem;
     align-items: start;
   }
 }
 
-/* Left-align a buttonised CTA inside a columns cell. The global
-   `p.button-wrapper` rule centres buttons, but within a column (e.g. the right
-   rail's SEE ALL) the source left-aligns it under the heading/blurb. */
+/* CTA buttons inside the article columns are centered in their cell at every
+   viewport, matching the source (text-align: center on the button's wrapper). */
 .columns .button-wrapper {
-  text-align: left;
+  text-align: center;
 }
+
+/* stylelint-disable no-descending-specificity --
+   The CTA-button rules below intentionally follow the rail list-link rules;
+   they target a distinct element (a standalone-link paragraph, i.e. a button)
+   rather than the rail's title links, so source order by concern is clearer. */
+
+/* CTA buttons inside the article columns (e.g. "DOWNLOAD CROP BULLETIN" in the
+   left body, "See all Crop Bulletins" in the rail). The source styles these as
+   `c-button` spans, but the span is flattened during import, leaving a bare
+   standalone link in its own <p>. Restyle that link as the primary c-button:
+   navy bg, white text, 23px/24px padding, 14px Oswald Bold, 2px radius.
+   Matches the source .cmp-text .c-button exactly. */
+.columns p:has(> a:only-child) {
+  /* Source: the button's wrapper paragraph has no margin (no gap after it) and
+     centers the button in the cell at every viewport. */
+  margin: 0;
+  text-align: center;
+}
+
+.columns p:has(> a:only-child) > a:only-child {
+  display: inline-block;
+  padding: 23px 24px;
+  border-radius: 2px;
+  background-color: var(--hoeg-navy, #375172);
+  color: #fff;
+  font-family: 'Oswald Bold', oswald, var(--heading-font-family);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Hover: lighten the fill to #459aff, keeping white text and no underline. The
+   color/text-decoration are restated so this wins over the global
+   `main .columns a:not(.button):hover` rule (styles.css), which would otherwise
+   force navy text + an underline on hover and make the button look broken. */
+.columns p:has(> a:only-child) > a:only-child:hover,
+.columns p:has(> a:only-child) > a:only-child:focus-visible {
+  background-color: var(--hoeg-navy-hover, #459aff);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* stylelint-enable no-descending-specificity */
 
 
 /* value-props variant: cells hold stacked icon-over-text items */
@@ -170,11 +213,16 @@
   padding-top: 19px;
 }
 
-/* Right-rail spacing differs from the award column: the source sets NEWS 10px
-   above the blurb, and the SEE ALL button 20px below the blurb. Override the
-   uniform 30px rhythm for the rail cell only. */
+/* Rail title spacing — matches the live `.columncontrol .title`: 0.625rem
+   (10px) below the title, stepping up to 1.25rem (20px) at desktop (>=1040px). */
 .columns[data-ratio="65-35"] > div > div:last-child :is(h1, h2, h3, h4, h5, h6) {
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
+}
+
+@media (width >= 1040px) {
+  .columns[data-ratio="65-35"] > div > div:last-child :is(h1, h2, h3, h4, h5, h6) {
+    margin-bottom: 1.25rem;
+  }
 }
 
 .columns[data-ratio="65-35"] > div > div:last-child p {
@@ -211,6 +259,7 @@
   color: #686f7d;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .columns[data-ratio="65-35"] > div > div:last-child li a {
   display: inline-block;
   margin-bottom: 6px;

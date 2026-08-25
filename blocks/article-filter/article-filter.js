@@ -50,6 +50,15 @@ function sortByDateDesc(rows) {
   return rows.slice().sort((a, b) => (Number(b.lastModified) || 0) - (Number(a.lastModified) || 0));
 }
 
+/** Format an EDS lastModified value (epoch seconds) as M/D/YYYY, like the source. */
+function formatDate(lastModified) {
+  const secs = Number(lastModified);
+  if (!secs) return '';
+  const d = new Date(secs * 1000);
+  if (Number.isNaN(d.getTime())) return '';
+  return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
+}
+
 /** Build one article card row, mirroring the legacy DOM/classnames. */
 function buildCard(row) {
   const item = document.createElement('div');
@@ -64,9 +73,16 @@ function buildCard(row) {
     imageWrap.append(pic);
   }
 
-  // Content: title link + description.
+  // Content: date + title link + description.
   const content = document.createElement('div');
   content.className = 'article-filter__item-content';
+  const dateText = formatDate(row.lastModified);
+  if (dateText) {
+    const date = document.createElement('div');
+    date.className = 'article-filter__item-date';
+    date.textContent = dateText;
+    content.append(date);
+  }
   const titleLink = document.createElement('a');
   titleLink.href = row.path;
   const title = document.createElement('h2');
@@ -101,8 +117,11 @@ export default async function decorate(block) {
       <button type="button" class="article-filter__search-btn">SEARCH</button>
     </div>
     <div class="article-filter__list-header">
-      <h4>Results</h4>
-      <span class="article-filter__count"></span>
+      <div class="article-filter__list-header-label">
+        <h4>Results</h4>
+        <span class="article-filter__list-header-label-result article-filter__count"></span>
+      </div>
+      <hr class="article-filter__list-header-rule">
     </div>
     <div class="article-filter__list"></div>
     <div class="article-filter__more">

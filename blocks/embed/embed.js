@@ -55,7 +55,7 @@ function rebindInlineHandlers(container) {
     container.querySelectorAll(`[${attr}]`).forEach((el) => {
       const code = el.getAttribute(attr);
       el.removeAttribute(attr);
-      el.addEventListener(event, function handler(e) {
+      el.addEventListener(event, (e) => {
         // Run the original handler body with `this` bound to the element.
         // `return false` in the source suppresses default (e.g. form submit).
         // eslint-disable-next-line no-new-func

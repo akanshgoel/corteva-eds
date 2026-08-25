@@ -112,3 +112,34 @@
 .right-rail .cmp-right-rail a:hover .c-button {
   background-color: var(--right-rail-button-hover);
 }
+
+/* Standalone CTA link (e.g. "See all Crop Bulletins"). On the source these are
+   `c-button` spans, but the span is flattened during import (and hand-authored
+   drafts use a bare link), leaving a lone <a> as the only child of its <p>.
+   Restyle that link as the primary c-button so it matches the source button
+   (navy fill, white text, 2px radius) with the #459aff hover — the generic
+   `.text a` blue-link rule above is overridden here for this button case. */
+.right-rail .cmp-right-rail .text p:has(> a:only-child) {
+  margin: 0;
+}
+
+.right-rail .cmp-right-rail .text p:has(> a:only-child) > a:only-child {
+  display: inline-block;
+  padding: 1.4375rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 0.875rem;
+  border-radius: 0.125rem;
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--right-rail-button-text);
+  background-color: var(--right-rail-button);
+  transition: background-color 0.2s ease;
+}
+
+.right-rail .cmp-right-rail .text p:has(> a:only-child) > a:only-child:hover,
+.right-rail .cmp-right-rail .text p:has(> a:only-child) > a:only-child:focus-visible {
+  background-color: var(--right-rail-button-hover);
+  color: var(--right-rail-button-text);
+  text-decoration: none;
+}

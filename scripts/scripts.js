@@ -44,7 +44,7 @@ if (window.trustedTypes && window.trustedTypes.createPolicy) {
 
 const DM_BREAKPOINTS = [
   { media: '(min-width: 600px)', width: 2000 }, // desktop
-  { width: 750 },                               // mobile / fallback (no media)
+  { width: 750 }, // mobile / fallback (no media)
 ];
 
 // ---- Canonical helpers (keep in sync with dm-scene7-helpers.js) ----
