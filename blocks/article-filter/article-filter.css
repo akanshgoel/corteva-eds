@@ -11,6 +11,33 @@
   font-family: oswald, arial, sans-serif;
 }
 
+/* category tabs (articles feed: All Blogs / Guess That Pest). Hidden when the
+   feed has no categories (e.g. news). */
+.article-filter .article-filter__tabs {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--hoeg-border, #d6d9de);
+}
+
+.article-filter .article-filter__tab {
+  padding: 0 0 14px;
+  border: 0;
+  background: transparent;
+  font-family: 'Oswald Bold', oswald, arial, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--hoeg-ink);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+}
+
+.article-filter .article-filter__tab[aria-selected='true'] {
+  color: var(--hoeg-navy);
+  border-bottom-color: var(--hoeg-navy);
+}
+
 /* search row */
 .article-filter .article-filter__search {
   display: flex;

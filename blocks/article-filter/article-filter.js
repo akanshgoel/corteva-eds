@@ -89,13 +89,18 @@ export default async function decorate(block) {
   const cfg = readBlockConfig(block);
   const source = cfg.source || cfg.index || '/about/news/query-index.json';
   const pageSize = parseInt(cfg['page-size'] || cfg.pagesize, 10) || DEFAULT_PAGE_SIZE;
+  // Optional category tabs. Author may list them explicitly ("tabs" config);
+  // otherwise they're auto-derived from distinct `category` values in the index
+  // (e.g. the articles feed: "All Blogs" / "Guess That Pest"). The news feed has
+  // no category → no tabs.
+  const configuredTabs = (cfg.tabs || '').split(',').map((t) => t.trim()).filter(Boolean);
 
   block.textContent = '';
 
-  // Shell (matches legacy: search row, results header, list, load-more).
   const view = document.createElement('div');
   view.className = 'article-filter__view';
   view.innerHTML = `
+    <div class="article-filter__tabs" role="tablist" hidden></div>
     <div class="article-filter__search">
       <input type="text" class="article-filter__search-input" placeholder="Search" aria-label="Search articles">
       <button type="button" class="article-filter__search-btn">SEARCH</button>
@@ -110,6 +115,7 @@ export default async function decorate(block) {
     </div>`;
   block.append(view);
 
+  const tabsEl = view.querySelector('.article-filter__tabs');
   const listEl = view.querySelector('.article-filter__list');
   const countEl = view.querySelector('.article-filter__count');
   const moreWrap = view.querySelector('.article-filter__more');
@@ -125,14 +131,28 @@ export default async function decorate(block) {
     return;
   }
 
-  let filtered = all;
+  // Resolve tab labels: explicit config, else distinct category values.
+  let tabs = configuredTabs;
+  if (!tabs.length) {
+    const cats = [...new Set(all.map((r) => (r.category || '').trim()).filter(Boolean))];
+    if (cats.length > 1) tabs = cats;
+  }
+
+  let activeTab = tabs[0] || null;
   let shown = 0;
+  let filtered = all;
+
+  const compute = () => {
+    const q = searchInput.value.trim().toLowerCase();
+    filtered = all.filter((r) => {
+      if (activeTab && (r.category || '').trim() !== activeTab) return false;
+      if (q && !`${r.title || ''} ${r.description || ''}`.toLowerCase().includes(q)) return false;
+      return true;
+    });
+  };
 
   const render = (reset) => {
-    if (reset) {
-      listEl.textContent = '';
-      shown = 0;
-    }
+    if (reset) { listEl.textContent = ''; shown = 0; }
     const next = filtered.slice(shown, shown + pageSize);
     next.forEach((row) => listEl.append(buildCard(row)));
     shown += next.length;
@@ -140,16 +160,33 @@ export default async function decorate(block) {
     moreWrap.style.display = shown < filtered.length ? '' : 'none';
   };
 
-  const applySearch = () => {
-    const q = searchInput.value.trim().toLowerCase();
-    filtered = !q ? all : all.filter((r) => `${r.title || ''} ${r.description || ''}`.toLowerCase().includes(q));
-    render(true);
-  };
+  const refresh = () => { compute(); render(true); };
+
+  // Build tab UI when there are categories.
+  if (tabs.length > 1) {
+    tabsEl.hidden = false;
+    tabs.forEach((label) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'article-filter__tab';
+      btn.setAttribute('role', 'tab');
+      btn.textContent = label;
+      btn.setAttribute('aria-selected', label === activeTab ? 'true' : 'false');
+      btn.addEventListener('click', () => {
+        activeTab = label;
+        tabsEl.querySelectorAll('.article-filter__tab').forEach((t) => t.setAttribute('aria-selected', t === btn ? 'true' : 'false'));
+        refresh();
+      });
+      tabsEl.append(btn);
+    });
+  } else {
+    activeTab = null;
+  }
 
   moreBtn.addEventListener('click', () => render(false));
-  searchBtn.addEventListener('click', applySearch);
-  searchInput.addEventListener('keyup', (e) => { if (e.key === 'Enter') applySearch(); });
-  searchInput.addEventListener('input', () => { if (!searchInput.value.trim()) applySearch(); });
+  searchBtn.addEventListener('click', refresh);
+  searchInput.addEventListener('keyup', (e) => { if (e.key === 'Enter') refresh(); });
+  searchInput.addEventListener('input', () => { if (!searchInput.value.trim()) refresh(); });
 
-  render(true);
+  refresh();
 }
