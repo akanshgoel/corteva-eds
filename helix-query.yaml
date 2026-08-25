@@ -23,3 +23,54 @@ indices:
       lastModified:
         select: none
         value: parseTimestamp(headers["last-modified"], "ddd, DD MMM YYYY hh:mm:ss GMT")
+
+  # Articles ("The Dirt") listing feed — powers the "All Blogs" article-filter
+  # on /regional-expertise/articles. One row per article detail page under
+  # /regional-expertise/articles/, matching the news index shape.
+  articles:
+    include:
+      - '/regional-expertise/articles/**'
+    exclude:
+      - '/regional-expertise/articles'   # the listing page itself is not a feed item
+    target: /regional-expertise/articles/query-index.json
+    properties:
+      title:
+        select: head > meta[property="og:title"]
+        value: attribute(el, "content")
+      description:
+        select: head > meta[name="description"]
+        value: attribute(el, "content")
+      image:
+        select: head > meta[property="og:image"]
+        value: attribute(el, "content")
+      lastModified:
+        select: none
+        value: parseTimestamp(headers["last-modified"], "ddd, DD MMM YYYY hh:mm:ss GMT")
+
+  # Guess That Pest feed — the crop-bulletin subset shown in the "Guess That
+  # Pest" tab's article-filter. Crop-bulletin detail pages are tagged with a
+  # `guess-that-pest` page property (meta[name="article-type"]); authors set it
+  # on each bulletin page so this index picks them up. Falls back to including
+  # all article pages if the tag is absent — the block just shows more rows.
+  guess-that-pest:
+    include:
+      - '/regional-expertise/articles/**'
+    exclude:
+      - '/regional-expertise/articles'
+    target: /regional-expertise/articles/guess-that-pest-index.json
+    properties:
+      title:
+        select: head > meta[property="og:title"]
+        value: attribute(el, "content")
+      description:
+        select: head > meta[name="description"]
+        value: attribute(el, "content")
+      image:
+        select: head > meta[property="og:image"]
+        value: attribute(el, "content")
+      articleType:
+        select: head > meta[name="article-type"]
+        value: attribute(el, "content")
+      lastModified:
+        select: none
+        value: parseTimestamp(headers["last-modified"], "ddd, DD MMM YYYY hh:mm:ss GMT")
