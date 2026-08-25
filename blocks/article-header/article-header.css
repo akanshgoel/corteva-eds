@@ -17,22 +17,36 @@
 .article-header {
   --article-header-text-color: #20242d;
 
-  padding: 3.125rem 0 0;
+  /* Source: 50px top; the header also contributes ~40px below the title before
+     the article body (title wrapper's 20px margin + the block's trailing gap).
+     Reproduce the visible title→body rhythm with a 2.5rem (40px) bottom pad;
+     the article columns add the remaining 50px on top. */
+  padding: 3.125rem 0 2.5rem;
 }
 
-/* Contained column — 64rem max, side gutters (2.5rem mobile / 5rem desktop). */
+/* Contained to 1024px and centered, matching the article `columns` block so
+   the title's left edge lines up exactly with the body (PATHOGEN FACTS) at
+   every width. The section's own `main > .section` gutter (24px/32px) provides
+   the outer inset — the header must NOT add a second gutter, or the title ends
+   up indented further than the body. */
 .article-header.article-header--variant1 .article-header__section {
-  max-width: 64rem;
-  width: calc(100% - 2.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 1024px;
+  width: 100%;
   margin: 0 auto;
   color: var(--article-header-text-color);
-  align-items: center;
+  text-align: left;
 }
 
-@media (width >= 900px) {
-  .article-header.article-header--variant1 .article-header__section {
-    width: calc(100% - 5rem);
-  }
+/* Title/content span the full section width and stay left-aligned. */
+.article-header.article-header--variant1 .article-header__main__content,
+.article-header.article-header--variant1 .title,
+.article-header.article-header--variant1 .cmp-title {
+  width: 100%;
+  margin: 0;
+  text-align: left;
 }
 
 /* Page details (the date row) — bold, sits above the title. */
@@ -54,18 +68,21 @@
   gap: 0.625rem;
 }
 
-/* Title — big Oswald Bold heading. */
-.article-header .title,
-.article-header .cmp-title {
-  margin: 0;
-}
-
+/* Title — big Oswald Bold heading. Source scale: 40px/42px on mobile & tablet,
+   stepping up to 56px/60px only at desktop (>= 1040px). */
 .article-header .cmp-title__text {
   margin: 0;
   font-size: 2.5rem;
   line-height: 2.625rem;
   font-weight: 800;
   color: var(--article-header-text-color);
+}
+
+@media (width >= 1040px) {
+  .article-header .cmp-title__text {
+    font-size: 3.5rem;
+    line-height: 3.75rem;
+  }
 }
 
 /* Optional full-width banner image below the header. */

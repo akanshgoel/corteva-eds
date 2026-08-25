@@ -1,0 +1,217 @@
+/*
+ * Tabs block — Hoegemeyer.
+ *
+ * Base content tabs + the `gray-background` variant (source
+ * cmp-tabs--gray-background). Values measured from the live site: grey band
+ * #e9eff2, tabs Oswald Bold 14px/23 navy #375172, active label ink #20242d
+ * with a 5px navy underline flush to the band bottom.
+ */
+
+/* ----- base tabs ----- */
+.tabs .tabs-list {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+}
+
+.tabs .tabs-list button.tabs-tab {
+  flex: 0 0 auto;
+  margin: 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  padding: 0.5rem 0.25rem;
+  background: transparent;
+  color: var(--hoeg-navy, #375172);
+  font-family: oswald, var(--heading-font-family);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tabs .tabs-list button.tabs-tab p {
+  margin: 0;
+}
+
+.tabs .tabs-list button.tabs-tab[aria-selected='true'] {
+  color: var(--hoeg-ink, #20242d);
+  border-bottom-color: var(--hoeg-navy, #375172);
+  cursor: default;
+}
+
+.tabs .tabs-panel[aria-hidden='true'] {
+  display: none;
+}
+
+/* ----- gray-background variant (grey band + navy active underline) ----- */
+/* stylelint-disable no-descending-specificity --
+   Variant selectors intentionally follow the base rules; they target the same
+   elements with the `.gray-background` modifier. Source order by concern is
+   clearer than reordering to satisfy specificity ranking. */
+
+/* Full-bleed grey band: reset the section wrapper gutters so the band spans
+   edge to edge, matching the source. `.tabs-wrapper` is the `.section > div`
+   (full viewport width with gutters from styles.css); drop them for the
+   gray-background variant so the band reaches the edges. The list and panels
+   re-center their own content to the 1024px column below. */
+.tabs-wrapper:has(> .tabs.gray-background) {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tabs.gray-background {
+  margin: 0;
+  padding: 0;
+}
+
+/* Grey band is exactly the strip height (source: 63px = 20px top padding +
+   23px label + 20px tab bottom margin). Horizontal padding centers the tabs in
+   the 1024px column, collapsing to a 24px gutter on narrow viewports. */
+.tabs.gray-background .tabs-list {
+  align-items: flex-end;
+  gap: 0;
+  margin: 0;
+  padding: 20px max(24px, calc((100% - 1024px) / 2)) 0;
+  background-color: #e9eff2;
+}
+
+.tabs.gray-background .tabs-list button.tabs-tab {
+  position: relative;
+  margin: 0 30px 20px 0;
+  border: 0;
+  padding: 0 4px;
+  color: #375172;
+  font-size: 14px;
+  line-height: 23px;
+  text-align: left;
+  text-transform: none;
+  transition: color 0.2s;
+}
+
+.tabs.gray-background .tabs-list button.tabs-tab:hover {
+  color: #20242d;
+}
+
+.tabs.gray-background .tabs-list button.tabs-tab[aria-selected='true'] {
+  color: #20242d;
+  border: 0;
+}
+
+/* Active tab underline: 5px navy bar flush to the band bottom (source ::after
+   bottom -20px, matching the tab's 20px bottom margin). */
+.tabs.gray-background .tabs-list button.tabs-tab[aria-selected='true']::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -20px;
+  left: 0;
+  border-bottom: 5px solid #375172;
+}
+
+/* Panel region re-centered to the 1024px column (band is full-bleed). */
+.tabs.gray-background .tabs-panel {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.tabs.gray-background .tabs-panel[aria-hidden='true'] {
+  display: none;
+}
+
+/* Default content (section title + intro) above the tab strip on the
+   article-listing page. The source renders "THE DIRT" as a large 56px/60px
+   Oswald display heading with a 14px intro. Scope to a `.tabs-container` that
+   actually holds the gray-background variant so this sizing applies only on
+   these pages and does NOT alter the project's global h2/p scale. */
+.tabs-container:has(.tabs.gray-background) .default-content-wrapper h2 {
+  font-size: 56px;
+  line-height: 60px;
+  margin: 0 0 20px;
+}
+
+.tabs-container:has(.tabs.gray-background) .default-content-wrapper p {
+  font-size: 14px;
+  line-height: 26px;
+  margin: 0 0 20px;
+}
+
+@media (width < 900px) {
+  .tabs-container:has(.tabs.gray-background) .default-content-wrapper h2 {
+    font-size: 40px;
+    line-height: 44px;
+  }
+}
+
+/* Rich-text intro inside a tab panel (e.g. the "Guess That Pest" hub intro:
+   heading + subheading + paragraphs + a CTA). EDS wraps the intro's h2/h3/p as
+   direct siblings of the nested article-filter block, inside the panel's
+   `.article-filter-wrapper`. The source centers this intro copy; the
+   article-filter list below re-aligns its own content to the left. */
+.tabs.gray-background .tabs-panel .article-filter-wrapper > h2,
+.tabs.gray-background .tabs-panel .article-filter-wrapper > h3,
+.tabs.gray-background .tabs-panel .article-filter-wrapper > p {
+  text-align: center;
+}
+
+.tabs.gray-background .tabs-panel .article-filter-wrapper > h2 {
+  font-size: 44px;
+  line-height: 1.15;
+  margin: 0 0 0.75rem;
+}
+
+.tabs.gray-background .tabs-panel .article-filter-wrapper > h3 {
+  font-size: 32px;
+  font-weight: 400;
+  margin: 0 0 1.25rem;
+}
+
+.tabs.gray-background .tabs-panel .article-filter-wrapper > p {
+  max-width: 52rem;
+  margin: 0 auto 1rem;
+  font-size: 16px;
+}
+
+/* Intro links (e.g. the Facebook link) use the brand navy, not EDS link blue. */
+.tabs.gray-background .tabs-panel .article-filter-wrapper > p a {
+  color: var(--hoeg-navy, #375172);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* The final standalone CTA link ("Guess Here") renders as a primary c-button:
+   the last intro paragraph holds only that link. */
+.tabs.gray-background .tabs-panel .article-filter-wrapper > p:has(> a:only-child) {
+  margin-top: 1.5rem;
+}
+
+.tabs.gray-background .tabs-panel .article-filter-wrapper > p:has(> a:only-child) a {
+  display: inline-block;
+  padding: 18px 24px;
+  border-radius: 2px;
+  background-color: var(--hoeg-navy, #375172);
+  color: #fff;
+  font-family: 'Oswald Bold', oswald, arial, sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.tabs.gray-background .tabs-panel .article-filter-wrapper > p:has(> a:only-child) a:hover {
+  background-color: var(--hoeg-navy-hover, #459aff);
+}
+
+/* Space above the search box: the article-filter follows the intro copy. */
+.tabs.gray-background .tabs-panel .article-filter-wrapper > .article-filter {
+  margin-top: 2.5rem;
+}
+
+/* stylelint-enable no-descending-specificity */
