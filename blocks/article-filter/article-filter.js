@@ -64,11 +64,15 @@ function buildCard(row) {
   const item = document.createElement('div');
   item.className = 'article-filter__item';
 
-  // Image (154×154 square, cover) — links to the article.
+  // Image (154×154 square, cover) — links to the article. EDS fills `image`
+  // with the site default-meta-image placeholder when a page has no real image;
+  // treat that as "no image" so the card renders text-only (matching the source
+  // site) and the empty image column is collapsed via CSS (:empty).
+  const hasImage = row.image && !/default-meta-image/.test(row.image);
   const imageWrap = document.createElement('a');
   imageWrap.className = 'article-filter__item-image';
   imageWrap.href = row.path;
-  if (row.image) {
+  if (hasImage) {
     const pic = createOptimizedPicture(row.image, row.title || '', false, [{ width: '300' }]);
     imageWrap.append(pic);
   }
