@@ -26,7 +26,7 @@
      - Desktop: full trail with "/" separators between crumbs. */
 
 :root {
-  --breadcrumb-bg: #375172;
+  --breadcrumb-bg: var(--color-brand-primary);
   --breadcrumb-color: #fff;
 }
 
@@ -72,7 +72,7 @@ main > .section:has(.breadcrumb) {
    =================================================================== */
 .breadcrumb .cmp-breadcrumb {
   display: flex;
-  font-family: oswald, var(--body-font-family), sans-serif;
+  font-family: var(--font-body), var(--body-font-family), sans-serif;
 }
 
 .breadcrumb .cmp-breadcrumb__list {

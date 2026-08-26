@@ -9,13 +9,13 @@
  * Reproduces the source AEM "articleheader" (article-header--variant1) 1:1.
  * Values are the resolved computed styles from https://www.hoegemeyer.com/:
  *   - header : 3.125rem top padding, contained to 64rem, side gutters
- *   - title  : Oswald Bold, 40px / 42px, weight 800, color #20242d
+ *   - title  : Oswald Bold, 40px / 42px, weight 800, color var(--color-ink)
  *   - date   : bold, 14px, same near-black color, shown above the title
  *   - image  : full-width banner below the header, object-fit: cover
  */
 
 .article-header {
-  --article-header-text-color: #20242d;
+  --article-header-text-color: var(--color-ink);
 
   /* Source: 50px top; the header also contributes ~40px below the title before
      the article body (title wrapper's 20px margin + the block's trailing gap).

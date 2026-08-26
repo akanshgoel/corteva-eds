@@ -1,8 +1,8 @@
 /* Button block — matches hoegemeyer.com cmp-button variations.
    Design tokens extracted from source (computed styles):
-   - Brand blue:        var(--hoeg-navy)      (#375172)
-   - Hover accent blue: var(--hoeg-navy-hover) (#459AFF)
-   - Secondary hover bg:var(--hoeg-surface)   (#F5F6F8)
+   - Brand blue:        var(--hoeg-navy)      (var(--color-brand-primary))
+   - Hover accent blue: var(--hoeg-navy-hover) (var(--color-brand-primary-hover))
+   - Secondary hover bg:var(--hoeg-surface)   (var(--color-surface))
    - Type: Oswald Bold, 14px / 14px line-height, weight 700
    - Padding: 23px 24px, radius 2px, height 60px */
 
@@ -22,7 +22,7 @@
   padding: 23px 24px;
   border: 0;
   border-radius: 2px;
-  font-family: oswald, 'Helvetica Now Text Bold', arial, sans-serif;
+  font-family: var(--font-body), 'Helvetica Now Text Bold', arial, sans-serif;
   font-size: 14px;
   font-weight: 700;
   line-height: 14px;

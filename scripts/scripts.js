@@ -13,6 +13,7 @@ import {
   readBlockConfig,
   toClassName,
   toCamelCase,
+  getMetadata,
 } from './aem.js';
 
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
@@ -416,9 +417,31 @@ export function decorateMain(main) {
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
  */
+/**
+ * Multi-brand theming (see THEMING.md + the multi-brand-theming skill).
+ * A brand's authoring sets a `theme` metadata value (default: hoegemeyer). We
+ * add a `theme-<brand>` class to <body> so the brand's token overrides in
+ * styles/themes/<brand>.css apply, and load that theme CSS. Structure (sizes,
+ * spacing, layout) is shared; only color/font tokens differ per brand.
+ * Runs in the eager phase, before `appear`, so the theme is set before paint.
+ */
+const DEFAULT_THEME = 'hoegemeyer';
+
+function applyBrandTheme() {
+  const brand = toClassName(getMetadata('theme') || DEFAULT_THEME);
+  if (!brand) return;
+  document.body.classList.add(`theme-${brand}`);
+  // The default brand's tokens are the :root defaults, so no extra CSS to load;
+  // other brands ship a theme file that overrides them.
+  if (brand !== DEFAULT_THEME) {
+    loadCSS(`${window.hlx.codeBasePath}/styles/themes/${brand}.css`);
+  }
+}
+
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
+  applyBrandTheme();
   // News detail pages share the article layout (columns 65-35) but left-align
   // their CTAs, whereas article pages center them. Tag the body by path so CSS
   // can distinguish the two (the block markup is otherwise identical). Match

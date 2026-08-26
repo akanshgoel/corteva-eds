@@ -11,18 +11,18 @@
      - main image aspect 16/9 (mobile) → 21/9 (>=1040)
      - dark overlay rgba(0,0,0,.45) on poster
      - play button 5rem (mobile) → 7.5rem (>=1040); white disc + ring shadow;
-       navy (#375172) triangle
+       navy (var(--color-brand-primary)) triangle
      - title/text: mobile block below video → overlaid on video (>=1040)
      - prev/next arrows hidden until >=1040 (multi-slide only)
      - content max-width 64rem (1024px), gutter calc(100% - 2.5rem) → 5rem
      - bottom thumbnail nav: 16/9 thumbs, width 11.125rem → 14.25rem;
-       title 14→16px #20242d bold; duration #375172; selected top accent bar. */
+       title 14→16px var(--color-ink) bold; duration var(--color-brand-primary); selected top accent bar. */
 
 :root {
-  --carousel-navy: #375172;
+  --carousel-navy: var(--color-brand-primary);
   --carousel-overlay: rgb(0 0 0 / 45%);
   --carousel-ring: rgb(255 255 255 / 70%);
-  --carousel-thumb-title: #20242d;
+  --carousel-thumb-title: var(--color-ink);
 }
 
 /* Full-bleed by default: the block's section wrapper must not add gutters.

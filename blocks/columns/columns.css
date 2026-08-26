@@ -173,9 +173,9 @@
   display: inline-block;
   padding: 23px 24px;
   border-radius: 2px;
-  background-color: var(--hoeg-navy, #375172);
+  background-color: var(--hoeg-navy, var(--color-brand-primary));
   color: #fff;
-  font-family: 'Oswald Bold', oswald, var(--heading-font-family);
+  font-family: var(--font-heading), var(--heading-font-family);
   font-size: 14px;
   font-weight: 700;
   line-height: 14px;
@@ -184,13 +184,13 @@
   transition: background-color 0.2s ease;
 }
 
-/* Hover: lighten the fill to #459aff, keeping white text and no underline. The
+/* Hover: lighten the fill to var(--color-brand-primary-hover), keeping white text and no underline. The
    color/text-decoration are restated so this wins over the global
    `main .columns a:not(.button):hover` rule (styles.css), which would otherwise
    force navy text + an underline on hover and make the button look broken. */
 .columns p:has(> a:only-child) > a:only-child:hover,
 .columns p:has(> a:only-child) > a:only-child:focus-visible {
-  background-color: var(--hoeg-navy-hover, #459aff);
+  background-color: var(--hoeg-navy-hover, var(--color-brand-primary-hover));
   color: #fff;
   text-decoration: none;
 }
@@ -224,7 +224,7 @@ body.tpl-news .columns p:has(> a:only-child) {
 }
 
 /* Right-rail top rule. The source right rail opens with a bold navy separator
-   (a 5px #375172 bar, full rail width, ~19px above the heading). That <hr> does
+   (a 5px var(--color-brand-primary) bar, full rail width, ~19px above the heading). That <hr> does
    not survive the block -> markdown round-trip, so we restore it as a top
    border on the rail cell — the last cell of the 65-35 control.
    Scoped with :not(:has(picture)) so it applies ONLY to a genuine NEWS/RELATED
@@ -232,7 +232,7 @@ body.tpl-news .columns p:has(> a:only-child) {
    History) instead pair body copy with an IMAGE in the last cell; those must
    NOT get the navy bar, which the source never shows above the image. */
 .columns[data-ratio="65-35"] > div > div:last-child:not(:has(picture)) {
-  border-top: 5px solid var(--hoeg-navy, #375172);
+  border-top: 5px solid var(--color-brand-primary);
   padding-top: 19px;
 }
 
@@ -272,14 +272,14 @@ body.tpl-news .columns p:has(> a:only-child) {
 .columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) li {
   margin: 0;
   padding: 20px 0;
-  border-bottom: 1px solid #95a0b4;
+  border-bottom: 1px solid var(--color-border-strong);
 
   /* Date line: Oswald bold (700), grey (the title link overrides to navy). */
-  font-family: oswald, var(--body-font-family);
+  font-family: var(--font-body), var(--body-font-family);
   font-size: 16px;
   font-weight: 700;
   line-height: 20px;
-  color: #686f7d;
+  color: var(--color-muted);
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
@@ -289,11 +289,11 @@ body.tpl-news .columns p:has(> a:only-child) {
 
   /* Title: the site heading font (Oswald Bold), navy, 18px. Weight 700 keeps it
      within the Oswald Bold face's declared 700–800 range. */
-  font-family: 'Oswald Bold', oswald, var(--heading-font-family);
+  font-family: var(--font-heading), var(--heading-font-family);
   font-size: 18px;
   line-height: 24px;
   font-weight: 700;
-  color: var(--hoeg-navy, #375172);
+  color: var(--hoeg-navy, var(--color-brand-primary));
   text-decoration: none;
 }
 
@@ -302,20 +302,20 @@ body.tpl-news .columns p:has(> a:only-child) {
 }
 
 /* Data tables in the article body (e.g. the Enlist-vs-dicamba comparison).
-   Matched to the source: full column width, collapsed 1px #686f7d borders,
+   Matched to the source: full column width, collapsed 1px var(--color-muted) borders,
    light-blue-grey header, Oswald 14px, 15px/5px/15px/20px cell padding, cells
    top-aligned. */
 .columns table {
   width: 100%;
   border-collapse: collapse;
   margin: 0 0 30px;
-  font-family: oswald, var(--body-font-family);
+  font-family: var(--font-body), var(--body-font-family);
   font-size: 14px;
 }
 
 .columns table th,
 .columns table td {
-  border: 1px solid #686f7d;
+  border: 1px solid var(--color-muted);
   padding: 15px 5px 15px 20px;
   text-align: left;
   vertical-align: top;
@@ -323,7 +323,7 @@ body.tpl-news .columns p:has(> a:only-child) {
 }
 
 .columns table th {
-  background: #e9eff2;
+  background: var(--color-surface-alt);
   font-weight: 700;
 }
 

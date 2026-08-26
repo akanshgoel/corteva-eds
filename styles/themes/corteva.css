@@ -1,0 +1,32 @@
+/*
+ * Corteva brand theme — proof of the multi-brand token system.
+ *
+ * Same blocks as Hoegemeyer; only the color + font tokens differ. Every place
+ * the blocks used Hoegemeyer navy now renders in Corteva red — with NO block
+ * edits. Structure (sizes, spacing, layout) is inherited unchanged.
+ *
+ * Loaded by scripts.js when a page's `theme` metadata is `corteva`
+ * (adds body.theme-corteva). See THEMING.md and the multi-brand-theming skill.
+ *
+ * NOTE: values below are placeholder Corteva-style reds for demonstration —
+ * swap for the official Corteva brand palette/fonts when finalized.
+ */
+
+body.theme-corteva {
+  /* brand colors — navy → red family */
+  --color-brand-primary: #e11836;        /* Corteva red (placeholder) */
+  --color-brand-primary-hover: #ff4d63;  /* lighter red accent */
+  --color-brand-primary-dark: #8f0f22;   /* deep red */
+  --color-ink: #1a1a1a;                  /* near-black body text */
+  --color-surface: #fbf3f3;              /* light warm surface */
+  --color-surface-alt: #f6e4e6;          /* alt red-tinted panel */
+  --color-border: #e0d4d5;
+  --color-border-strong: #b48f93;
+  --color-muted: #7d686a;
+  --color-on-brand: #fff;
+
+  /* brand fonts — swap for Corteva's typefaces when available. Falls back to
+     the shared stack so it renders even before brand @font-face are added. */
+  --font-heading: 'Oswald Bold', oswald, arial, sans-serif;
+  --font-body: oswald, arial, sans-serif;
+}

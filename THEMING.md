@@ -20,6 +20,28 @@ identical across brands.
   value; `scripts.js` adds `<body class="theme-<brand>">` and lazy-loads
   `styles/themes/<brand>.css`. (Not hostname-based, so previews work.)
 
+## How the `theme` value reaches the page
+
+`scripts.js` reads it with `getMetadata('theme')`, which returns the content of a
+`<meta name="theme">` tag in the page `<head>`. EDS produces that meta tag from
+**page metadata**, so a brand sets it in its authoring (NOT in this repo):
+
+- **Recommended: bulk `metadata.xlsx`** at the root of the brand's content source
+  (DA mountpoint) — one rule applies the theme to every page:
+
+  | URL  | theme    |
+  |------|----------|
+  | `/**` | `corteva` |
+
+  EDS injects `<meta name="theme" content="corteva">` into every page of that
+  site. Set once per brand; no per-page work. `metadata.xlsx` lives in the
+  brand's content bus, so each brand carries its own value in isolation.
+- Alternatively, a per-page **Metadata block** row (`Theme | corteva`) sets it
+  for a single page (the importer can auto-inject this per brand).
+
+The default brand (hoegemeyer) needs **no** metadata — the resolver falls back to
+`hoegemeyer` and the `:root` defaults, so existing pages are unaffected.
+
 ## The token contract
 
 | Varies per brand (tokenized) | Shared (literal, never duplicated) |

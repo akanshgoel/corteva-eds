@@ -10,18 +10,18 @@
  * Reproduces the source AEM "rightrail" (.cmp-right-rail) 1:1, including the
  * styling it applies to the components nested inside it. Values are resolved
  * computed styles from https://www.hoegemeyer.com/:
- *   - container : max 64rem, near-black text (#20242d)
- *   - separator : bold 5px #375172 rule, 1.25rem padding-bottom (right-rail ctx)
+ *   - container : max 64rem, near-black text (var(--color-ink))
+ *   - separator : bold 5px var(--color-brand-primary) rule, 1.25rem padding-bottom (right-rail ctx)
  *   - title     : Oswald Bold h4, 20px / 28px, weight 800
  *   - text      : left aligned, 1.875rem bottom margin, blue links
- *   - c-button  : primary blue (#375172) CTA, white text, 2px radius
+ *   - c-button  : primary blue (var(--color-brand-primary)) CTA, white text, 2px radius
  */
 
 .right-rail {
-  --right-rail-text: #20242d;
-  --right-rail-link: #375172;
-  --right-rail-button: #375172;
-  --right-rail-button-hover: #459aff;
+  --right-rail-text: var(--color-ink);
+  --right-rail-link: var(--color-brand-primary);
+  --right-rail-button: var(--color-brand-primary);
+  --right-rail-button-hover: var(--color-brand-primary-hover);
   --right-rail-button-text: #fff;
 }
 
@@ -117,7 +117,7 @@
    `c-button` spans, but the span is flattened during import (and hand-authored
    drafts use a bare link), leaving a lone <a> as the only child of its <p>.
    Restyle that link as the primary c-button so it matches the source button
-   (navy fill, white text, 2px radius) with the #459aff hover — the generic
+   (navy fill, white text, 2px radius) with the var(--color-brand-primary-hover) hover — the generic
    `.text a` blue-link rule above is overridden here for this button case. */
 .right-rail .cmp-right-rail .text p:has(> a:only-child) {
   margin: 0;

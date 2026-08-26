@@ -8,14 +8,14 @@
  *
  * Reproduces the source AEM Core "separator" component 1:1. Values are the
  * resolved computed styles from https://www.hoegemeyer.com/ (the theme's
- * --color-separator-bold resolves to #375172). Selectors mirror the source's
+ * --color-separator-bold resolves to var(--color-brand-primary)). Selectors mirror the source's
  * cmp-separator* class names. Only the two styles used on the source site are
  * implemented: the default rule and the bold rule.
  */
 
 /* Theme tokens (from the site's "therightseed" theme). */
 .separator {
-  --color-separator-bold: #375172;
+  --color-separator-bold: var(--color-brand-primary);
 }
 
 /* Inner wrapper — the source's <div class="cmp-separator">. */

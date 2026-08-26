@@ -19,11 +19,38 @@
   --link-color: #3b63fb;
   --link-hover-color: #1d3ecf;
 
-  /* brand colors (Hoegemeyer) — shared across blocks */
-  --hoeg-navy: #375172;
-  --hoeg-navy-hover: #459aff;
-  --hoeg-surface: #f5f6f8;
-  --hoeg-ink: #20242d;
+  /* ------------------------------------------------------------------ *
+   * BRAND TOKENS — the ONLY values that change per brand (see THEMING.md
+   * and the multi-brand-theming skill). Colors + font families only.
+   * Defaults below are Hoegemeyer's; a brand theme in styles/themes/<brand>.css
+   * overrides these under a `.theme-<brand>` body class. Everything structural
+   * (sizes, spacing, layout) stays literal in the blocks and is NOT tokenized.
+   * ------------------------------------------------------------------ */
+
+  /* brand colors */
+  --color-brand-primary: #375172;         /* primary brand color (navy) */
+  --color-brand-primary-hover: #459aff;   /* hover/active accent */
+  --color-brand-primary-dark: #1c2b4a;    /* darker brand shade */
+  --color-ink: #20242d;                   /* primary body/heading text */
+  --color-surface: #f5f6f8;               /* light section background */
+  --color-surface-alt: #e9eff2;           /* alt panel background (blue-grey) */
+  --color-border: #d6d9de;                /* default hairline borders */
+  --color-border-strong: #95a0b4;         /* stronger form/table borders */
+  --color-muted: #686f7d;                 /* muted/secondary text */
+  --color-on-brand: #fff;                 /* text/icons on brand backgrounds */
+
+  /* brand fonts (families only — sizes are structural, defined below) */
+  --font-heading: 'Oswald Bold', oswald, arial, sans-serif;  /* bold display */
+  --font-body: oswald, arial, sans-serif;                    /* body text */
+
+  /* Back-compat aliases — existing --hoeg-* references resolve to the semantic
+     tokens above. New/retokenized CSS should use the --color-*/--font-* names;
+     these aliases keep any un-migrated reference working during the transition. */
+  --hoeg-navy: var(--color-brand-primary);
+  --hoeg-navy-hover: var(--color-brand-primary-hover);
+  --hoeg-surface: var(--color-surface);
+  --hoeg-ink: var(--color-ink);
+  --hoeg-border: var(--color-border);
 
   /* fonts */
   --body-font-family: roboto, roboto-fallback, sans-serif;
@@ -238,8 +265,8 @@ button.button:disabled {
 
 a.button.primary,
 button.button.primary {
-  border-color: #375172;
-  background-color: #375172;
+  border-color: var(--color-brand-primary);
+  background-color: var(--color-brand-primary);
   color: var(--background-color);
 }
 
@@ -483,7 +510,7 @@ main .default-content-wrapper :is(h1, h2, h3, h4, h5, h6),
 main .columns :is(h1, h2, h3, h4, h5, h6) {
   /* Real Oswald Bold family — the source renders every content heading at
      weight 800 (measured on live: h1 40, h2 32, h3 24, h4 20, all 800). */
-  font-family: 'Oswald Bold', oswald, var(--heading-font-family);
+  font-family: var(--font-heading), var(--heading-font-family);
   font-weight: 800;
   color: var(--hoeg-ink);
 }
@@ -496,7 +523,7 @@ main .columns li {
      list items — the source renders body <li> at the same 16px/24px as <p>.
      (The RELATED ARTICLES rail <li> is styled separately and more specifically,
      so this doesn't affect it.) */
-  font-family: oswald, var(--body-font-family);
+  font-family: var(--font-body), var(--body-font-family);
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -639,9 +666,9 @@ main .default-content-wrapper a.button.primary {
   border: 0;
   border-radius: 2px;
   padding: 23px 24px;
-  background-color: var(--hoeg-navy);
-  color: #fff;
-  font-family: 'Oswald Bold', oswald, sans-serif;
+  background-color: var(--color-brand-primary);
+  color: var(--color-on-brand);
+  font-family: var(--font-heading), sans-serif;
   font-weight: 700;
   font-size: 14px;
   line-height: 14px;
@@ -652,7 +679,7 @@ main .columns a.button.primary:hover,
 main .columns a.button.primary:focus-visible,
 main .default-content-wrapper a.button.primary:hover,
 main .default-content-wrapper a.button.primary:focus-visible {
-  background-color: var(--hoeg-navy-hover);
+  background-color: var(--color-brand-primary-hover);
   border: 0;
-  color: #fff;
+  color: var(--color-on-brand);
 }

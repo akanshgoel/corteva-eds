@@ -95,8 +95,20 @@ grep -rn "#375172" blocks/*/*.css styles/*.css
 1. `styles/themes/corteva.css` — override color tokens (blue→red) + `--font-*`.
 2. Add corteva's fonts to `fonts/`.
 3. Wire corteva's content source (`fstab.yaml` / DA mountpoint) and production
-   domain; set its `theme=corteva` config.
-4. **Zero block edits** — corteva inherits all sizes/spacing/layout; only the
+   domain.
+4. **Set the `theme` metadata** so `getMetadata('theme')` returns `corteva`.
+   `scripts.js` reads a `<meta name="theme">` tag, which EDS produces from page
+   metadata. Recommended: a **`metadata.xlsx`** at the root of corteva's content
+   source (NOT this repo) with one rule that themes every page:
+
+   | URL  | theme    |
+   |------|----------|
+   | `/**` | `corteva` |
+
+   (Or a per-page Metadata-block `Theme | corteva` row; the importer can
+   auto-inject it per brand.) The default brand (hoegemeyer) needs no metadata —
+   the resolver falls back to `hoegemeyer` + the `:root` defaults.
+5. **Zero block edits** — corteva inherits all sizes/spacing/layout; only the
    ~30 token values differ.
 
 ## Build order (recommended)

@@ -3,7 +3,7 @@
  *
  * Base content tabs + the `gray-background` variant (source
  * cmp-tabs--gray-background). Values measured from the live site: grey band
- * #e9eff2, tabs Oswald Bold 14px/23 navy #375172, active label ink #20242d
+ * var(--color-surface-alt), tabs Oswald Bold 14px/23 navy var(--color-brand-primary), active label ink var(--color-ink)
  * with a 5px navy underline flush to the band bottom.
  */
 
@@ -26,8 +26,8 @@
   border-radius: 0;
   padding: 0.5rem 0.25rem;
   background: transparent;
-  color: var(--hoeg-navy, #375172);
-  font-family: oswald, var(--heading-font-family);
+  color: var(--hoeg-navy, var(--color-brand-primary));
+  font-family: var(--font-body), var(--heading-font-family);
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.4;
@@ -40,8 +40,8 @@
 }
 
 .tabs .tabs-list button.tabs-tab[aria-selected='true'] {
-  color: var(--hoeg-ink, #20242d);
-  border-bottom-color: var(--hoeg-navy, #375172);
+  color: var(--hoeg-ink, var(--color-ink));
+  border-bottom-color: var(--hoeg-navy, var(--color-brand-primary));
   cursor: default;
 }
 
@@ -79,7 +79,7 @@
   gap: 0;
   margin: 0;
   padding: 20px max(24px, calc((100% - 1024px) / 2)) 0;
-  background-color: #e9eff2;
+  background-color: var(--color-surface-alt);
 }
 
 .tabs.gray-background .tabs-list button.tabs-tab {
@@ -87,7 +87,7 @@
   margin: 0 30px 20px 0;
   border: 0;
   padding: 0 4px;
-  color: #375172;
+  color: var(--color-brand-primary);
   font-size: 14px;
   line-height: 23px;
   text-align: left;
@@ -96,11 +96,11 @@
 }
 
 .tabs.gray-background .tabs-list button.tabs-tab:hover {
-  color: #20242d;
+  color: var(--color-ink);
 }
 
 .tabs.gray-background .tabs-list button.tabs-tab[aria-selected='true'] {
-  color: #20242d;
+  color: var(--color-ink);
   border: 0;
 }
 
@@ -112,7 +112,7 @@
   right: 0;
   bottom: -20px;
   left: 0;
-  border-bottom: 5px solid #375172;
+  border-bottom: 5px solid var(--color-brand-primary);
 }
 
 /* Panel region re-centered to the 1024px column (band is full-bleed). */
@@ -181,7 +181,7 @@
 
 /* Intro links (e.g. the Facebook link) use the brand navy, not EDS link blue. */
 .tabs.gray-background .tabs-panel .article-filter-wrapper > p a {
-  color: var(--hoeg-navy, #375172);
+  color: var(--hoeg-navy, var(--color-brand-primary));
   font-weight: 700;
   text-decoration: none;
 }
@@ -196,9 +196,9 @@
   display: inline-block;
   padding: 18px 24px;
   border-radius: 2px;
-  background-color: var(--hoeg-navy, #375172);
+  background-color: var(--hoeg-navy, var(--color-brand-primary));
   color: #fff;
-  font-family: 'Oswald Bold', oswald, arial, sans-serif;
+  font-family: var(--font-heading), arial, sans-serif;
   font-weight: 700;
   font-size: 16px;
   line-height: 1;
@@ -206,7 +206,7 @@
 }
 
 .tabs.gray-background .tabs-panel .article-filter-wrapper > p:has(> a:only-child) a:hover {
-  background-color: var(--hoeg-navy-hover, #459aff);
+  background-color: var(--hoeg-navy-hover, var(--color-brand-primary-hover));
 }
 
 /* Space above the search box: the article-filter follows the intro copy. */

@@ -6,7 +6,7 @@
    Design tokens extracted from source (computed styles):
    - Title font: Oswald Bold, 800
    - hero title: 40px mobile / 56px desktop; banner title 44px; card title 20px; card3 32px
-   - hero-l1/card/card7 body text: #20242d (--hoeg-ink); hero-l2/banner/card3: #fff
+   - hero-l1/card/card7 body text: var(--color-ink) (--hoeg-ink); hero-l2/banner/card3: #fff
    - Heights: hero-l1/l2 = 400px; slim = 250px; banner = 500px; cards ≈ 328px wide
    - CTA link: brand navy (--hoeg-navy), Oswald Bold 14px
    Colours reference the global brand tokens defined in styles/styles.css.
@@ -20,20 +20,20 @@
 
 .teaser.block .teaser-title {
   margin: 0;
-  font-family: 'Oswald Bold', oswald, arial, sans-serif;
+  font-family: var(--font-heading), arial, sans-serif;
   font-weight: 800;
   line-height: 1.1;
 }
 
 .teaser.block .teaser-description {
   margin: 0;
-  font-family: oswald, arial, sans-serif;
+  font-family: var(--font-body), arial, sans-serif;
   font-weight: 400;
   line-height: 1.55;
 }
 
 .teaser.block .teaser-cta {
-  font-family: 'Oswald Bold', oswald, arial, sans-serif;
+  font-family: var(--font-heading), arial, sans-serif;
   font-weight: 700;
   font-size: 14px;
   line-height: 23px;

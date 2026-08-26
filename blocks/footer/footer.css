@@ -4,7 +4,7 @@
 :root {
   --footer-top-bg: #262626;
   --footer-bottom-bg: #000;
-  --footer-muted: #95a0b4;
+  --footer-muted: var(--color-border-strong);
   --footer-border: #464a54;
 }
 
@@ -12,7 +12,7 @@
    BASE — MOBILE (< 768px): sections stack, content full-width padded
    =================================================================== */
 footer .footer-inner {
-  font-family: oswald, var(--body-font-family), sans-serif;
+  font-family: var(--font-body), var(--body-font-family), sans-serif;
 }
 
 footer .footer-top,
@@ -161,7 +161,7 @@ footer .footer-copyright {
   line-height: 1.5;
 }
 
-/* back-to-top button. Matches the source: a 35px ink (#20242d) circle at
+/* back-to-top button. Matches the source: a 35px ink (var(--color-ink)) circle at
    right:90px / bottom:15px, hidden (opacity 0, non-interactive) at the top and
    fading in once the page is scrolled (JS toggles `.is-visible`). */
 footer .footer-back-to-top {
@@ -172,7 +172,7 @@ footer .footer-back-to-top {
   height: 35px;
   border: 0;
   border-radius: 50%;
-  background: #20242d;
+  background: var(--color-ink);
   color: #fff;
   cursor: pointer;
   z-index: 15;

@@ -6,7 +6,7 @@
    The nav switches from the hamburger drawer to the full horizontal nav at 1040px. */
 
 :root {
-  --hoeg-navy: #375172;
+  --hoeg-navy: var(--color-brand-primary);
   --hoeg-util-color: #000;
   --hoeg-nav-height: 68px;
   --hoeg-util-height: 49px;
@@ -56,7 +56,7 @@ header nav .nav-tools ul li {
 }
 
 header nav .nav-tools a {
-  font-family: oswald, var(--body-font-family), sans-serif;
+  font-family: var(--font-body), var(--body-font-family), sans-serif;
   font-size: 13px;
   font-weight: 400;
   color: var(--hoeg-util-color);
@@ -174,7 +174,7 @@ header nav .nav-search-form input {
   padding: 0;
   border: 0;
   background: #fff;
-  color: #686f7d;
+  color: var(--color-muted);
   font-size: 14px;
   opacity: 0;
   transition: width 0.4s ease-in-out, opacity 0.4s, padding 0.4s;
@@ -235,8 +235,8 @@ header nav .nav-search-submit::before {
 
 /* open state: submit button becomes the blue action button with white icon */
 header nav .nav-search.is-open .nav-search-submit {
-  background: #459aff;
-  border-color: #459aff;
+  background: var(--color-brand-primary-hover);
+  border-color: var(--color-brand-primary-hover);
   border-radius: 0;
 }
 
@@ -323,7 +323,7 @@ header nav .nav-sections .nav-drop > ul > li > a {
   display: inline-block;
   margin: 0 20px;
   padding: 12px 0;
-  font-family: oswald, var(--body-font-family), sans-serif;
+  font-family: var(--font-body), var(--body-font-family), sans-serif;
   font-size: 15px;
   font-weight: 500;
   color: var(--hoeg-navy);
@@ -332,7 +332,7 @@ header nav .nav-sections .nav-drop > ul > li > a {
 }
 
 header nav .nav-sections .nav-drop > ul > li > a:hover {
-  color: #1f3350;
+  color: var(--color-brand-primary-dark);
 }
 
 /* Back button at the top of each slide-in sub-panel */

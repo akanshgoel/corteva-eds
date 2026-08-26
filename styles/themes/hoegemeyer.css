@@ -1,0 +1,30 @@
+/*
+ * Hoegemeyer brand theme — the reference/default brand.
+ *
+ * These values are ALSO the :root defaults in styles/styles.css, so the site
+ * themes correctly even if this file never loads (scripts.js skips loading the
+ * default brand's theme CSS for performance). This file documents the full brand
+ * token set and lets `theme-hoegemeyer` be applied explicitly if ever needed.
+ *
+ * A brand theme overrides ONLY color + font tokens. Structure (sizes, spacing,
+ * layout) is shared and defined once in the blocks — never here.
+ * See THEMING.md and the multi-brand-theming skill.
+ */
+
+body.theme-hoegemeyer {
+  /* brand colors */
+  --color-brand-primary: #375172;
+  --color-brand-primary-hover: #459aff;
+  --color-brand-primary-dark: #1c2b4a;
+  --color-ink: #20242d;
+  --color-surface: #f5f6f8;
+  --color-surface-alt: #e9eff2;
+  --color-border: #d6d9de;
+  --color-border-strong: #95a0b4;
+  --color-muted: #686f7d;
+  --color-on-brand: #fff;
+
+  /* brand fonts (families only) */
+  --font-heading: 'Oswald Bold', oswald, arial, sans-serif;
+  --font-body: oswald, arial, sans-serif;
+}
