@@ -142,6 +142,15 @@
   text-align: center;
 }
 
+/* Exception: the text+image 50-50 layout (e.g. the 2026 seed guide — intro copy
+   and CTA on the left, a callout image on the right) left-aligns its CTA to
+   match the source. Scoped with :has(.columns-img-col) so it ONLY applies to
+   50-50 blocks that pair a text cell with an image cell — NOT text-only 50-50
+   blocks such as the yield page's centered CORN | SOYBEANS buttons. */
+.columns[data-ratio="50-50"]:has(.columns-img-col) .button-wrapper {
+  text-align: left;
+}
+
 /* stylelint-disable no-descending-specificity --
    The CTA-button rules below intentionally follow the rail list-link rules;
    they target a distinct element (a standalone-link paragraph, i.e. a button)
@@ -218,13 +227,11 @@ body.tpl-news .columns p:has(> a:only-child) {
    (a 5px #375172 bar, full rail width, ~19px above the heading). That <hr> does
    not survive the block -> markdown round-trip, so we restore it as a top
    border on the rail cell — the last cell of the 65-35 control.
-
-   NOTE: `:not(.columns-img-col)` excludes the traits pages' 65-35 intro, whose
-   last cell is a picture-only logo column (marked `.columns-img-col` by the
-   block JS). That layout must NOT get the article rail's navy bar, title
-   spacing, or list styling — only the article/news right rail (a text cell)
-   should. Article rails are never image-only, so this guard is safe. */
-.columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) {
+   Scoped with :not(:has(picture)) so it applies ONLY to a genuine NEWS/RELATED
+   rail (hr + title + list or blurb/button). Some 65-35 pages (e.g. About >
+   History) instead pair body copy with an IMAGE in the last cell; those must
+   NOT get the navy bar, which the source never shows above the image. */
+.columns[data-ratio="65-35"] > div > div:last-child:not(:has(picture)) {
   border-top: 5px solid var(--hoeg-navy, #375172);
   padding-top: 19px;
 }
