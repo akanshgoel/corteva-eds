@@ -2,10 +2,10 @@
    source .cmp-tabs jumpto variants. All values measured from live computed
    styles on hoegemeyer.com:
      labels/title  oswald 700, 14px / 23px line-height
-     link color    navy  #375172 (rgb 55 81 114)
-     active label  ink   #20242d (rgb 32 36 45)
+     link color    navy  var(--color-brand-primary) (rgb 55 81 114)
+     active label  ink   var(--color-ink) (rgb 32 36 45)
      guide line    5px solid #e1e5ea (rgb 225 229 234)
-     active mark   5px solid #375172 (navy)
+     active mark   5px solid var(--color-brand-primary) (navy)
    Two variants: .horizontal (gray bottom guide, navy underline on active) and
    .vertical (gray right guide, navy right-edge bar on active). Mobile collapses
    to the "Jump to:" dropdown. */
@@ -29,7 +29,7 @@
 
 /* Shared title + link typography (source: oswald 14/23 700). */
 .jumpto-tabs .jumpto-tabs-title {
-  color: #20242d;
+  color: var(--color-ink);
   font-size: 14px;
   font-weight: 700;
   line-height: 23px;
@@ -38,7 +38,7 @@
 
 .jumpto-tabs .jumpto-tabs-tab {
   position: relative;
-  color: #375172;
+  color: var(--color-brand-primary);
   font-size: 14px;
   font-weight: 700;
   line-height: 23px;
@@ -49,7 +49,7 @@
 
 .jumpto-tabs .jumpto-tabs-tab:hover,
 .jumpto-tabs .jumpto-tabs-tab-active {
-  color: #20242d;
+  color: var(--color-ink);
 }
 
 /* ---------------------------------------------------------------------------
@@ -124,7 +124,7 @@
   right: 0;
   bottom: -20px;
   left: 0;
-  border-bottom: 5px solid #375172;
+  border-bottom: 5px solid var(--color-brand-primary);
 }
 
 /* ---------------------------------------------------------------------------
@@ -163,7 +163,7 @@
   top: 0;
   right: -5px;
   bottom: 0;
-  border-right: 5px solid #375172;
+  border-right: 5px solid var(--color-brand-primary);
 }
 
 /* ---------------------------------------------------------------------------
@@ -178,7 +178,7 @@
 .jumpto-tabs .jumpto-tabs-dropdown-label {
   display: block;
   margin: 0 0 6px;
-  color: #20242d;
+  color: var(--color-ink);
   font-size: 14px;
   font-weight: 700;
   line-height: 23px;
@@ -194,7 +194,7 @@
   border: 1px solid #e1e5ea;
   border-radius: 0;
   background: #fff;
-  color: #20242d;
+  color: var(--color-ink);
   font-family: oswald, var(--heading-font-family);
   font-size: 14px;
   font-weight: 700;
@@ -208,8 +208,8 @@
   width: 8px;
   height: 8px;
   margin-left: 12px;
-  border-right: 2px solid #375172;
-  border-bottom: 2px solid #375172;
+  border-right: 2px solid var(--color-brand-primary);
+  border-bottom: 2px solid var(--color-brand-primary);
   transform: rotate(45deg) translateY(-2px);
 }
 
@@ -250,7 +250,7 @@
 .jumpto-tabs .jumpto-tabs-dropdown-list li a {
   display: block;
   padding: 10px 16px;
-  color: #375172;
+  color: var(--color-brand-primary);
   font-size: 14px;
   font-weight: 700;
   line-height: 23px;
@@ -258,8 +258,8 @@
 }
 
 .jumpto-tabs .jumpto-tabs-dropdown-list li a:hover {
-  background: #f5f6f8;
-  color: #20242d;
+  background: var(--color-surface);
+  color: var(--color-ink);
 }
 
 /* Above the tablet breakpoint: show the strip, hide the dropdown. */

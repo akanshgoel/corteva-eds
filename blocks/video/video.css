@@ -3,7 +3,7 @@
      player box   1024px max, centered, 16:9 (1024 × 576 at desktop)
      play button  120 × 120 transparent hit-area
      circle       white, border-radius 50%, fills the button (::before)
-     triangle     navy #375172 (rgb 55 81 114), ~31 × 40, nudged right for
+     triangle     navy var(--color-brand-primary) (rgb 55 81 114), ~31 × 40, nudged right for
                   optical centering (::after) */
 
 .video {
@@ -70,7 +70,7 @@
   height: 0;
   border-top: 20px solid transparent;
   border-bottom: 20px solid transparent;
-  border-left: 31px solid #375172;
+  border-left: 31px solid var(--color-brand-primary);
   transform: translate(-40%, -50%);
 }
 

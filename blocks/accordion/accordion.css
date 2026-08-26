@@ -5,11 +5,11 @@
 /*
  * Accordion block — FAQ list. Styled to match the source cmp-accordion
  * (computed styles measured on hoegemeyer.com's vorceed FAQ):
- *   - item rules: 1px solid #95a0b4 between items + on the last item (a
+ *   - item rules: 1px solid var(--color-border-strong) between items + on the last item (a
  *     top border on each item plus a bottom border on the final one).
  *   - question row (header): 88px tall, Oswald Bold 800 20px/28px, BLACK (#000),
  *     10px left padding.
- *   - toggle: a 24px navy (#375172) filled circle with a white down-chevron,
+ *   - toggle: a 24px navy (var(--color-brand-primary)) filled circle with a white down-chevron,
  *     supplied as chevron.svg; 20px right / 10px left margin. Rotates 180deg
  *     when the item is open.
  *   - answer panel: Oswald 16px/24px, black, 0 10px side padding.
@@ -23,15 +23,15 @@
   margin: 0 auto;
 }
 
-/* Item rules — 1px #95a0b4 above each item, and below the last one. */
+/* Item rules — 1px var(--color-border-strong) above each item, and below the last one. */
 .accordion .accordion-item,
 .accordion .cmp-accordion__item {
-  border-top: 1px solid #95a0b4;
+  border-top: 1px solid var(--color-border-strong);
 }
 
 .accordion .accordion-item:last-of-type,
 .accordion .cmp-accordion__item:last-of-type {
-  border-bottom: 1px solid #95a0b4;
+  border-bottom: 1px solid var(--color-border-strong);
 }
 
 /* Question row (summary) — 88px tall, black bold label, chevron pushed right. */
