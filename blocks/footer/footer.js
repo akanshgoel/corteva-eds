@@ -17,16 +17,32 @@ async function fetchFooter() {
 }
 
 /**
- * Ensures every footer image resolves. Derives the canonical /images path from
- * the file name so relative paths and pipeline-broken src="about:error" both
- * normalize to a working absolute path.
+ * Ensures every footer image resolves to a committed /images asset. The DA
+ * pipeline can deliver footer logos/icons with a broken src (`about:error`) that
+ * has lost the original filename, so we map each image to its asset by alt text.
+ * Falls back to deriving /images/<filename> from any usable src (relative paths).
  * @param {Element} scope
  */
+const FOOTER_IMAGE_BY_ALT = [
+  { test: /hoegemeyer/i, file: 'hoegemeyer-logo-white.png' },
+  { test: /corteva/i, file: 'corteva-logo-white.png' },
+  { test: /facebook/i, file: 'footer-facebook.png' },
+  { test: /(^|\b)x( link)?\b|twitter/i, file: 'footer-x.png' },
+  { test: /linkedin/i, file: 'footer-linkedin.png' },
+  { test: /instagram/i, file: 'footer-instagram.png' },
+  { test: /privacy choices/i, file: 'privacy-choices.jpg' },
+];
+
 function normalizeImages(scope) {
   scope.querySelectorAll('img').forEach((img) => {
     const raw = img.getAttribute('src') || '';
-    const file = raw.split('/').pop();
-    if (file && (!raw || raw.startsWith('about:') || !raw.startsWith('/'))) {
+    const broken = !raw || raw.startsWith('about:') || !raw.startsWith('/');
+    if (!broken) return;
+    const alt = img.getAttribute('alt') || '';
+    const match = FOOTER_IMAGE_BY_ALT.find((m) => m.test.test(alt));
+    // Prefer the alt→asset map; else recover a filename from the src if usable.
+    const file = match ? match.file : raw.split('/').pop();
+    if (file && file !== 'about:error') {
       img.setAttribute('src', `/images/${file}`);
       img.closest('picture')?.querySelectorAll('source').forEach((s) => s.remove());
     }
