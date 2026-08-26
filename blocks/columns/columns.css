@@ -185,6 +185,13 @@
 
 /* stylelint-enable no-descending-specificity */
 
+/* News detail pages share this columns layout but LEFT-align their CTAs (the
+   source centers article CTAs but left-aligns news ones). `body.tpl-news` is set
+   by scripts.js from the URL path. */
+body.tpl-news .columns .button-wrapper,
+body.tpl-news .columns p:has(> a:only-child) {
+  text-align: left;
+}
 
 /* value-props variant: cells hold stacked icon-over-text items */
 .columns.value-props > div > div {
