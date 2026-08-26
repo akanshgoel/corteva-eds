@@ -139,6 +139,15 @@
   text-align: center;
 }
 
+/* Exception: the text+image 50-50 layout (e.g. the 2026 seed guide — intro copy
+   and CTA on the left, a callout image on the right) left-aligns its CTA to
+   match the source. Scoped with :has(.columns-img-col) so it ONLY applies to
+   50-50 blocks that pair a text cell with an image cell — NOT text-only 50-50
+   blocks such as the yield page's centered CORN | SOYBEANS buttons. */
+.columns[data-ratio="50-50"]:has(.columns-img-col) .button-wrapper {
+  text-align: left;
+}
+
 /* stylelint-disable no-descending-specificity --
    The CTA-button rules below intentionally follow the rail list-link rules;
    they target a distinct element (a standalone-link paragraph, i.e. a button)
