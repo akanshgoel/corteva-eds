@@ -35,18 +35,29 @@ import { toClassName } from '../../scripts/aem.js';
 
 const DEFAULT_LABEL = 'Jump to:';
 
-/** Resolve a row's second cell into a "#fragment" href. */
+/** Resolve a row's second cell into a "#fragment" href.
+ *  Document Authoring's markdown round-trip drops bare "#anchor" hrefs — an
+ *  authored link to "#proven-right-here" is published as href="/" (or "#/").
+ *  So a link/text fragment is only trusted when it yields a REAL slug; anything
+ *  empty, "/", or "#/" falls back to the label slug (toClassName(label)), which
+ *  equals the target section's Section-Metadata id by construction. */
+function isUsableFragment(frag) {
+  const f = (frag || '').replace(/^#/, '').replace(/^\//, '').trim();
+  return f.length > 0;
+}
+
 function resolveHref(targetCell, label) {
   if (targetCell) {
     const link = targetCell.querySelector('a[href]');
     if (link) {
-      const raw = link.getAttribute('href').trim();
-      return raw.startsWith('#') ? raw : `#${raw.replace(/^#/, '')}`;
+      const raw = (link.getAttribute('href') || '').trim().replace(/^\//, '');
+      if (isUsableFragment(raw)) return `#${raw.replace(/^#/, '')}`;
+    } else {
+      const text = targetCell.textContent.trim();
+      if (isUsableFragment(text)) return `#${text.replace(/^#/, '')}`;
     }
-    const text = targetCell.textContent.trim();
-    if (text) return `#${text.replace(/^#/, '')}`;
   }
-  // Fall back to a slug of the label.
+  // Fall back to a slug of the label — matches the panel section id.
   return `#${toClassName(label)}`;
 }
 
