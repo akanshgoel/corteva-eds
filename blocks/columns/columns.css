@@ -216,8 +216,12 @@
 /* Right-rail top rule. The source right rail opens with a bold navy separator
    (a 5px #375172 bar, full rail width, ~19px above the heading). That <hr> does
    not survive the block -> markdown round-trip, so we restore it as a top
-   border on the rail cell — the last cell of the 65-35 control. */
-.columns[data-ratio="65-35"] > div > div:last-child {
+   border on the rail cell — the last cell of the 65-35 control.
+   Scoped with :not(:has(picture)) so it applies ONLY to a genuine NEWS/RELATED
+   rail (hr + title + list or blurb/button). Some 65-35 pages (e.g. About >
+   History) instead pair body copy with an IMAGE in the last cell; those must
+   NOT get the navy bar, which the source never shows above the image. */
+.columns[data-ratio="65-35"] > div > div:last-child:not(:has(picture)) {
   border-top: 5px solid var(--hoeg-navy, #375172);
   padding-top: 19px;
 }
