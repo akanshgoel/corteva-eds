@@ -118,7 +118,10 @@
   .columns[data-ratio]:not([data-ratio="65-35"]) > div {
     grid-template-columns: var(--columns-template);
     align-items: start;
-    gap: 40px;
+
+    /* Source column control uses a uniform 20px (1.25rem) gutter for every
+       ratio (50-50, 33-33-33, 65-35 all measure 20px on hoegemeyer.com). */
+    gap: 20px;
   }
 }
 
@@ -194,6 +197,13 @@
 
 /* stylelint-enable no-descending-specificity */
 
+/* News detail pages share this columns layout but LEFT-align their CTAs (the
+   source centers article CTAs but left-aligns news ones). `body.tpl-news` is set
+   by scripts.js from the URL path. */
+body.tpl-news .columns .button-wrapper,
+body.tpl-news .columns p:has(> a:only-child) {
+  text-align: left;
+}
 
 /* value-props variant: cells hold stacked icon-over-text items */
 .columns.value-props > div > div {
@@ -228,23 +238,23 @@
 
 /* Rail title spacing — matches the live `.columncontrol .title`: 0.625rem
    (10px) below the title, stepping up to 1.25rem (20px) at desktop (>=1040px). */
-.columns[data-ratio="65-35"] > div > div:last-child :is(h1, h2, h3, h4, h5, h6) {
+.columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) :is(h1, h2, h3, h4, h5, h6) {
   margin-bottom: 0.625rem;
 }
 
 @media (width >= 1040px) {
-  .columns[data-ratio="65-35"] > div > div:last-child :is(h1, h2, h3, h4, h5, h6) {
+  .columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) :is(h1, h2, h3, h4, h5, h6) {
     margin-bottom: 1.25rem;
   }
 }
 
-.columns[data-ratio="65-35"] > div > div:last-child p {
+.columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) p {
   margin: 0;
 }
 
 /* SEE ALL button sits 20px under the blurb (source uses top padding on the
    button's wrapper paragraph, not a margin). */
-.columns[data-ratio="65-35"] > div > div:last-child p.button-wrapper {
+.columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) p.button-wrapper {
   padding-top: 20px;
 }
 
@@ -253,13 +263,13 @@
    20px vertical padding. Our import emits `<li><a>title</a><br>date</li>`, so
    the <li> carries the grey date colour and the <a> the navy title. Scoped to
    the rail cell's list. */
-.columns[data-ratio="65-35"] > div > div:last-child ul {
+.columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.columns[data-ratio="65-35"] > div > div:last-child li {
+.columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) li {
   margin: 0;
   padding: 20px 0;
   border-bottom: 1px solid #95a0b4;
@@ -273,7 +283,7 @@
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
-.columns[data-ratio="65-35"] > div > div:last-child li a {
+.columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) li a {
   display: inline-block;
   margin-bottom: 6px;
 
@@ -287,7 +297,7 @@
   text-decoration: none;
 }
 
-.columns[data-ratio="65-35"] > div > div:last-child li a:hover {
+.columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) li a:hover {
   text-decoration: underline;
 }
 

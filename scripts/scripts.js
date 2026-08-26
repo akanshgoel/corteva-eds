@@ -419,6 +419,14 @@ export function decorateMain(main) {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
+  // News detail pages share the article layout (columns 65-35) but left-align
+  // their CTAs, whereas article pages center them. Tag the body by path so CSS
+  // can distinguish the two (the block markup is otherwise identical). Match
+  // anywhere in the path so it works on both clean URLs (/about/news/…) and
+  // preview URLs that carry a /content/ prefix (/content/about/news/…).
+  if (window.location.pathname.includes('/about/news/')) {
+    document.body.classList.add('tpl-news');
+  }
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
