@@ -91,12 +91,35 @@ grep -rn "#375172" blocks/*/*.css styles/*.css
    Reuse the existing `decorateTemplateAndTheme` hook rather than adding a new one.
 3. Fonts: each brand ships its own woff2 in `fonts/` and its `@font-face` set.
 
+### Content layout — separate sites, no brand folders
+Each brand is its **own EDS site** (own content source + domain) sharing this one
+code repo. Pages live at the **root** of each brand's content source
+(`corteva.com/about/…`, NOT `/corteva/about/…`). The brand boundary is the
+domain + content source, not a folder — so no nesting and no URL migration.
+**One repo backs many sites**: a site is an `org` + `site` name in the Config
+Service (not tied 1:1 to a repo), so you register a distinct site config that
+reuses the same GitHub repo for code but binds each brand's own content source.
+Configure via the web UI `https://tools.aem.live` OR the Admin API
+`admin.hlx.page/config/<org>/sites/<site>.json` (API only — its bare URL 404s;
+it is NOT a website). Theming is resolved by the `theme` metadata, not by path.
+
 ### Phase 3 — Onboard a brand (e.g. corteva)
+Repo side (safe anytime, in this repo):
 1. `styles/themes/corteva.css` — override color tokens (blue→red) + `--font-*`.
 2. Add corteva's fonts to `fonts/`.
-3. Wire corteva's content source (`fstab.yaml` / DA mountpoint) and production
-   domain.
-4. **Set the `theme` metadata** so `getMetadata('theme')` returns `corteva`.
+
+Provisioning side (external tools — needs Adobe org access; the injected
+credentials can READ the Config Service but provisioning is an admin action):
+3. **Create corteva's DA content space first** at
+   `content.da.live/<org>/corteva/` — the site config points at it, so it must
+   exist before step 4.
+4. **Register the site** via `tools.aem.live` (web UI) or
+   `PUT admin.hlx.page/config/<org>/sites/corteva.json`. Reuse the SAME repo for
+   `code` (`akanshgoel/corteva-eds`), set `content.source.url` to corteva's DA
+   space. Live at `main--<site>--<owner>.aem.page`; attach `corteva.com` + DNS.
+   (AEM Code Sync is already installed on the repo. Read the current hoegemeyer
+   config for the exact schema: `GET admin.hlx.page/config/akanshgoel/sites/corteva-eds.json`.)
+5. **Set the `theme` metadata** so `getMetadata('theme')` returns `corteva`.
    `scripts.js` reads a `<meta name="theme">` tag, which EDS produces from page
    metadata. Recommended: a **`metadata.xlsx`** at the root of corteva's content
    source (NOT this repo) with one rule that themes every page:
