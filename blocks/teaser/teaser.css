@@ -123,13 +123,26 @@ main > .section:has(.teaser.block.banner) {
   font-size: 20px;
 }
 
-/* HERO-L2 — full-bleed image, white title overlaid at the bottom. */
+/* HERO-L2 — full-bleed image with the white title VERTICALLY CENTERED (matches
+   live: the title sits centered in the band, flush to the left edge of the
+   1024px content column, with no extra left/bottom padding). */
 .teaser.block.hero-l2 .teaser-content {
   position: absolute;
-  inset: auto 0 0;
+  inset: 0;
   display: flex;
-  align-items: flex-end;
-  padding-bottom: 40px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  /* Mobile/tablet: a 20px side gutter for the overlaid title. At >=1040px the
+     content hits its 1024px cap and the auto-margins center it (no gutter). */
+  padding: 0 20px;
+}
+
+@media (width >= 1040px) {
+  .teaser.block.hero-l2 .teaser-content {
+    padding: 0;
+  }
 }
 
 .teaser.block.hero-l2 .teaser-title,

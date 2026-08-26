@@ -118,7 +118,10 @@
   .columns[data-ratio]:not([data-ratio="65-35"]) > div {
     grid-template-columns: var(--columns-template);
     align-items: start;
-    gap: 40px;
+
+    /* Source column control uses a uniform 20px (1.25rem) gutter for every
+       ratio (50-50, 33-33-33, 65-35 all measure 20px on hoegemeyer.com). */
+    gap: 20px;
   }
 }
 
@@ -214,31 +217,37 @@ body.tpl-news .columns p:has(> a:only-child) {
 /* Right-rail top rule. The source right rail opens with a bold navy separator
    (a 5px #375172 bar, full rail width, ~19px above the heading). That <hr> does
    not survive the block -> markdown round-trip, so we restore it as a top
-   border on the rail cell — the last cell of the 65-35 control. */
-.columns[data-ratio="65-35"] > div > div:last-child {
+   border on the rail cell — the last cell of the 65-35 control.
+
+   NOTE: `:not(.columns-img-col)` excludes the traits pages' 65-35 intro, whose
+   last cell is a picture-only logo column (marked `.columns-img-col` by the
+   block JS). That layout must NOT get the article rail's navy bar, title
+   spacing, or list styling — only the article/news right rail (a text cell)
+   should. Article rails are never image-only, so this guard is safe. */
+.columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) {
   border-top: 5px solid var(--hoeg-navy, #375172);
   padding-top: 19px;
 }
 
 /* Rail title spacing — matches the live `.columncontrol .title`: 0.625rem
    (10px) below the title, stepping up to 1.25rem (20px) at desktop (>=1040px). */
-.columns[data-ratio="65-35"] > div > div:last-child :is(h1, h2, h3, h4, h5, h6) {
+.columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) :is(h1, h2, h3, h4, h5, h6) {
   margin-bottom: 0.625rem;
 }
 
 @media (width >= 1040px) {
-  .columns[data-ratio="65-35"] > div > div:last-child :is(h1, h2, h3, h4, h5, h6) {
+  .columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) :is(h1, h2, h3, h4, h5, h6) {
     margin-bottom: 1.25rem;
   }
 }
 
-.columns[data-ratio="65-35"] > div > div:last-child p {
+.columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) p {
   margin: 0;
 }
 
 /* SEE ALL button sits 20px under the blurb (source uses top padding on the
    button's wrapper paragraph, not a margin). */
-.columns[data-ratio="65-35"] > div > div:last-child p.button-wrapper {
+.columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) p.button-wrapper {
   padding-top: 20px;
 }
 
@@ -247,13 +256,13 @@ body.tpl-news .columns p:has(> a:only-child) {
    20px vertical padding. Our import emits `<li><a>title</a><br>date</li>`, so
    the <li> carries the grey date colour and the <a> the navy title. Scoped to
    the rail cell's list. */
-.columns[data-ratio="65-35"] > div > div:last-child ul {
+.columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.columns[data-ratio="65-35"] > div > div:last-child li {
+.columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) li {
   margin: 0;
   padding: 20px 0;
   border-bottom: 1px solid #95a0b4;
@@ -267,7 +276,7 @@ body.tpl-news .columns p:has(> a:only-child) {
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
-.columns[data-ratio="65-35"] > div > div:last-child li a {
+.columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) li a {
   display: inline-block;
   margin-bottom: 6px;
 
@@ -281,7 +290,7 @@ body.tpl-news .columns p:has(> a:only-child) {
   text-decoration: none;
 }
 
-.columns[data-ratio="65-35"] > div > div:last-child li a:hover {
+.columns[data-ratio="65-35"] > div > div:last-child:not(.columns-img-col) li a:hover {
   text-decoration: underline;
 }
 
