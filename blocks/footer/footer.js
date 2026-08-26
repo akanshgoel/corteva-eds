@@ -43,8 +43,12 @@ function normalizeImages(scope) {
     // Prefer the alt→asset map; else recover a filename from the src if usable.
     const file = match ? match.file : raw.split('/').pop();
     if (file && file !== 'about:error') {
-      img.setAttribute('src', `/images/${file}`);
       img.closest('picture')?.querySelectorAll('source').forEach((s) => s.remove());
+      // Drop lazy-loading before rewriting src: the img was parsed with the
+      // broken src="about:error", and a lazy img won't re-fetch a src changed
+      // after its load already failed. Eager-load so the corrected URL fetches.
+      img.removeAttribute('loading');
+      img.setAttribute('src', `/images/${file}`);
     }
   });
 }
