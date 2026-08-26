@@ -15,6 +15,13 @@ The repository provides the basic structure, blocks, and configuration needed to
 > gotchas, Dynamic Media handling, the `embed` block for third-party forms, and
 > known deltas — so migrations match the live site without back-and-forth.
 
+> **Setting up another brand (multi-brand theming)?** Read
+> [`THEMING.md`](THEMING.md) and the
+> [`multi-brand-theming` skill](.claude/skills/multi-brand-theming/SKILL.md).
+> One shared codebase serves every brand; brands differ only in colors/fonts via
+> semantic CSS tokens + a per-brand theme file. Structure (sizes, spacing,
+> layout) is shared — never duplicated.
+
 ### Key Technologies
 - Edge Delivery Services for AEM Sites (documentation at https://www.aem.live/ – search with `site:www.aem.live` to restrict web search results)
 - Vanilla JavaScript (ES6+), no transpiling, no build steps
