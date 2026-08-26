@@ -1,0 +1,280 @@
+/* jumpto-tabs — in-page anchor navigation ("Jump to:"), migrated from the
+   source .cmp-tabs jumpto variants. All values measured from live computed
+   styles on hoegemeyer.com:
+     labels/title  oswald 700, 14px / 23px line-height
+     link color    navy  #375172 (rgb 55 81 114)
+     active label  ink   #20242d (rgb 32 36 45)
+     guide line    5px solid #e1e5ea (rgb 225 229 234)
+     active mark   5px solid #375172 (navy)
+   Two variants: .horizontal (gray bottom guide, navy underline on active) and
+   .vertical (gray right guide, navy right-edge bar on active). Mobile collapses
+   to the "Jump to:" dropdown. */
+
+/* Base: the block is capped to 64rem (1024px) and centered, with a side gutter
+   so the strip lines up with the page content. Live uses a 40px gutter at
+   mobile/tablet (matching the header hamburger/title inset). The horizontal
+   variant overrides this to go full-bleed for its guide line (see below). */
+.jumpto-tabs {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0 40px;
+  font-family: oswald, 'Oswald Bold', var(--heading-font-family);
+}
+
+@media (width >= 1040px) {
+  .jumpto-tabs {
+    padding: 0;
+  }
+}
+
+/* Shared title + link typography (source: oswald 14/23 700). */
+.jumpto-tabs .jumpto-tabs-title {
+  color: #20242d;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 23px;
+  white-space: nowrap;
+}
+
+.jumpto-tabs .jumpto-tabs-tab {
+  position: relative;
+  color: #375172;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 23px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.jumpto-tabs .jumpto-tabs-tab:hover,
+.jumpto-tabs .jumpto-tabs-tab-active {
+  color: #20242d;
+}
+
+/* ---------------------------------------------------------------------------
+   HORIZONTAL variant (gray-border)
+   Source (measured at 1440):
+     .cmp-tabs__variant          FULL-WIDTH, carries the 5px gray bottom
+                                 guide-line spanning edge-to-edge.
+     .cmp-tabs__variant--wrapper max-width 1024px, centered — the tab labels.
+   So the guide line is full-bleed while the "Jump to:" + links stay within a
+   1024px centered column. We map:
+     block .jumpto-tabs.horizontal   → the full-width variant + guide line
+     .jumpto-tabs-list               → the constrained 1024px label row
+   Title margin 0 30px 10px 0; each tab padding 0 4px, margin 0 30px 20px 0;
+   active ::after underline sits 20px below the tab (flush to the guide line).
+   --------------------------------------------------------------------------- */
+
+/* The horizontal strip (with its full-bleed guide line) only renders at the
+   tablet breakpoint and up; below that the mobile dropdown shows instead and
+   the block keeps the base padded/centered layout (no full-bleed, no line). */
+@media (width >= 900px) {
+  /* Full-bleed the section wrapper that holds a horizontal jumpto-tabs so the
+     guide line can span the full section width. Scoped through `main > .section`
+     to outweigh the global `main > .section > div { padding: 0 32px }` gutter.
+     Only the horizontal variant is affected — the vertical variant is untouched.
+     The section holds several wrappers (breadcrumb/teaser/columns/jumpto-tabs),
+     so we target the jumpto-tabs-wrapper specifically, not the whole section. */
+  main > .section > .jumpto-tabs-wrapper:has(.jumpto-tabs.horizontal) {
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* The block spans full width and carries the full-bleed guide line. */
+  .jumpto-tabs.horizontal {
+    max-width: none;
+    padding: 0;
+    border-bottom: 5px solid #e1e5ea;
+  }
+}
+
+/* The label row is constrained to 1024px and centered, with the tablet 40px
+   gutter (0 on desktop). The guide line lives on the block above, not here, so
+   the line stays full-bleed while the labels line up with the page content. */
+.jumpto-tabs.horizontal .jumpto-tabs-list {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 20px 40px 0;
+  overflow-x: auto;
+}
+
+@media (width >= 1040px) {
+  .jumpto-tabs.horizontal .jumpto-tabs-list {
+    padding: 20px 0 0;
+  }
+}
+
+.jumpto-tabs.horizontal .jumpto-tabs-title {
+  margin: 0 30px 10px 0;
+}
+
+.jumpto-tabs.horizontal .jumpto-tabs-tab {
+  margin: 0 30px 20px 0;
+  padding: 0 4px;
+}
+
+.jumpto-tabs.horizontal .jumpto-tabs-tab-active::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -20px;
+  left: 0;
+  border-bottom: 5px solid #375172;
+}
+
+/* ---------------------------------------------------------------------------
+   VERTICAL variant
+   Source: tablist flex column, gray 5px right guide-line; each tab is a block
+   with padding 6px 15px 6px 0 and 6px vertical margin; active ::after is a navy
+   5px bar covering the tab height, flush over the gray guide at the right edge.
+   --------------------------------------------------------------------------- */
+.jumpto-tabs.vertical .jumpto-tabs-list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: fit-content;
+  min-width: 160px;
+  margin: 0;
+  padding: 0;
+  border-right: 5px solid #e1e5ea;
+}
+
+/* The source vertical variant does not render the "Jump to:" title (it is an
+   empty span there), so hide it while keeping it in the DOM for a11y context. */
+.jumpto-tabs.vertical .jumpto-tabs-title {
+  display: none;
+}
+
+.jumpto-tabs.vertical .jumpto-tabs-tab {
+  display: block;
+  margin: 6px 0;
+  padding: 6px 15px 6px 0;
+  white-space: normal;
+}
+
+.jumpto-tabs.vertical .jumpto-tabs-tab-active::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -5px;
+  bottom: 0;
+  border-right: 5px solid #375172;
+}
+
+/* ---------------------------------------------------------------------------
+   Mobile dropdown — shown below the breakpoint, hidden above; the strip is the
+   reverse. Source shows a "Jump to:" label, a toggle button, and a searchable
+   option list.
+   --------------------------------------------------------------------------- */
+.jumpto-tabs .jumpto-tabs-dropdown {
+  display: block;
+}
+
+.jumpto-tabs .jumpto-tabs-dropdown-label {
+  display: block;
+  margin: 0 0 6px;
+  color: #20242d;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 23px;
+}
+
+.jumpto-tabs .jumpto-tabs-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px solid #e1e5ea;
+  border-radius: 0;
+  background: #fff;
+  color: #20242d;
+  font-family: oswald, var(--heading-font-family);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 23px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.jumpto-tabs .jumpto-tabs-dropdown-toggle::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  margin-left: 12px;
+  border-right: 2px solid #375172;
+  border-bottom: 2px solid #375172;
+  transform: rotate(45deg) translateY(-2px);
+}
+
+.jumpto-tabs .jumpto-tabs-dropdown-toggle[aria-expanded='true']::after {
+  transform: rotate(-135deg) translateY(-2px);
+}
+
+.jumpto-tabs .jumpto-tabs-dropdown-list {
+  margin: 0;
+  padding: 0;
+  border: 1px solid #e1e5ea;
+  border-top: 0;
+  background: #fff;
+  list-style: none;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.jumpto-tabs .jumpto-tabs-dropdown-list li {
+  margin: 0;
+  padding: 0;
+}
+
+.jumpto-tabs .jumpto-tabs-dropdown-search-item {
+  padding: 8px;
+  border-bottom: 1px solid #e1e5ea;
+}
+
+.jumpto-tabs .jumpto-tabs-dropdown-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid #e1e5ea;
+  font-family: oswald, var(--body-font-family);
+  font-size: 14px;
+}
+
+.jumpto-tabs .jumpto-tabs-dropdown-list li a {
+  display: block;
+  padding: 10px 16px;
+  color: #375172;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 23px;
+  text-decoration: none;
+}
+
+.jumpto-tabs .jumpto-tabs-dropdown-list li a:hover {
+  background: #f5f6f8;
+  color: #20242d;
+}
+
+/* Above the tablet breakpoint: show the strip, hide the dropdown. */
+@media (width >= 900px) {
+  .jumpto-tabs .jumpto-tabs-dropdown {
+    display: none;
+  }
+}
+
+/* Below the breakpoint: dropdown only. The variant selectors that turn the
+   list into a flex row/column carry `.horizontal`/`.vertical` (specificity
+   0,2,1), so this hide rule must match that specificity to win. */
+@media (width < 900px) {
+  .jumpto-tabs.horizontal .jumpto-tabs-list,
+  .jumpto-tabs.vertical .jumpto-tabs-list {
+    display: none;
+  }
+}
