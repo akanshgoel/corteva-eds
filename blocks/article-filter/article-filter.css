@@ -53,6 +53,7 @@
 }
 
 .article-filter .article-filter__search-input {
+  box-sizing: border-box;
   flex: 1 1 auto;
   min-width: 0;
   height: 50px;
