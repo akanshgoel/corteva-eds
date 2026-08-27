@@ -126,12 +126,11 @@
   display: none;
 }
 
-/* Default content (section title + intro) above the tab strip on the
-   article-listing page. The source renders "THE DIRT" as a large 56px/60px
-   Oswald display heading with a 14px intro. Scope to a `.tabs-container` that
-   actually holds the gray-background variant so this sizing applies only on
-   these pages and does NOT alter the project's global h2/p scale. */
+/* Top-header title above the tab strip (SOYBEAN TRAITS / Corn Traits / THE
+   DIRT): 56px display heading with live's `top-padding` (50px). Scoped to the
+   gray-background tabs container so the global h2 scale is untouched. */
 .tabs-container:has(.tabs.gray-background) .default-content-wrapper h2 {
+  padding-top: 3.125rem;
   font-size: 56px;
   line-height: 60px;
   margin: 0 0 20px;
@@ -212,6 +211,142 @@
 /* Space above the search box: the article-filter follows the intro copy. */
 .tabs.gray-background .tabs-panel .article-filter-wrapper > .article-filter {
   margin-top: 2.5rem;
+}
+
+/* ----- raw tables inside a gray-background panel -----
+   Two kinds, keyed off a round-trip-safe content signature (live's `border="0"`
+   attribute doesn't survive the DA round-trip):
+   1. LAYOUT tables — headerless + heading/prose cells → borderless, centred.
+   2. DATA tables — everything else (has <th>, OR the headerless tech-sheet link
+      grid) → bordered grid, grey <th> band. The DEFAULT branch. */
+
+/* 1. LAYOUT tables: headerless + contain a heading → borderless, centred. */
+.tabs.gray-background .tabs-panel table:not(:has(th)):has(:is(h1, h2, h3, h4, h5, h6)) {
+  width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.tabs.gray-background .tabs-panel table:not(:has(th)):has(:is(h1, h2, h3, h4, h5, h6)) td {
+  padding: 0 15px;
+  text-align: center;
+  vertical-align: top;
+}
+
+.tabs.gray-background .tabs-panel table:not(:has(th)):has(:is(h1, h2, h3, h4, h5, h6)) td picture {
+  display: inline-block;
+}
+
+.tabs.gray-background .tabs-panel table:not(:has(th)):has(:is(h1, h2, h3, h4, h5, h6)) td img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Stacked below the 1040px desktop breakpoint (matches live: all column
+   ratios go multi-column only at >=1040px). */
+@media (width < 1040px) {
+  .tabs.gray-background .tabs-panel table:not(:has(th)):has(:is(h1, h2, h3, h4, h5, h6)),
+  .tabs.gray-background .tabs-panel table:not(:has(th)):has(:is(h1, h2, h3, h4, h5, h6)) tbody,
+  .tabs.gray-background .tabs-panel table:not(:has(th)):has(:is(h1, h2, h3, h4, h5, h6)) tr,
+  .tabs.gray-background .tabs-panel table:not(:has(th)):has(:is(h1, h2, h3, h4, h5, h6)) td {
+    display: block;
+    width: 100%;
+  }
+}
+
+/* 2. DATA tables — the DEFAULT (any panel table that is NOT a borderless
+   layout table above): bordered grid, grey <th> band. */
+.tabs.gray-background .tabs-panel table:not(:not(:has(th)):has(:is(h1, h2, h3, h4, h5, h6))) {
+  width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.tabs.gray-background .tabs-panel table:not(:not(:has(th)):has(:is(h1, h2, h3, h4, h5, h6))) :is(th, td) {
+  padding: 15px 5px 15px 20px;
+  border: 1px solid #686f7d;
+  vertical-align: top;
+}
+
+.tabs.gray-background .tabs-panel table:not(:not(:has(th)):has(:is(h1, h2, h3, h4, h5, h6))) td {
+  text-align: left;
+  font-weight: 400;
+}
+
+.tabs.gray-background .tabs-panel table:not(:not(:has(th)):has(:is(h1, h2, h3, h4, h5, h6))) th {
+  background-color: #e9eff2;
+  font-weight: 700;
+  text-align: center;
+}
+
+.tabs.gray-background .tabs-panel table:not(:not(:has(th)):has(:is(h1, h2, h3, h4, h5, h6))) :is(th, td) p {
+  margin: 0.25rem 0;
+}
+
+/* Tech-sheet lineup: headerless table of `<strong><a>` product links — center
+   the cells and keep the link plain-weight (match live). */
+.tabs.gray-background .tabs-panel table:not(:has(th)) td:has(> strong > a) {
+  text-align: center;
+}
+
+.tabs.gray-background .tabs-panel table td strong {
+  font-weight: 400;
+}
+
+/* Plain panel links render as brand-navy text links (live #375172/16px), not
+   the default EDS blue. Buttonised CTAs (a.button) are excluded. */
+.tabs .tabs-panel p a:any-link:not(.button),
+.tabs .tabs-panel li a:any-link:not(.button),
+.tabs .tabs-panel td a:any-link:not(.button) {
+  color: var(--hoeg-navy, #375172);
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.tabs .tabs-panel p a:not(.button):hover,
+.tabs .tabs-panel li a:not(.button):hover,
+.tabs .tabs-panel td a:not(.button):hover {
+  text-decoration: underline;
+}
+
+/* Panel CTA button (e.g. "LEARN MORE HERE") — filled navy c-button, overriding
+   the global rounded pill to match the site's c-button (columns, cards). */
+.tabs .tabs-panel a.button.primary {
+  display: inline-block;
+  padding: 23px 24px;
+  border: 0;
+  border-radius: 2px;
+  background-color: var(--hoeg-navy, #375172);
+  color: #fff;
+  font-family: 'Oswald Bold', oswald, arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.tabs .tabs-panel a.button.primary:hover,
+.tabs .tabs-panel a.button.primary:focus-visible {
+  background-color: var(--hoeg-navy-hover, #459aff);
+  border: 0;
+  color: #fff;
+}
+
+/* The button's wrapper paragraph centers it (source centers the CTA). */
+.tabs .tabs-panel p.button-container {
+  text-align: center;
+}
+
+/* Panel intro copy is centered (matches live's inline text-align, stripped on
+   import). Scoped to DIRECT wrapper children so table cells and nested blocks
+   are untouched. */
+.tabs .tabs-panel > div > :is(h1, h2, h3, h4, h5, h6, p) {
+  text-align: center;
 }
 
 /* stylelint-enable no-descending-specificity */

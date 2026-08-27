@@ -374,6 +374,33 @@ function decorateButtons(main) {
 }
 
 /**
+ * Marks standalone content links as `c-button`s.
+ *
+ * The source wraps a CTA in `<span class="c-button">`; import flattens the span,
+ * leaving a bare `<a>` alone in its `<p>`. We re-add the class so CSS can style
+ * it. A link counts as standalone when its text equals the paragraph's whole
+ * text — distinguishing a CTA from an inline sentence link (which a CSS
+ * `p > a:only-child` selector would wrongly match). Scoped to columns/default
+ * content; image links and URL-display links excluded.
+ * @param {HTMLElement} main The main container element
+ */
+function decorateContentButtons(main) {
+  main.querySelectorAll('.columns p a[href], .default-content-wrapper p a[href]').forEach((a) => {
+    const p = a.closest('p');
+    if (!p) return;
+    // Standalone only: the link must be the paragraph's entire content.
+    if (p.textContent.trim() !== a.textContent.trim()) return;
+    // Never buttonize image links.
+    if (a.querySelector('img, picture')) return;
+    // Skip URL-display links (link text is its own href).
+    try {
+      if (new URL(a.href).href === new URL(a.textContent.trim(), window.location).href) return;
+    } catch { /* continue */ }
+    a.classList.add('c-button');
+  });
+}
+
+/**
  * Applies Section Metadata "Style" values as classes on the parent section.
  * The base aem.js decorateSections in this project does not process the
  * Section Metadata block, so we handle it here. Authors add a "Section
@@ -394,8 +421,22 @@ function decorateSectionMetadata(main) {
         section.dataset[toCamelCase(key)] = meta[key];
       }
     });
-    // remove the metadata block (and its wrapper) so it doesn't render
-    (metaBlock.closest('.section-metadata-wrapper') || metaBlock).remove();
+    // Remove the metadata block so it doesn't render. Also drop its parent
+    // wrapper if that's left empty — otherwise a stray empty child skews a
+    // flex/grid section (e.g. the card grid's centering).
+    const wrapper = metaBlock.closest('.section-metadata-wrapper');
+    if (wrapper) {
+      wrapper.remove();
+    } else {
+      const { parentElement } = metaBlock;
+      metaBlock.remove();
+      if (parentElement
+        && parentElement !== section
+        && parentElement.children.length === 0
+        && parentElement.textContent.trim() === '') {
+        parentElement.remove();
+      }
+    }
   });
 }
 
@@ -411,6 +452,7 @@ export function decorateMain(main) {
   decorateSectionMetadata(main);
   decorateBlocks(main);
   decorateButtons(main);
+  decorateContentButtons(main);
 }
 
 /**

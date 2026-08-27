@@ -49,6 +49,19 @@ export default function decorate(block) {
     description.classList.add('teaser-description');
     content.append(description);
   }
+
+  // CARD3: the whole card is one link over the image + title, with no separate
+  // CTA text (matches live `a.cmp-teaser__link`). Other variants show the CTA.
+  const isCard3 = block.classList.contains('card3');
+  if (isCard3 && cta) {
+    const link = document.createElement('a');
+    link.className = 'teaser-link';
+    link.href = cta.getAttribute('href');
+    if (cta.getAttribute('title')) link.title = cta.getAttribute('title');
+    link.append(image, content);
+    block.replaceChildren(link);
+    return;
+  }
   if (cta) {
     cta.classList.add('teaser-cta');
     content.append(cta);
