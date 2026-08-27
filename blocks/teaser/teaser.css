@@ -218,16 +218,17 @@ main > .section:has(.teaser.block.banner) {
 }
 
 /* ===================================================================
-   CARD variants (card2, card3, card7) — 328px-wide cards.
+   CARD variants (card2, card7) — 328px-wide cards.
+   (card3 is NOT capped here: its width is driven by the responsive card grid —
+   full-width stacked on mobile/tablet, 3-up at desktop — see the CARD3 GRID
+   rules below.)
    =================================================================== */
 .teaser.block.card2,
-.teaser.block.card3,
 .teaser.block.card7 {
   max-width: 328px;
 }
 
 .teaser.block.card2 .teaser-image :is(picture, img),
-.teaser.block.card3 .teaser-image :is(picture, img),
 .teaser.block.card7 .teaser-image :is(picture, img) {
   width: 100%;
   height: 190px;
@@ -292,9 +293,21 @@ main > .section:has(.teaser.block.banner) {
   margin-left: 15px;
 }
 
-/* CARD3 — image card with a white title overlaid at the bottom. */
+/* CARD3 — image card with a white title overlaid at the bottom. Fixed 442px
+   height (matches live) with an object-fit:cover image, so it holds whether
+   full-width (mobile/tablet) or a 328px desktop column. */
 .teaser.block.card3 {
+  display: block;
+  width: 100%;
   min-height: 442px;
+}
+
+/* The whole card is one link (matches live `a.cmp-teaser__link`). */
+.teaser.block.card3 .teaser-link {
+  position: absolute;
+  inset: 0;
+  display: block;
+  text-decoration: none;
 }
 
 .teaser.block.card3 .teaser-image {
@@ -304,7 +317,19 @@ main > .section:has(.teaser.block.banner) {
 }
 
 .teaser.block.card3 .teaser-image :is(picture, img) {
+  width: 100%;
   height: 100%;
+  object-fit: cover;
+}
+
+/* Dark gradient (transparent → 50% black) keeps the white title legible —
+   matches live's `.cmp-image::after`. */
+.teaser.block.card3 .teaser-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(180deg, rgb(0 0 0 / 0%) 0%, rgb(0 0 0 / 50%) 100%);
 }
 
 .teaser.block.card3 .teaser-content {
@@ -320,6 +345,9 @@ main > .section:has(.teaser.block.banner) {
   line-height: 1.15;
   color: #fff;
 }
+
+/* NOTE: the products card-grid layout lives in columns.css (`.columns.cards`);
+   this file only styles the card face above. */
 
 /* ===================================================================
    DESKTOP (min-width: 1040px)

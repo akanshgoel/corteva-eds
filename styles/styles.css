@@ -44,8 +44,8 @@
   --font-body: oswald, arial, sans-serif;                    /* body text */
 
   /* Back-compat aliases — existing --hoeg-* references resolve to the semantic
-     tokens above. New/retokenized CSS should use the --color-*/--font-* names;
-     these aliases keep any un-migrated reference working during the transition. */
+     tokens above. New/retokenized CSS should use the --color- / --font- token
+     names; these aliases keep un-migrated references working in transition. */
   --hoeg-navy: var(--color-brand-primary);
   --hoeg-navy-hover: var(--color-brand-primary-hover);
   --hoeg-surface: var(--color-surface);
@@ -488,7 +488,34 @@ main > .section.text-x-large .default-content-wrapper {
   font-size: var(--body-font-size-xl);
   line-height: 1.4;
 }
+
+/* Reusable section utilities, applied via Section Metadata "Style"
+   (decorateSectionMetadata turns each token into a section class). */
+
+/* Text-alignment — cascades to the section's default content and columns cells
+   (mirrors the source's inline `text-align`). */
+main > .section.text-align-center .default-content-wrapper,
+main > .section.text-align-center .default-content-wrapper :is(h1, h2, h3, h4, h5, h6, p),
+main > .section.text-align-center .columns :is(h1, h2, h3, h4, h5, h6, p) {
+  text-align: center;
+}
+
+main > .section.text-align-left .default-content-wrapper,
+main > .section.text-align-left .default-content-wrapper :is(h1, h2, h3, h4, h5, h6, p),
+main > .section.text-align-left .columns :is(h1, h2, h3, h4, h5, h6, p) {
+  text-align: left;
+}
+
+main > .section.text-align-right .default-content-wrapper,
+main > .section.text-align-right .default-content-wrapper :is(h1, h2, h3, h4, h5, h6, p),
+main > .section.text-align-right .columns :is(h1, h2, h3, h4, h5, h6, p) {
+  text-align: right;
+}
 /* stylelint-enable no-descending-specificity */
+
+/* NOTE: the card-grid background and columncontrol spacing utilities are
+   block-driven (columns.css), not global section styles — kept out of here so
+   their token names can't collide with author-applied Section "Style". */
 
 /* Logo section style — caps inline logo images to their intended small size
    instead of stretching to the full content width. The source sets an explicit
@@ -548,16 +575,16 @@ main .columns > div > div:first-child :is(ol, ul) li {
 /* Inline text links in migrated article content are navy (#375172), no
    underline — matching the source (the global --link-color #3b63fb blue is not
    used here). Scoped to default content + columns so other blocks keep their
-   own link styling. Buttonised CTAs (a.button) are excluded — they own their
-   colours. */
-main .default-content-wrapper a:any-link:not(.button),
-main .columns a:any-link:not(.button) {
+   own link styling. Buttonised CTAs (a.button, a.c-button) are excluded — they
+   own their colours. */
+main .default-content-wrapper a:any-link:not(.button, .c-button),
+main .columns a:any-link:not(.button, .c-button) {
   color: var(--hoeg-navy);
   text-decoration: none;
 }
 
-main .default-content-wrapper a:not(.button):hover,
-main .columns a:not(.button):hover {
+main .default-content-wrapper a:not(.button, .c-button):hover,
+main .columns a:not(.button, .c-button):hover {
   color: var(--hoeg-navy);
   text-decoration: underline;
 }

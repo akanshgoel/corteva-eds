@@ -1,16 +1,27 @@
 /* Column control — mobile-first, ratio-driven. Container capped at 1024px.
-   Breakpoints: tablet >= 768px, desktop >= 1040px. */
+   Live `.columncontrol` adds 50px top+bottom padding for every ratio; the block
+   supplies that vertical rhythm (horizontal gutter comes from the section). */
 .columns {
   max-width: 1024px;
   margin: 0 auto;
-}
-
-/* The 65-35 article layout sits below the article header; the source's
-   columncontrol adds 50px top AND bottom padding (top = title→body gap;
-   bottom = the controlled space below the rail button before the footer). */
-.columns[data-ratio="65-35"] {
   padding-top: 50px;
   padding-bottom: 50px;
+}
+
+/* Spacing utilities mirroring the live `.columncontrol` modifiers. Stacked
+   controls carry `no-top-padding` so the gap between them is one 50px, not a
+   doubled 100px; `no-padding` zeroes both; `top-padding` restores a 50px top. */
+.columns.no-top-padding {
+  padding-top: 0;
+}
+
+.columns.no-padding {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.columns.top-padding {
+  padding-top: 3.125rem;
 }
 
 /* Wrapper — matches the live `.column-control-cmp__wrapper`: always a
@@ -111,11 +122,11 @@
   display: block;
 }
 
-/* Non-65-35 ratio layouts (e.g. 50-50, 50-25-25, value-props) split into their
-   multi-column template at the tablet breakpoint. The 65-35 article layout is
-   deliberately excluded here — it stays single-column until desktop (below). */
-@media (width >= 768px) {
-  .columns[data-ratio]:not([data-ratio="65-35"]) > div {
+/* Multi-column ratios split only at desktop (>=1040px), matching live — every
+   ratio stays full-width stacked through mobile AND tablet. 65-35 has its own
+   1040 rule below; `.cards` is handled by the CARD GRID rules. */
+@media (width >= 1040px) {
+  .columns[data-ratio]:not([data-ratio="65-35"], .cards) > div {
     grid-template-columns: var(--columns-template);
     align-items: start;
 
@@ -123,6 +134,59 @@
        ratio (50-50, 33-33-33, 65-35 all measure 20px on hoegemeyer.com). */
     gap: 20px;
   }
+}
+
+/* ---- CARD GRID variant (`columns 33-33-33 cards`) ----
+   The products card grid: one `teaser card3` per cell. Live = full-width
+   stacked through tablet, 3-up (328px) only at desktop. Vertical rhythm is on
+   the section (below), so the block carries none — else it would double up. */
+.columns.cards {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.columns.cards > div {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+
+/* Full-bleed white→blue split background behind the card grid (live puts it on
+   the `.cardscontainer` itself, not a section modifier). Driven from the block
+   via `:has()` so it spans the viewport with cards centered above. Bottom margin
+   is dropped so the blue sits flush to the footer (it's the last section). */
+main > .section:has(.columns.cards) {
+  margin-bottom: 0;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  background-image: linear-gradient(#fff 50%, #0072ce 50%);
+}
+
+/* Card grid side gutter matches live (20px mobile / 40px tablet / 0 desktop),
+   overriding the section's generic gutter. */
+main > .section > .columns-wrapper:has(.columns.cards) {
+  padding: 0 20px;
+}
+
+@media (width >= 768px) {
+  main > .section > .columns-wrapper:has(.columns.cards) {
+    padding: 0 40px;
+  }
+}
+
+@media (width >= 1040px) {
+  main > .section > .columns-wrapper:has(.columns.cards) {
+    padding: 0;
+  }
+
+  .columns.cards > div {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
+/* Let the teaser fill its grid track (no cell max-width). */
+.columns.cards > div > div {
+  min-width: 0;
 }
 
 /* The 65-35 article layout matches the live `--65-35` wrapper: it stays a
@@ -156,20 +220,15 @@
    they target a distinct element (a standalone-link paragraph, i.e. a button)
    rather than the rail's title links, so source order by concern is clearer. */
 
-/* CTA buttons inside the article columns (e.g. "DOWNLOAD CROP BULLETIN" in the
-   left body, "See all Crop Bulletins" in the rail). The source styles these as
-   `c-button` spans, but the span is flattened during import, leaving a bare
-   standalone link in its own <p>. Restyle that link as the primary c-button:
-   navy bg, white text, 23px/24px padding, 14px Oswald Bold, 2px radius.
-   Matches the source .cmp-text .c-button exactly. */
-.columns p:has(> a:only-child) {
-  /* Source: the button's wrapper paragraph has no margin (no gap after it) and
-     centers the button in the cell at every viewport. */
-  margin: 0;
+/* CTA c-buttons in article columns (e.g. "DOWNLOAD CROP BULLETIN"). The source
+   c-button span is flattened on import; scripts.js `decorateContentButtons`
+   restores the class. Styled as the primary navy button, matching live. */
+.columns p:has(> .c-button) {
+  margin: 0; /* no gap after the button; centered in its cell */
   text-align: center;
 }
 
-.columns p:has(> a:only-child) > a:only-child {
+.columns .c-button {
   display: inline-block;
   padding: 23px 24px;
   border-radius: 2px;
@@ -184,12 +243,10 @@
   transition: background-color 0.2s ease;
 }
 
-/* Hover: lighten the fill to var(--color-brand-primary-hover), keeping white text and no underline. The
-   color/text-decoration are restated so this wins over the global
-   `main .columns a:not(.button):hover` rule (styles.css), which would otherwise
-   force navy text + an underline on hover and make the button look broken. */
-.columns p:has(> a:only-child) > a:only-child:hover,
-.columns p:has(> a:only-child) > a:only-child:focus-visible {
+/* Hover: lighten the fill; color/text-decoration restated to beat the global
+   `main .columns a:not(.button):hover` rule. */
+.columns .c-button:hover,
+.columns .c-button:focus-visible {
   background-color: var(--hoeg-navy-hover, var(--color-brand-primary-hover));
   color: #fff;
   text-decoration: none;
@@ -197,11 +254,12 @@
 
 /* stylelint-enable no-descending-specificity */
 
-/* News detail pages share this columns layout but LEFT-align their CTAs (the
-   source centers article CTAs but left-aligns news ones). `body.tpl-news` is set
-   by scripts.js from the URL path. */
+/* News detail pages left-align their CTAs (articles center them). tpl-news is
+   set by scripts.js from the URL path. */
+/* stylelint-disable-next-line no-descending-specificity -- body-scoped
+   override intentionally follows the higher-specificity 50-50 rule above. */
 body.tpl-news .columns .button-wrapper,
-body.tpl-news .columns p:has(> a:only-child) {
+body.tpl-news .columns p:has(> .c-button) {
   text-align: left;
 }
 
