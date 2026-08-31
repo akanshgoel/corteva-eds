@@ -589,8 +589,13 @@ main > .section > .carousel-wrapper {
 
   .carousel .carousel-content__description-left .title {
     padding-bottom: 20px;
-    font-family: var(--heading-font-family);
-    font-weight: 600;
+
+    /* Match the source overlaid player title: Oswald Bold 32px/36px, weight 800
+       (measured on the live galleryvideoplayer). */
+    font-family: var(--font-heading);
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 36px;
   }
 
   .carousel .carousel-content__description-left-mobile {

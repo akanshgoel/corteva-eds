@@ -93,10 +93,33 @@
 .embed .elq-form input[type="text"],
 .embed .elq-form input[type="email"],
 .embed .elq-form input[type="tel"],
+.embed .elq-form input[type="number"],
 .embed .elq-form textarea,
 .embed .elq-form select {
-  width: 100%;
-  box-sizing: border-box;
+  /* The fragment's own inline CSS zeroes input padding and relies on the source
+     site's global stylesheet for the real field sizing (which we don't ship).
+     Restore it to match the live form: full-width, 1px #95a0b4 border, ~13.75px
+     padding (≈49px tall inputs), 16px text. `!important` beats the fragment's
+     later-injected `.elq-form input { padding:0 }` rule. */
+  width: 100% !important;
+  box-sizing: border-box !important;
+  height: 49px !important;
+  padding: 13px 11px !important;
+  border: 1px solid #95a0b4 !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  font-family: oswald, var(--body-font-family);
+  font-size: 16px !important;
+  line-height: 1.4 !important;
+}
+
+.embed .elq-form textarea {
+  height: auto !important;
+  min-height: 48px;
+}
+
+.embed .elq-form select {
+  height: 49px !important;
 }
 
 .embed .elq-form p {
