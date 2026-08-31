@@ -78,3 +78,15 @@
 .video .video-play-btn:focus-visible::before {
   background: #f2f2f2;
 }
+
+/* Player caption — the source player's title beneath the video (e.g. "VIEW THE
+   ENTRY PRIZE FOR 2022'S CONTEST BELOW"). Matches the live cmp-title: Oswald
+   Bold 24px/28px, weight 800, ink color, left-aligned, no margin. */
+.video .video-caption {
+  margin: 12px 0 0;
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 28px;
+  color: var(--color-ink);
+}

@@ -1,0 +1,493 @@
+<div class="sections" data-module="Custom Eloqua Form">
+ <div class="left-section">
+     <div class="title">
+         <div class="cmp-title">
+             <h2>Share Your Experience</h2>
+         </div>
+     </div>
+     <div class="text">
+         <div class="cmp-text">
+             <p><a id="form"></a>Thank you for participating in the Hoegemeyer Agronomy First program. Your insights are valuable to us and will help us understand how we can continue to deliver innovation to you in the future. We’re glad you chose Hoegemeyer and we look forward to the success we’ll share, right here.</p>
+
+         </div>
+     </div>
+ </div>
+ <div class="right-section">
+     <div class="custom-embed">
+          <script src="https://www.corteva.com/etc.clientlibs/corteva/components/content/corteva-privacy-form/v1/corteva-privacy-form/clientlib.js"></script>
+<script src="https://www.pioneer.com/etc/designs/app/clientlibraries/third-party.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?hl=en" async defer></script>
+<style type="text/css" media="screen">
+/* RESET */
+.elq-form * {
+    margin: 0;
+    padding: 0;
+}
+
+.elq-form input,
+textarea {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.elq-form input[type=text],
+.elq-form textarea,
+.elq-form select[multiple=multiple] {
+    border: 1px solid #A6A6A6;
+}
+
+.elq-form button,
+input[type=reset],
+input[type=button],
+input[type=submit],
+input[type=checkbox],
+input[type=checkbox],
+input[type=radio],
+select {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* GENERIC */
+.elq-form input {
+    height: 16px;
+    line-height: 16px;
+}
+
+.elq-form .item-padding {
+    padding: 6px 5px 9px 9px;
+}
+
+.elq-form .pp-group {
+    padding: 0px 5px 0px 9px;
+}
+
+.elq-form .pp-field {
+    padding: 6px 0px 9px 0px;
+}
+
+.elq-form .field-wrapper.individual {
+    float: left;
+    width: 100%;
+    clear: both;
+}
+
+.elq-form .field-p {
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+	
+	
+	
+/* Drop Zone Styling Starts Here */
+	
+	#formElement5 {
+  display: none !important; /* Hides the single line text field used for dropzoneplacement */
+}
+	form#demo-upload1
+{ padding: 20px; }
+ 
+.dropzone.dz-clickable .dz-message, .dropzone.dz-clickable .dz-message * {
+cursor: pointer;
+font-size: 12px;
+
+	
+}
+
+
+
+	.row.dropzoneDiv {
+ padding: 0px 21px 0px 21px; /* Default (desktop) padding */
+		
+	
+}
+ @media (max-width: 767px) {
+  .row.dropzoneDiv {
+    padding: 0px 16px 0px 15px; /* Mobile-specific padding */
+  }
+}
+	
+@media (min-width: 770px) and (max-width: 990px) { /* Tablet-specific padding */
+  #demo-upload1 {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box; /* ensures padding/border don t overflow */
+	  margin: 0px !important;
+  }
+}
+	
+.dropzone {
+  border-radius: 0px;
+  background: none !important;
+border: 1px solid rgba(172, 181, 192);
+	min-height: 140px !important;
+	
+	
+}
+	.band.frm01-form form { 
+margin-top: 0px !important; 
+margin-bottom: 0px !important;
+}
+ 
+.row.dropzoneDiv h1 {
+font-weight: 450 !important;
+ font-family: HelveticaNowTextRegular, Helvetica, Arial, sans-serif; !important;
+ margin-bottom: 4px !important;
+ line-height: 20px;
+ font-size: 14px;
+ color: #000 !important;
+	
+}
+.custom-form form.elq-form input:not([type="checkbox"]):not([type="submit"])  {
+padding: 2% 0.8% 2% 2%;
+}
+	
+	
+	/* Drop Zone Styling Ends Here */
+
+.elq-form .zIndex-fix {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.elq-form .field-design {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.elq-form .no-fields-prompt {
+    float: left;
+    width: 100%;
+    height: 150px;
+    padding-top: 50px;
+    clear: both;
+}
+
+/* SECTION BREAKS */
+.elq-form .section-break {
+    float: left;
+    width: 97%;
+    margin-right: 2%;
+    margin-left: 1%;
+    padding-bottom: 6px;
+}
+
+.elq-form .section-break .heading {
+    width: 100%;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+}
+
+/* LABEL */
+.elq-form .required {
+    color: red !important;
+    display: inline;
+    float: none;
+    font-weight: bold;
+    margin: 0pt 0pt 0pt;
+    padding: 0pt 0pt 0pt;
+}
+
+/* FIELD GROUP */
+.elq-form .field-group {
+    float: left;
+    clear: both;
+}
+
+.elq-form .field-group.large {
+    width: 100%;
+}
+
+.elq-form .field-group.medium {
+    width: 51%;
+}
+
+.elq-form .field-group.small {
+    width: 31%;
+}
+
+.elq-form .field-group .label {
+    float: left;
+    width: 97%;
+    margin-right: 2%;
+    margin-left: 1%;
+    padding-bottom: 6px;
+    font-weight: bold;
+}
+
+.elq-form .field-group .field-style {
+    float: left;
+}
+
+.elq-form .progressive-profile .pp-inner {
+    float: left;
+    clear: both;
+}
+
+.elq-form .progressive-profile .pp-inner.large {
+    width: 100%;
+}
+
+.elq-form .progressive-profile .pp-inner.medium {
+    width: 51%;
+}
+
+.elq-form .progressive-profile .pp-inner.small {
+    width: 31%;
+}
+
+/* RADIO */
+.elq-form .radio-option {
+    display: inline-block;
+}
+
+.elq-form .radio-option .label {
+    display: block;
+    float: left;
+    padding-right: 10px;
+    padding-left: 22px;
+    text-indent: -22px;
+}
+
+.elq-form .radio-option .input {
+    vertical-align: middle;
+    margin-right: 7px;
+}
+
+.elq-form .radio-option .inner {
+    vertical-align: middle;
+}
+
+/* CHECKBOX */
+.elq-form .checkbox-span {
+    display: inline-block;
+}
+
+.elq-form .checkbox-label {
+    margin-left: 4px;
+}
+
+/* INPUT */
+.elq-form .accept-default {
+    width: 100%;
+}
+
+/* SIZING */
+.elq-form .field-style {
+    margin-right: 2%;
+    margin-left: 2%;
+}
+
+.elq-form .field-style._25 {
+    width: 21%;
+}
+
+.elq-form .field-style._50 {
+    width: 46%;
+}
+
+.elq-form .field-style._50_left {
+    clear: left;
+    width: 46%;
+}
+
+.elq-form .field-style._75 {
+    width: 71%;
+}
+
+.elq-form .field-style._100 {
+    width: 96%;
+}
+
+.elq-form .field-size-top-small {
+    width: 30%;
+}
+
+.elq-form .field-size-top-medium {
+    width: 75%;
+}
+
+.elq-form .field-size-top-large {
+    width: 96%;
+}
+
+.elq-form select.field-size-top-large {
+    width: 100%;
+}
+
+.elq-form .field-size-left-small {
+    width: 21%;
+}
+
+.elq-form .field-size-left-medium {
+    width: 46%;
+}
+
+.elq-form .field-size-left-large {
+    width: 60%;
+}
+
+/* INSTRUCTIONS */
+.elq-form .instructions.default {
+    color: #444444;
+    display: block;
+    font-size: 10px;
+    padding: 6px 0pt 3px;
+}
+
+.elq-form .instructions.group {
+    float: left;
+    width: 97%;
+    margin-right: 2%;
+    margin-left: 2%;
+    padding: 6px 0pt 3px;
+    color: #444444;
+    display: block;
+    font-size: 10px;
+}
+
+.elq-form .instructions.left-single {
+    margin: 0 0 0 33%;
+}
+
+.elq-form .instructions-other {
+    margin: 0;
+}
+
+/* POSITIONING */
+.elq-form .label-position.left {
+    display: block;
+    line-height: 150%;
+    padding: 1px 0pt 3px;
+    float: left;
+    width: 31%;
+    margin: 0pt 15px 0pt 0pt;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.elq-form .label-position.top {
+    display: block;
+    line-height: 150%;
+    padding: 1px 0pt 3px;
+    white-space: normal;
+}
+
+.elq-form .label-position.alignment-left {
+    text-align: left;
+}
+
+.elq-form .label-position.alignment-right {
+    text-align: right;
+}
+
+/* LIST ORDER */
+.elq-form .list-order {
+    display: block;
+}
+
+.elq-form .list-order.oneColumn {
+    margin: 0pt 7px 0pt 0pt;
+    width: 100%;
+    clear: both;
+}
+
+.elq-form .list-order.twoColumn {
+    float: left;
+    margin: 0pt 7px 0pt 0pt;
+    width: 41%;
+}
+
+.elq-form .list-order.threeColumn {
+    float: left;
+    margin: 0pt 7px 0pt 0pt;
+    width: 30%;
+}
+
+.elq-form .list-order.oneColumnLeft {
+    float: left;
+    margin: 0pt 7px 0pt 0pt;
+    width: 100%;
+}
+
+.elq-form .list-order.twoColumnLeft {
+    float: left;
+    margin: 0pt 7px 0pt 0pt;
+    width: 38%;
+}
+
+.elq-form .list-order.threeColumnLeft {
+    float: left;
+    margin: 0pt 7px 0pt 0pt;
+    width: 30%;
+}
+
+/* GRID STYLE */
+.elq-form .grid-style {
+    display: inline;
+    float: left;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.elq-form .grid-style._25 {
+    width: 21%;
+}
+
+.elq-form .grid-style._50 {
+    width: 46%;
+}
+
+.elq-form .grid-style._75 {
+    width: 71%;
+}
+
+.elq-form .grid-style._100 {
+    width: 96%;
+}
+
+
+
+    /* Ensure checkboxes align vertically with minimal spacing */
+    .checkbox-container {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .checkbox-container input {
+        margin: 2px 0; /* Reduce spacing between checkboxes */
+    }
+</style>
+
+<div>
+<form method="post" name="HOEG_SCN_Survey-33652-639227434451919395" action="https://api-recaptcha.vylor.com/api/verifyCaptcha" onsubmit="return submitUserForm() && handleFormSubmit(this);" id="form453" class="elq-form"><input value="HOEG_SCN_Survey-33652-639227434451919395" type="hidden" name="elqFormName"/><input value="8859564" type="hidden" name="elqSiteId"/><input name="elqCampaignId" type="hidden"/><input value="" type="hidden" name="response" id="resp"/><input type="hidden" name="elqCookieWrite" value="0"/><input type="hidden" name="originURL1" id="fe6666" value=""><input value="Vylr7hwC7xKqNo2hs50i" type="hidden" name="urlToken"/><input type="hidden" name="sitekey" id="sitekey" value="6LdIbwoaAAAAAM4LcMRI-hB9prps4KRMFjr_Vn9D"/><div id="aemFormElement0" class="sc-view form-design-field sc-static-layout item-padding sc-regular-size"><div class="field-wrapper"></div><div class="individual field-wrapper"><div class="_100 field-style"><p class="field-p"><label for="fe6634" class="label-position top ">First Name <span class="required">*</span></label><input id="fe6634" name="firstName" type="text" value="" class="field-size-top-large" /></p></div></div></div>
+<div id="aemFormElement1" class="sc-view form-design-field sc-static-layout item-padding sc-regular-size"><div class="field-wrapper"></div><div class="individual field-wrapper"><div class="_100 field-style"><p class="field-p"><label for="fe6635" class="label-position top ">Last Name <span class="required">*</span></label><input id="fe6635" name="lastName" type="text" value="" class="field-size-top-large" /></p></div></div></div>
+<div id="aemFormElement2" class="sc-view form-design-field sc-static-layout item-padding sc-regular-size"><div class="field-wrapper"></div><div class="individual field-wrapper"><div class="_100 field-style"><p class="field-p"><label for="fe6636" class="label-position top ">Email Address <span class="required">*</span></label><input id="fe6636" name="emailAddress" type="text" value="" class="field-size-top-large" /></p></div></div></div>
+<div id="aemFormElement3" class="sc-view form-design-field sc-static-layout item-padding sc-regular-size"><div class="field-wrapper"></div><div class="individual field-wrapper"><div class="_100 field-style"><p class="field-p"><label for="fe6637" class="label-position top ">Farming Location (City, State) <span class="required">*</span></label><input id="fe6637" name="address1" type="text" value="" class="field-size-top-large" /></p></div></div></div>
+<div id="aemFormElement4" class="sc-view form-design-field sc-static-layout item-padding sc-regular-size"><div class="field-wrapper"></div><div class="individual field-wrapper"><div class="_100 field-style"><p class="field-p"><label for="fe6638" class="label-position top ">Zip Code <span class="required">*</span></label><input id="fe6638" name="zipPostal" type="text" value="" class="field-size-top-large" /></p></div></div></div>
+<div id="aemFormElement5" class="sc-view form-design-field sc-static-layout item-padding sc-regular-size"><div class="field-wrapper"></div><div class="individual field-wrapper"><div class="_100 field-style"><p class="field-p"><label for="fe6639" class="label-position top ">Overall, how valuable was your participation in the SCN Testing Program this season? <span class="required">*</span></label><select id="fe6639" name="dropdownMenu2" class="field-size-top-large" style="width:100%;"><option value="-- Please Select --">-- Please Select --</option><option value="Extremely Valuable">Extremely Valuable</option><option value="Very Valuable">Very Valuable</option><option value="Somewhat Valuable">Somewhat Valuable</option><option value="Slightly Valuable">Slightly Valuable</option><option value="Not Valuable">Not Valuable</option><option value="Other">Other</option></select></p></div></div></div>
+<div id="aemFormElement6" class="sc-view form-design-field sc-static-layout item-padding sc-regular-size" style="display:none;"><div class="field-wrapper"></div><div class="individual field-wrapper"><div class="_100 field-style"><p class="field-p"><label for="fe6640" class="label-position top ">Other:</label><input id="fe6640" name="singleLineText" type="text" value="" class="field-size-top-large" /></p></div></div></div>
+<div id="aemFormElement7" class="sc-view form-design-field sc-static-layout item-padding sc-regular-size"><div class="field-wrapper"></div><div class="individual field-wrapper"><div class="_100 field-style"><p class="field-p"><label for="fe6641" class="label-position top ">How likely are you to make a change in your farming practices, product decisions, or management appr <span class="required">*</span></label><select id="fe6641" name="dropdownMenu3" class="field-size-top-large" style="width:100%;"><option value="-- Please Select --">-- Please Select --</option><option value="Very Likely">Very Likely</option><option value="Likely">Likely</option><option value="Unsure">Unsure</option><option value="Unlikely">Unlikely</option><option value="Very Unlikely">Very Unlikely</option><option value="Other">Other</option></select></p></div></div></div>
+<div id="aemFormElement8" class="sc-view form-design-field sc-static-layout item-padding sc-regular-size" style="display:none;"><div class="field-wrapper"></div><div class="individual field-wrapper"><div class="_100 field-style"><p class="field-p"><label for="fe6642" class="label-position top ">Other:</label><input id="fe6642" name="singleLineText2" type="text" value="" class="field-size-top-large" /></p></div></div></div>
+<div id="aemFormElement9" class="sc-view form-design-field sc-static-layout item-padding sc-regular-size"><div class="field-wrapper"></div><div class="individual field-wrapper"><div class="_100 field-style"><p class="field-p"><label for="fe6643" class="label-position top ">How satisfied were you with the communication, results, and support provided by the sales team throu <span class="required">*</span></label><select id="fe6643" name="dropdownMenu4" class="field-size-top-large" style="width:100%;"><option value="-- Please Select --">-- Please Select --</option><option value="Very Satisfied">Very Satisfied</option><option value="Satisfied">Satisfied</option><option value="Neutral">Neutral</option><option value="Dissatisfied">Dissatisfied</option><option value="Very Dissatisfied">Very Dissatisfied</option><option value="Other">Other</option></select></p></div></div></div>
+<div id="aemFormElement10" class="sc-view form-design-field sc-static-layout item-padding sc-regular-size" style="display:none;"><div class="field-wrapper"></div><div class="individual field-wrapper"><div class="_100 field-style"><p class="field-p"><label for="fe6644" class="label-position top ">Other:</label><input id="fe6644" name="Other:" type="text" value="" class="field-size-top-large" /></p></div></div></div>
+<div id="aemFormElement11" class="sc-view form-design-field sc-static-layout item-padding sc-regular-size"><div class="field-wrapper"></div><div class="individual field-wrapper"><div class="_100 field-style"><p class="field-p"><label for="fe6645" class="label-position top ">What was the most valuable insight or benefit you gained from participating? <span class="required">*</span></label><textarea id="fe6645" name="paragraphText" class="field-size-top-large" rows="5"></textarea></p></div></div></div>
+<div id="aemFormElement12" class="sc-view form-design-field sc-static-layout item-padding sc-regular-size"><div class="field-wrapper"></div><div class="individual field-wrapper"><div class="_100 field-style"><p class="field-p"><label for="fe6646" class="label-position top ">How likely are you to recommend participating in a program such as this one to another farmer? <span class="required">*</span></label><select id="fe6646" name="dropdownMenu" class="field-size-top-large" style="width:100%;"><option value="-- Please Select --">-- Please Select --</option><option value="0 (Not at all likely)">0 (Not at all likely)</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10 (Extremely likely)">10 (Extremely likely)</option></select></p></div></div></div>
+<div id="aemFormElement13" class="sc-view form-design-field sc-static-layout item-padding sc-regular-size"><div class="field-wrapper"></div><div class="individual field-wrapper"><div class="_100 field-style"><p class="field-p"><label for="fe6647" class="label-position top ">What could we have done to make your experience more valuable? <span class="required">*</span></label><textarea id="fe6647" name="paragraphText2" class="field-size-top-large" rows="5"></textarea></p></div></div></div><div id="captchaelement" class="sc-view form-design-field sc-static-layout item-padding sc-regular-size" style="clear:both;min-height:98px;margin-bottom:24px;"><div style="padding-top:20px;padding-bottom:10px" class="g-recaptcha" data-sitekey="6LdIbwoaAAAAAM4LcMRI-hB9prps4KRMFjr_Vn9D" data-callback="verifyCaptcha"></div><div id="g-recaptcha-error"></div></div><div class="sc-view form-design-field sc-static-layout item-padding sc-regular-size"><div class="individual field-wrapper"><div class="_100 field-style"><p class="field-p"><input type="submit" value="Submit" class="submit-button" id="fe6648" style="display:block;clear:both;margin-top:20px;"/></p></div></div></div></form><script src="https://img03.en25.com/i/livevalidation_standalone.compressed.js"></script><style>.LV_validation_message{font-weight:bold;margin:0 0 0 5px}.LV_valid{display:none!important}.LV_invalid{color:#CC0000;font-size:12px}.LV_valid_field{outline:1px solid #00CC00}.LV_invalid_field{outline:1px solid #CC0000}</style><script>function handleFormSubmit(f){var b=f.querySelector('input[type=submit]');if(b){b.disabled=true;b.style.cursor='wait'}return true;}var fe6634=new LiveValidation(document.querySelector('#form453 #fe6634'),{validMessage:'',onlyOnBlur:false,wait:300});fe6634.add(Validate.Presence,{failureMessage:'This field is required'});var fe6635=new LiveValidation(document.querySelector('#form453 #fe6635'),{validMessage:'',onlyOnBlur:false,wait:300});fe6635.add(Validate.Presence,{failureMessage:'This field is required'});var fe6636=new LiveValidation(document.querySelector('#form453 #fe6636'),{validMessage:'',onlyOnBlur:false,wait:300});fe6636.add(Validate.Format,{pattern:/^[^\s@]+@[^\s@]+\.[^\s@]+$/,failureMessage:'A valid email address is required'});fe6636.add(Validate.Presence,{failureMessage:'This field is required'});var fe6637=new LiveValidation(document.querySelector('#form453 #fe6637'),{validMessage:'',onlyOnBlur:false,wait:300});fe6637.add(Validate.Presence,{failureMessage:'This field is required'});var fe6638=new LiveValidation(document.querySelector('#form453 #fe6638'),{validMessage:'',onlyOnBlur:false,wait:300});fe6638.add(Validate.Format,{pattern:/^\d{5}$/,failureMessage:'Please enter exactly 5 digits'});fe6638.add(Validate.Presence,{failureMessage:'This field is required'});var fe6639=new LiveValidation(document.querySelector('#form453 #fe6639'),{validMessage:'',onlyOnBlur:false,wait:300});fe6639.add(Validate.Presence,{failureMessage:'This field is required'});var fe6641=new LiveValidation(document.querySelector('#form453 #fe6641'),{validMessage:'',onlyOnBlur:false,wait:300});fe6641.add(Validate.Presence,{failureMessage:'This field is required'});var fe6643=new LiveValidation(document.querySelector('#form453 #fe6643'),{validMessage:'',onlyOnBlur:false,wait:300});fe6643.add(Validate.Presence,{failureMessage:'This field is required'});var fe6645=new LiveValidation(document.querySelector('#form453 #fe6645'),{validMessage:'',onlyOnBlur:false,wait:300});fe6645.add(Validate.Presence,{failureMessage:'This field is required'});var fe6646=new LiveValidation(document.querySelector('#form453 #fe6646'),{validMessage:'',onlyOnBlur:false,wait:300});fe6646.add(Validate.Presence,{failureMessage:'This field is required'});var fe6647=new LiveValidation(document.querySelector('#form453 #fe6647'),{validMessage:'',onlyOnBlur:false,wait:300});fe6647.add(Validate.Presence,{failureMessage:'This field is required'});$(document).ready(function(){$('#fe6666').val($(location).attr('href'));var pairs=[['#fe6639','#aemFormElement6','#fe6640'],['#fe6641','#aemFormElement8','#fe6642'],['#fe6643','#aemFormElement10','#fe6644']];function clearOtherError(pair){$(pair[1]).find('.conditional-other-error').remove();$(pair[2]).removeClass('LV_invalid_field LV_valid_field');}function validateOther(pair){clearOtherError(pair);if($(pair[0]).val()!=='Other')return true;var value=$.trim($(pair[2]).val());if(!value){$(pair[2]).addClass('LV_invalid_field');$('<div class="conditional-other-error LV_validation_message LV_invalid">This field is required</div>').insertAfter(pair[2]);return false;}$(pair[2]).addClass('LV_valid_field');return true;}function update(pair){var show=$(pair[0]).val()==='Other';$(pair[1]).toggle(show);var label=$(pair[1]).find('label').first();label.find('.conditional-required').remove();if(show)label.append(' <span class="conditional-required required">*</span>');if(!show){$(pair[2]).val('');clearOtherError(pair);}}pairs.forEach(function(pair){$(pair[0]).on('change',function(){update(pair)});$(pair[2]).on('input blur',function(){if($(pair[0]).val()==='Other')validateOther(pair);});update(pair);});$('#fe6638').on('input',function(){this.value=this.value.replace(/\D/g,'').slice(0,5)});$('#fe6648').on('click',function(ev){var ok=true;[fe6634,fe6635,fe6636,fe6637,fe6638,fe6639,fe6641,fe6643,fe6645,fe6646,fe6647].forEach(function(v){if(!v.validate())ok=false});pairs.forEach(function(pair){if(!validateOther(pair))ok=false;});if(!ok)ev.preventDefault();});});function submitUserForm(){var r=grecaptcha.getResponse();$('#resp').val(r);if(!r.length){document.getElementById('g-recaptcha-error').innerHTML='<span style="color:#CC3602;font-weight:bold">*</span>';return false;}return true;}function verifyCaptcha(){document.getElementById('g-recaptcha-error').innerHTML='';}</script></div>
+     </div>
+ </div>
+</div>

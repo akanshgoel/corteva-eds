@@ -1,0 +1,65 @@
+/* Table block — standard AEM Block Collection table, themed to match the
+   hoegemeyer source (e.g. the AGRONOMY FIRST "Why Hoegemeyer?" comparison grid).
+   Source measurements (live): header row green #34845b band, black Oswald 700
+   14px text; body cells transparent; every row a 4px black bottom rule; cells
+   padded 15px 5px 15px 20px, left-aligned; full column width. */
+
+.table.block {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto 30px;
+  overflow-x: auto;
+}
+
+.table.block table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-family: oswald, var(--body-font-family);
+  font-size: 14px;
+  line-height: 20px;
+  color: #000;
+}
+
+.table.block table th,
+.table.block table td {
+  padding: 15px 5px 15px 20px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 4px solid #000;
+}
+
+/* Header row — green band, bold Oswald, matching the source. */
+.table.block table thead tr {
+  background-color: #34845b;
+}
+
+.table.block table th {
+  font-weight: 700;
+  color: #000;
+}
+
+.table table th p,
+.table table td p {
+  margin: 0;
+}
+
+.table table td p + p {
+  margin-top: 0.25em;
+}
+
+/* no-header variant */
+.table.block.no-header table tbody tr {
+  border-top: 1px solid;
+}
+
+/* striped variant */
+.table.block.striped tbody tr:nth-child(odd) {
+  background-color: var(--overlay-background-color);
+}
+
+/* bordered variant — a border around each cell (the source grid uses this). */
+.table.block.bordered table th,
+.table.block.bordered table td {
+  border: 1px solid #000;
+}

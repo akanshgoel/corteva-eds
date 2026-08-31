@@ -63,7 +63,13 @@ export default async function decorate(block) {
     : '';
   const posterPicture = block.querySelector('picture');
   const link = block.querySelector('a[href]');
-  const rawUrl = (link?.getAttribute('href') || block.textContent || '').trim();
+  const rawUrl = (link?.getAttribute('href') || '').trim();
+
+  // Optional caption: an authored heading in the cell (e.g. the source player's
+  // title "VIEW THE ENTRY PRIZE FOR 2022'S CONTEST BELOW"), rendered beneath the
+  // player. Captured before we clear the block.
+  const captionEl = block.querySelector('h1, h2, h3, h4, h5, h6');
+  const captionText = captionEl ? captionEl.textContent.trim() : '';
 
   const ytId = youtubeId(rawUrl);
   const isDM = !ytId && isDynamicMediaVideo(rawUrl);
@@ -96,6 +102,14 @@ export default async function decorate(block) {
 
   block.textContent = '';
   block.append(facade);
+
+  // Caption beneath the player (the source player's title), if authored.
+  if (captionText) {
+    const caption = document.createElement('p');
+    caption.className = 'video-caption';
+    caption.textContent = captionText;
+    block.append(caption);
+  }
 
   // ---- Click / keyboard: swap the facade for the real player. ----
   const play = () => {
