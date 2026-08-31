@@ -90,6 +90,15 @@
   }
 }
 
+/* The horizontal strip's full-bleed gray guide line shows at ALL widths on the
+   source (not just tablet+), so carry it on the block at the base level. The
+   full-bleed section-wrapper override above (which needs `main > .section`
+   context) stays gated at >=900px; below that the block sits within the normal
+   gutter but still shows the guide line + strip. */
+.jumpto-tabs.horizontal {
+  border-bottom: 5px solid #e1e5ea;
+}
+
 /* The label row is constrained to 1024px and centered, with the tablet 40px
    gutter (0 on desktop). The guide line lives on the block above, not here, so
    the line stays full-bleed while the labels line up with the page content. */
@@ -269,11 +278,28 @@
   }
 }
 
-/* Below the breakpoint: dropdown only. The variant selectors that turn the
-   list into a flex row/column carry `.horizontal`/`.vertical` (specificity
-   0,2,1), so this hide rule must match that specificity to win. */
+/* Below the breakpoint:
+   - HORIZONTAL: the source keeps the full "Jump to:" strip on ALL widths — a
+     nowrap flex row that scrolls horizontally (overflow-x:auto), NOT a dropdown.
+     So keep the strip visible + horizontally scrollable and hide the dropdown.
+   - VERTICAL: collapses to the dropdown as before.
+   The variant selectors carry `.horizontal`/`.vertical` (specificity 0,2,1), so
+   these rules match that specificity to win. */
 @media (width < 900px) {
-  .jumpto-tabs.horizontal .jumpto-tabs-list,
+  .jumpto-tabs.horizontal .jumpto-tabs-list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 20px 20px 0;
+  }
+
+  .jumpto-tabs.horizontal .jumpto-tabs-tab {
+    white-space: nowrap;
+  }
+
+  .jumpto-tabs.horizontal .jumpto-tabs-dropdown {
+    display: none;
+  }
+
   .jumpto-tabs.vertical .jumpto-tabs-list {
     display: none;
   }

@@ -150,6 +150,32 @@ main > .section:has(.teaser.block.banner) {
   color: #fff;
 }
 
+/* CTA over a hero-l2/banner image (e.g. Granular Insights "LOGIN / Get Started")
+   is a solid WHITE box with navy text — matches the source .cmp-teaser__action-
+   link (white bg, #375172 text, 23px/24px padding, 2px radius, 14px Oswald). */
+.teaser.block.hero-l2 .teaser-cta,
+.teaser.block.banner .teaser-cta {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 23px 24px;
+  border-radius: 2px;
+  background: #fff;
+  color: var(--hoeg-navy, #375172);
+  font-family: 'Oswald Bold', oswald, var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.teaser.block.hero-l2 .teaser-cta:hover,
+.teaser.block.banner .teaser-cta:hover {
+  color: var(--hoeg-navy-hover, #459aff);
+  text-decoration: none;
+}
+
 .teaser.block.hero-l2.slim {
   min-height: 250px;
 }
