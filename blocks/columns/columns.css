@@ -281,6 +281,29 @@ body.tpl-news .columns p:has(> .c-button) {
   height: auto;
 }
 
+/* ---- image-text variant (`columns image-text`) ----
+   A single feature row: a text column (pre-title eyebrow, heading, blurb, CTA)
+   beside a feature image, as used by the granular-insights Log In / VRS panels.
+   The source lays these ~50/50 (text ~492px, image ~472px), vertically centred,
+   splitting only at the tablet breakpoint and up; below that the two cells
+   stack (text first, image below). This variant carries no ratio class, so the
+   base single-column grid applies on mobile — we add the 2-up split here. */
+@media (width >= 900px) {
+  .columns.image-text > div {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 30px;
+  }
+}
+
+/* The feature image fills its cell (capped to natural size, centred). */
+.columns.image-text > div > .columns-img-col img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
 /* Right-rail top rule. The source right rail opens with a bold navy separator
    (a 5px var(--color-brand-primary) bar, full rail width, ~19px above the heading). That <hr> does
    not survive the block -> markdown round-trip, so we restore it as a top
