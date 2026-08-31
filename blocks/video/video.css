@@ -37,11 +37,12 @@
   object-fit: contain;
 }
 
-/* Play button: a 120px transparent hit-area centred over the poster. */
+/* Play button: a 120px transparent hit-area over the poster. The source places
+   it at ~75% across (right side) and vertically centred, so match that. */
 .video .video-play-btn {
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 75%;
   width: 120px;
   height: 120px;
   padding: 0;
@@ -79,14 +80,21 @@
   background: #f2f2f2;
 }
 
-/* Player caption — the source player's title beneath the video (e.g. "VIEW THE
-   ENTRY PRIZE FOR 2022'S CONTEST BELOW"). Matches the live cmp-title: Oswald
-   Bold 24px/28px, weight 800, ink color, left-aligned, no margin. */
+/* Player caption — the source player's title OVERLAID on the video, bottom-left
+   in white (e.g. "VIEW THE ENTRY PRIZE FOR 2022'S CONTEST BELOW"). Matches the
+   live player: white Oswald Bold ~32px, positioned in the lower-left with a
+   comfortable inset, above the poster (z-index over the image, under the
+   button's hit-area is fine since they don't overlap). */
 .video .video-caption {
-  margin: 12px 0 0;
+  position: absolute;
+  left: 8%;
+  bottom: 18%;
+  max-width: 46%;
+  margin: 0;
   font-family: var(--font-heading);
-  font-size: 24px;
+  font-size: clamp(22px, 2.2vw, 32px);
   font-weight: 800;
-  line-height: 28px;
-  color: var(--color-ink);
+  line-height: 1.1;
+  color: #fff;
+  text-transform: uppercase;
 }

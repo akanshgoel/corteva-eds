@@ -100,16 +100,18 @@ export default async function decorate(block) {
   const btn = buildPlayButton();
   facade.append(poster, btn);
 
-  block.textContent = '';
-  block.append(facade);
-
-  // Caption beneath the player (the source player's title), if authored.
+  // Caption (the source player's title) OVERLAID on the poster, bottom-left in
+  // white — matching the live player. Placed inside the facade so it sits over
+  // the poster; it is removed with the facade when the real player loads.
   if (captionText) {
     const caption = document.createElement('p');
     caption.className = 'video-caption';
     caption.textContent = captionText;
-    block.append(caption);
+    facade.append(caption);
   }
+
+  block.textContent = '';
+  block.append(facade);
 
   // ---- Click / keyboard: swap the facade for the real player. ----
   const play = () => {
