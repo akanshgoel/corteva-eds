@@ -37,12 +37,11 @@
   object-fit: contain;
 }
 
-/* Play button: a 120px transparent hit-area over the poster. The source places
-   it at ~75% across (right side) and vertically centred, so match that. */
+/* Play button: a 120px transparent hit-area centred over the poster. */
 .video .video-play-btn {
   position: absolute;
   top: 50%;
-  left: 75%;
+  left: 50%;
   width: 120px;
   height: 120px;
   padding: 0;
@@ -78,23 +77,4 @@
 .video .video-play-btn:hover::before,
 .video .video-play-btn:focus-visible::before {
   background: #f2f2f2;
-}
-
-/* Player caption — the source player's title OVERLAID on the video, bottom-left
-   in white (e.g. "VIEW THE ENTRY PRIZE FOR 2022'S CONTEST BELOW"). Matches the
-   live player: white Oswald Bold ~32px, positioned in the lower-left with a
-   comfortable inset, above the poster (z-index over the image, under the
-   button's hit-area is fine since they don't overlap). */
-.video .video-caption {
-  position: absolute;
-  left: 8%;
-  bottom: 18%;
-  max-width: 46%;
-  margin: 0;
-  font-family: var(--font-heading);
-  font-size: clamp(22px, 2.2vw, 32px);
-  font-weight: 800;
-  line-height: 1.1;
-  color: #fff;
-  text-transform: uppercase;
 }

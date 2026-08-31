@@ -63,13 +63,7 @@ export default async function decorate(block) {
     : '';
   const posterPicture = block.querySelector('picture');
   const link = block.querySelector('a[href]');
-  const rawUrl = (link?.getAttribute('href') || '').trim();
-
-  // Optional caption: an authored heading in the cell (e.g. the source player's
-  // title "VIEW THE ENTRY PRIZE FOR 2022'S CONTEST BELOW"), rendered beneath the
-  // player. Captured before we clear the block.
-  const captionEl = block.querySelector('h1, h2, h3, h4, h5, h6');
-  const captionText = captionEl ? captionEl.textContent.trim() : '';
+  const rawUrl = (link?.getAttribute('href') || block.textContent || '').trim();
 
   const ytId = youtubeId(rawUrl);
   const isDM = !ytId && isDynamicMediaVideo(rawUrl);
@@ -99,16 +93,6 @@ export default async function decorate(block) {
 
   const btn = buildPlayButton();
   facade.append(poster, btn);
-
-  // Caption (the source player's title) OVERLAID on the poster, bottom-left in
-  // white — matching the live player. Placed inside the facade so it sits over
-  // the poster; it is removed with the facade when the real player loads.
-  if (captionText) {
-    const caption = document.createElement('p');
-    caption.className = 'video-caption';
-    caption.textContent = captionText;
-    facade.append(caption);
-  }
 
   block.textContent = '';
   block.append(facade);
