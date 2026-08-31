@@ -204,10 +204,16 @@ main > .section:has(.teaser.block.banner) {
 
 /* banner CTA is a solid white button (matches the secondary button style) */
 .teaser.block.banner .teaser-cta {
-  padding: 23px 24px;
+  display: inline-block;
+  min-width: 200px;
+  padding: 18px 24px;
   border-radius: 2px;
   background-color: #fff;
   color: var(--hoeg-navy);
+  font-family: var(--font-heading), arial, sans-serif;
+  font-weight: 700;
+  text-align: center;
+  box-sizing: border-box;
   transition: all 0.2s ease;
 }
 
