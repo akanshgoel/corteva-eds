@@ -55,3 +55,81 @@
     aspect-ratio: 0.636 !important; /* source mobile aspect ratio */
   }
 }
+
+/* ---- Custom Eloqua Form embeds ----
+   The migrated form fragments (embeds/*-form.html) carry the source's own
+   `.elq-form` field CSS inline, but NOT the two-column `.sections` layout, which
+   lived in the source site's global stylesheet. Restore it here so the form
+   renders as on the live site: an intro column beside the form column, capped at
+   1024px. Measured from the source: `.sections` is a flex row (~82px gap),
+   left ~377px / right ~565px; stacks to one column below the tablet breakpoint. */
+.embed .sections {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+@media (width >= 900px) {
+  .embed .sections {
+    flex-direction: row;
+    gap: 80px;
+    align-items: flex-start;
+  }
+
+  .embed .sections .left-section {
+    flex: 0 1 377px;
+  }
+
+  .embed .sections .right-section {
+    flex: 1 1 565px;
+  }
+}
+
+/* Form fields fill their column. The fragment's inline CSS sets borders/padding;
+   here we only ensure the controls span the column and stack with rhythm (the
+   source spaces each field-paragraph ~18px apart). */
+.embed .elq-form input[type="text"],
+.embed .elq-form input[type="email"],
+.embed .elq-form input[type="tel"],
+.embed .elq-form textarea,
+.embed .elq-form select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.embed .elq-form p {
+  margin: 0 0 18px;
+}
+
+.embed .elq-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-family: oswald, var(--body-font-family);
+  font-size: 16px;
+}
+
+/* SUBMIT button — solid navy, white, Oswald, matching the source .elq-form
+   button (navy #375172, 23px/37px padding, 3px radius). */
+.embed .elq-form button,
+.embed .elq-form input[type="submit"] {
+  display: inline-block;
+  padding: 23px 37px;
+  border: 0;
+  border-radius: 3px;
+  background-color: var(--hoeg-navy, #375172);
+  color: #fff;
+  font-family: 'Oswald Bold', oswald, var(--heading-font-family);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.embed .elq-form button:hover,
+.embed .elq-form input[type="submit"]:hover {
+  background-color: var(--hoeg-navy-hover, #459aff);
+}
