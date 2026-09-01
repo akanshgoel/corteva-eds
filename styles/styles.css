@@ -726,6 +726,24 @@ main > .section.text-align-left .default-content-wrapper h1 + p {
   margin-top: 0.8em;
 }
 
+/* Opt-in `heading-gap` band spacing (Section Metadata Style, alignment-agnostic):
+   a heading directly followed by its intro/body paragraph mirrors the source —
+   30px below the heading, paragraph flush beneath (no top margin), replacing the
+   global 70px article-title `h1 + p` gap. Scoped to a heading immediately
+   followed by a `p` (via `:has(+ p)`) so a standalone heading is untouched.
+   Reusable utility (no body class); the token is opt-in per section, so pages
+   that don't set it (yield, traits) are unaffected. Used by the yield-data
+   intro band ("YIELD DATA" + intro) and the "We're growing…" H2 + body band.
+   Placed at file end so it follows the generic default-content rules it
+   overrides (keeps specificity ascending). */
+main > .section.heading-gap .default-content-wrapper :is(h1, h2):has(+ p) {
+  margin-bottom: 30px;
+}
+
+main > .section.heading-gap .default-content-wrapper :is(h1, h2) + p {
+  margin-top: 0;
+}
+
 /* The logo image's own paragraph stays centered even in a left-aligned band,
    with a spacer gap above it separating the logo from the intro copy (live uses
    an empty `<p>&nbsp;</p>` spacer here; we reproduce that gap with margin so the
