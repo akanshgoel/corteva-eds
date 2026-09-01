@@ -296,12 +296,35 @@ body.tpl-news .columns p:has(> .c-button) {
   }
 }
 
-/* The feature image fills its cell (capped to natural size, centred). */
+/* Text cell: a 5px navy left-border bar runs down the content (matches the
+   source `.column-feature__section1__green-line`), with the text inset from it. */
+.columns.image-text > div > div:not(.columns-img-col) {
+  border-left: 5px solid var(--hoeg-navy, #375172);
+  padding-left: 30px;
+}
+
+/* The feature CTA is LEFT-aligned (the source button sits flush left under the
+   blurb), overriding the article-columns centered `.button-wrapper` default. */
+/* stylelint-disable-next-line no-descending-specificity */
+.columns.image-text .button-wrapper {
+  text-align: left;
+}
+
+/* Image cell: the source frames the image in a light-grey card offset 40px
+   down-right (`.column-feature__section2` box-shadow #e1e5ea 40px 40px), and the
+   image itself carries a soft drop shadow. Reproduce both. */
+.columns.image-text > div > .columns-img-col {
+  box-shadow: 40px 40px 0 0 #e1e5ea;
+}
+
+/* The feature image fills its cell (capped to natural size, centred) with the
+   source's soft drop shadow. */
 .columns.image-text > div > .columns-img-col img {
   width: auto;
   max-width: 100%;
   height: auto;
   margin: 0 auto;
+  box-shadow: 12px 12px 24px 0 rgb(0 0 0 / 8%), -4px -4px 14px 0 rgb(0 0 0 / 4%);
 }
 
 /* Right-rail top rule. The source right rail opens with a bold navy separator
