@@ -726,7 +726,11 @@ main > .section.text-align-left .default-content-wrapper h1 + p {
   margin-top: 0.8em;
 }
 
-/* The logo image's own paragraph stays centered even in a left-aligned band. */
+/* The logo image's own paragraph stays centered even in a left-aligned band,
+   with a spacer gap above it separating the logo from the intro copy (live uses
+   an empty `<p>&nbsp;</p>` spacer here; we reproduce that gap with margin so the
+   Hoegemeyer logo isn't cramped against the "Check out 2025…" line). */
 main > .section.text-align-left.logo .default-content-wrapper p:has(img) {
+  margin-top: 30px;
   text-align: center;
 }
