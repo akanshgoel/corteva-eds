@@ -263,6 +263,16 @@ body.tpl-news .columns p:has(> .c-button) {
   text-align: left;
 }
 
+/* Opt-in `cta-left` section utility: left-align a columns CTA c-button that
+   live renders flush-left (e.g. the 2026 Seed Guide PDF link), overriding the
+   default centered treatment. Applied via Section Metadata Style on that
+   section, so article/other CTAs stay centered. */
+/* stylelint-disable-next-line no-descending-specificity -- utility override
+   intentionally follows the higher-specificity centered rule above. */
+main > .section.cta-left .columns p:has(> .c-button) {
+  text-align: left;
+}
+
 /* Spacing around each brand group, matched to live (~80px above the logo from
    the divider, ~52px below the logo to its button row). Opt in with Section
    Metadata Style `group-below` on the logo section. The logo section keeps a
