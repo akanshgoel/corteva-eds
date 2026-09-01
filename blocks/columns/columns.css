@@ -275,6 +275,21 @@ main > .section.group-below + .section {
   margin-top: 0;
 }
 
+/* Balance the spacing around each brand group. A logo+buttons pair is a tight
+   unit (logo sits close to its buttons via group-below); the separators that
+   divide the groups carry a symmetric, moderate margin so the groups are evenly
+   spaced. The logo section that FOLLOWS a separator drops its own top margin so
+   the separator's margin is the single, even gap above the logo (its 40px would
+   otherwise collapse-dominate and push the logo far from the divider). */
+main > .section.separator-container {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+main > .section.separator-container + .section {
+  margin-top: 0;
+}
+
 /* Wide CTA buttons: the brand-link CTAs in the columns row directly beneath a
    grouped logo section match the source c-button width (min-width 200px,
    centered). Scoped to the `group-below` + columns adjacency so only these
