@@ -453,3 +453,13 @@ main > .section.group-below + .section .columns {
 .columns table td p:last-child {
   margin-bottom: 0;
 }
+
+/* In a centered columns section, a full-width (display:block) image ignores the
+   parent's text-align and anchors left instead of centering (visible when cards
+   stack on tablet/mobile — e.g. the dealer marketing-tool icons). Center it
+   explicitly. Scoped to `text-align-center` sections so left-aligned columns
+   pages are unaffected. Placed at file end so specificity stays ascending. */
+main > .section.text-align-center .columns img {
+  margin-left: auto;
+  margin-right: auto;
+}
