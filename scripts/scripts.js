@@ -492,6 +492,12 @@ async function loadEager(doc) {
   if (window.location.pathname.includes('/about/news/')) {
     document.body.classList.add('tpl-news');
   }
+  // Local Yield Results page: its brand-link buttons use the source c-button
+  // sizing (min-width 200px, centered). Tag the body so that sizing is scoped
+  // to this page and does not widen buttonized CTAs on other columns pages.
+  if (/\/yield(\.html)?$/.test(window.location.pathname)) {
+    document.body.classList.add('tpl-yield');
+  }
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);

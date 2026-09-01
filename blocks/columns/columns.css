@@ -263,6 +263,28 @@ body.tpl-news .columns p:has(> .c-button) {
   text-align: left;
 }
 
+/* Local Yield Results (tpl-yield): brand-link CTAs match the source c-button —
+   min-width 200px, centered. Scoped to the body class so other columns pages'
+   buttonized CTAs (e.g. corn-traits "LEARN MORE HERE") keep their own width. */
+/* stylelint-disable-next-line no-descending-specificity -- body-scoped override
+   intentionally follows the higher-specificity button rules above. */
+body.tpl-yield .columns a.button {
+  min-width: 200px;
+  text-align: center;
+}
+
+/* Group each brand logo with the button row directly beneath it (matches live's
+   `no-bottom-padding` columncontrol): collapse the doubled 40px section margin
+   between a logo section and the columns section that follows it so the pair
+   reads as one unit. Scoped to tpl-yield. */
+body.tpl-yield main > .section.logo {
+  margin-bottom: 0;
+}
+
+body.tpl-yield main > .section.logo + .section.columns-container {
+  margin-top: 0;
+}
+
 /* value-props variant: cells hold stacked icon-over-text items */
 .columns.value-props > div > div {
   text-align: center;

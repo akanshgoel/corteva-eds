@@ -468,10 +468,12 @@ main > .section.text-center .default-content-wrapper {
 }
 
 /* Article-detail title: left-align the text-center section that follows the
-   breadcrumb (listing intros have no breadcrumb before them, so stay centered). */
+   breadcrumb (listing intros have no breadcrumb before them, so stay centered).
+   Excludes `.logo` sections (e.g. yield's "Harvest Results" band, which pairs a
+   centered brand logo with the heading and must stay centered). */
 /* stylelint-disable no-descending-specificity */
-main > .section.breadcrumb-container + .section.text-center .default-content-wrapper,
-main > .section.breadcrumb-container + .section.text-center .default-content-wrapper :is(h1, h2, h3, h4, h5, h6) {
+main > .section.breadcrumb-container + .section.text-center:not(.logo) .default-content-wrapper,
+main > .section.breadcrumb-container + .section.text-center:not(.logo) .default-content-wrapper :is(h1, h2, h3, h4, h5, h6) {
   text-align: left;
 }
 
