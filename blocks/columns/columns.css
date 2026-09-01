@@ -296,11 +296,23 @@ body.tpl-news .columns p:has(> .c-button) {
   }
 }
 
-/* Text cell: a 5px navy left-border bar runs down the content (matches the
-   source `.column-feature__section1__green-line`), with the text inset from it. */
+/* Text cell: a short 5px navy bar sits to the LEFT of the eyebrow + heading
+   only (matches the source `.column-feature__section1__green-line`, ~61px tall),
+   NOT the full text height. Reproduce it as a ::before bar anchored to the top,
+   sized to the eyebrow+heading band, with the text inset 30px from it. */
 .columns.image-text > div > div:not(.columns-img-col) {
-  border-left: 5px solid var(--hoeg-navy, #375172);
+  position: relative;
   padding-left: 30px;
+}
+
+.columns.image-text > div > div:not(.columns-img-col)::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 61px;
+  background: var(--hoeg-navy, #375172);
 }
 
 /* The feature CTA is LEFT-aligned (the source button sits flush left under the
