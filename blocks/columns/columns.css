@@ -263,31 +263,26 @@ body.tpl-news .columns p:has(> .c-button) {
   text-align: left;
 }
 
-/* Group a logo section with the block directly beneath it (matches live's
-   `no-bottom-padding` columncontrol): collapse the doubled 40px section margin
-   so the pair reads as one unit. Opt in with Section Metadata Style
-   `group-below` on the logo section. */
+/* Spacing around each brand group, matched to live (~80px above the logo from
+   the divider, ~52px below the logo to its button row). Opt in with Section
+   Metadata Style `group-below` on the logo section. The logo section keeps a
+   ~52px bottom margin to its buttons; the following button section drops its
+   own top margin so the gap is exactly the logo's bottom margin. */
 main > .section.group-below {
-  margin-bottom: 0;
+  margin-bottom: 52px;
 }
 
 main > .section.group-below + .section {
   margin-top: 0;
 }
 
-/* Balance the spacing around each brand group. A logo+buttons pair is a tight
-   unit (logo sits close to its buttons via group-below); the separators that
-   divide the groups carry a symmetric, moderate margin so the groups are evenly
-   spaced. The logo section that FOLLOWS a separator drops its own top margin so
-   the separator's margin is the single, even gap above the logo (its 40px would
-   otherwise collapse-dominate and push the logo far from the divider). */
+/* Separators divide the brand groups. Live shows ~80px between the divider and
+   the next logo; margins collapse (separator margin vs the logo section's own
+   40px top margin take the max), and the logo's paragraph adds ~13px, so a 64px
+   separator margin yields ~80px above the logo. Keep the top side even. */
 main > .section.separator-container {
-  margin-top: 24px;
-  margin-bottom: 24px;
-}
-
-main > .section.separator-container + .section {
-  margin-top: 0;
+  margin-top: 40px;
+  margin-bottom: 64px;
 }
 
 /* Wide CTA buttons: the brand-link CTAs in the columns row directly beneath a
