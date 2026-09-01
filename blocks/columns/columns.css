@@ -276,11 +276,13 @@ main > .section.group-below + .section {
   margin-top: 0;
 }
 
-/* Separators divide the brand groups. Live shows ~80px between the divider and
-   the next logo; margins collapse (separator margin vs the logo section's own
-   40px top margin take the max), and the logo's paragraph adds ~13px, so a 64px
-   separator margin yields ~80px above the logo. Keep the top side even. */
-main > .section.separator-container {
+/* Separators that divide brand groups (a separator immediately followed by a
+   grouped logo section). Live shows ~80px between the divider and the next
+   logo; margins collapse (separator margin vs the logo section's own 40px top
+   margin take the max) and the logo's paragraph adds ~13px, so a 64px bottom
+   margin yields ~80px above the logo. Scoped with :has() so GENERIC separators
+   elsewhere (e.g. the block-library docs) keep their default section margin. */
+main > .section.separator-container:has(+ .section.group-below) {
   margin-top: 40px;
   margin-bottom: 64px;
 }
