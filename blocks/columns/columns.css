@@ -263,26 +263,28 @@ body.tpl-news .columns p:has(> .c-button) {
   text-align: left;
 }
 
-/* Local Yield Results (tpl-yield): brand-link CTAs match the source c-button —
-   min-width 200px, centered. Scoped to the body class so other columns pages'
-   buttonized CTAs (e.g. corn-traits "LEARN MORE HERE") keep their own width. */
-/* stylelint-disable-next-line no-descending-specificity -- body-scoped override
-   intentionally follows the higher-specificity button rules above. */
-body.tpl-yield .columns a.button {
-  min-width: 200px;
-  text-align: center;
-}
-
-/* Group each brand logo with the button row directly beneath it (matches live's
+/* Group a logo section with the block directly beneath it (matches live's
    `no-bottom-padding` columncontrol): collapse the doubled 40px section margin
-   between a logo section and the columns section that follows it so the pair
-   reads as one unit. Scoped to tpl-yield. */
-body.tpl-yield main > .section.logo {
+   so the pair reads as one unit. Opt in with Section Metadata Style
+   `group-below` on the logo section. */
+main > .section.group-below {
   margin-bottom: 0;
 }
 
-body.tpl-yield main > .section.logo + .section.columns-container {
+main > .section.group-below + .section {
   margin-top: 0;
+}
+
+/* Wide CTA buttons: the brand-link CTAs in the columns row directly beneath a
+   grouped logo section match the source c-button width (min-width 200px,
+   centered). Scoped to the `group-below` + columns adjacency so only these
+   logo/link groups are affected — other columns pages' buttonized CTAs
+   (e.g. corn-traits "LEARN MORE HERE") keep their own width. */
+/* stylelint-disable-next-line no-descending-specificity -- utility override
+   intentionally follows the higher-specificity button rules above. */
+main > .section.group-below + .section .columns a.button {
+  min-width: 200px;
+  text-align: center;
 }
 
 /* value-props variant: cells hold stacked icon-over-text items */

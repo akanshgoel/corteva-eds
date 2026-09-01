@@ -508,6 +508,7 @@ main > .section.text-align-left .columns :is(h1, h2, h3, h4, h5, h6, p) {
   text-align: left;
 }
 
+
 main > .section.text-align-right .default-content-wrapper,
 main > .section.text-align-right .default-content-wrapper :is(h1, h2, h3, h4, h5, h6, p),
 main > .section.text-align-right .columns :is(h1, h2, h3, h4, h5, h6, p) {
@@ -713,23 +714,19 @@ main .default-content-wrapper a.button.primary:focus-visible {
   color: var(--color-on-brand);
 }
 
-/* ── Yield "Harvest Results" band (tpl-yield) ──────────────────────────────
-   The band carries Section Style `text-center, logo` so the brand logo centers,
-   but its heading + intro copy must be LEFT-aligned (only the logo is centered).
-   Placed at file end so these body-scoped overrides follow the generic
-   default-content rules they refine (avoids descending-specificity churn).
-   Scoped to tpl-yield — no other logo/text-center section is affected. */
-body.tpl-yield main > .section.logo .default-content-wrapper :is(h1, h2, h3, h4, h5, h6, p) {
-  text-align: left;
-}
 
-/* The logo image's own paragraph stays centered. */
-body.tpl-yield main > .section.logo .default-content-wrapper p:has(img) {
-  text-align: center;
-}
+/* ── Left-aligned logo band utilities (opt-in via Section Metadata Style) ──────
+   Placed at file end so these refinements follow the generic default-content
+   rules they override (keeps specificity ascending; no body class). Used by the
+   yield "Harvest Results" band: `text-align-left, logo`. */
 
-/* Drop the global 70px h1->intro gap here (that spacing is for article-title
-   pages); the yield intro sits directly under the heading. */
-body.tpl-yield main > .section.logo .default-content-wrapper h1 + p {
+/* Suppress the global 70px h1->intro gap inside a left-aligned band (that large
+   gap is only for article-title pages); the intro sits directly under the h1. */
+main > .section.text-align-left .default-content-wrapper h1 + p {
   margin-top: 0.8em;
+}
+
+/* The logo image's own paragraph stays centered even in a left-aligned band. */
+main > .section.text-align-left.logo .default-content-wrapper p:has(img) {
+  text-align: center;
 }
