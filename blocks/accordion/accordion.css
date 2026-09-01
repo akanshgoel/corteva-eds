@@ -91,3 +91,54 @@
 .accordion .accordion-item .accordion-item-body p:last-child {
   margin-bottom: 0;
 }
+
+/* ---- non-accordion variant (static, always-open list) ----
+   The source `cmp-accordion--non-accordion` (AGRONOMY FIRST "What Does…" cards,
+   Granular Insights "RELATED ARTICLES") is NOT collapsible: every item is shown
+   open with its title, image and body all visible, no chevron, no dividers, no
+   88px header row. Items stack with a comfortable gap.
+   Items stack with a comfortable gap. */
+.accordion.non-accordion .accordion-item,
+.accordion.non-accordion .cmp-accordion__item {
+  border: 0;
+  margin-bottom: 40px;
+}
+
+.accordion.non-accordion .accordion-item:last-of-type,
+.accordion.non-accordion .cmp-accordion__item:last-of-type {
+  border: 0;
+  margin-bottom: 0;
+}
+
+/* Title is a plain heading — not an 88px interactive row. */
+.accordion.non-accordion .accordion-item summary {
+  min-height: 0;
+  padding: 0;
+  margin: 0 0 16px;
+  cursor: default;
+}
+
+/* No collapse chevron in this variant (JS also omits it). */
+/* stylelint-disable-next-line no-descending-specificity */
+.accordion.non-accordion .cmp-accordion__icon {
+  display: none;
+}
+
+/* Panel always visible; image on top, body text below. */
+.accordion.non-accordion .accordion-item .accordion-item-body {
+  padding: 0;
+}
+
+/* stylelint-disable no-descending-specificity */
+.accordion.non-accordion .accordion-item-body p:has(> picture),
+.accordion.non-accordion .accordion-item-body p:has(> img) {
+  margin: 0 0 16px;
+}
+/* stylelint-enable no-descending-specificity */
+
+.accordion.non-accordion .accordion-item-body img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
