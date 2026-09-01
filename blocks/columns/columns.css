@@ -287,6 +287,15 @@ main > .section.group-below + .section .columns a.button {
   text-align: center;
 }
 
+/* Drop the columns block's own 50px vertical padding on a button row that
+   follows a grouped logo — the section margins already provide the rhythm, so
+   the 50px would otherwise pile onto the 40px section margin and leave a large
+   gap before the separator/next group. */
+main > .section.group-below + .section .columns {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 /* value-props variant: cells hold stacked icon-over-text items */
 .columns.value-props > div > div {
   text-align: center;
