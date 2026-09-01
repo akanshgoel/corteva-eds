@@ -463,3 +463,14 @@ main > .section.text-align-center .columns img {
   margin-left: auto;
   margin-right: auto;
 }
+
+/* Stacked marketing-tool cards (columns 25-25-25-25) below the desktop
+   breakpoint: live spaces each card ~109px apart (CTA to the next card's icon),
+   vs the default 30px grid row-gap. Widen the row gap to match live when the
+   4-up grid collapses to one column. Scoped to the 25-25-25-25 ratio so other
+   columns pages are unaffected; desktop keeps its 20px gap (rule above). */
+@media (width < 1040px) {
+  .columns[data-ratio="25-25-25-25"] > div {
+    row-gap: 109px;
+  }
+}
