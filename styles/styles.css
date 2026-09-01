@@ -712,3 +712,24 @@ main .default-content-wrapper a.button.primary:focus-visible {
   border: 0;
   color: var(--color-on-brand);
 }
+
+/* ── Yield "Harvest Results" band (tpl-yield) ──────────────────────────────
+   The band carries Section Style `text-center, logo` so the brand logo centers,
+   but its heading + intro copy must be LEFT-aligned (only the logo is centered).
+   Placed at file end so these body-scoped overrides follow the generic
+   default-content rules they refine (avoids descending-specificity churn).
+   Scoped to tpl-yield — no other logo/text-center section is affected. */
+body.tpl-yield main > .section.logo .default-content-wrapper :is(h1, h2, h3, h4, h5, h6, p) {
+  text-align: left;
+}
+
+/* The logo image's own paragraph stays centered. */
+body.tpl-yield main > .section.logo .default-content-wrapper p:has(img) {
+  text-align: center;
+}
+
+/* Drop the global 70px h1->intro gap here (that spacing is for article-title
+   pages); the yield intro sits directly under the heading. */
+body.tpl-yield main > .section.logo .default-content-wrapper h1 + p {
+  margin-top: 0.8em;
+}
