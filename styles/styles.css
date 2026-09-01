@@ -530,6 +530,59 @@ main > .section.logo .default-content-wrapper img {
   height: auto;
 }
 
+/* ---- /hometown-celebrations only: page-scoped Section-Metadata utilities ----
+   Both tokens below are emitted ONLY by tools/importer/transformers/
+   hoegemeyer-hometown-sections.js, which is registered ONLY in
+   import-hometown-celebrations.js. No other migrated page carries a
+   `.section.event-table` or `.section.hometown-badge` class, so these rules
+   cannot reach any other page's tables or images. In particular they never
+   touch the corn-traits / soybean-traits `.tabs.gray-background` data tables
+   (a different block, in a different section, with no `event-table` class) nor
+   the deeproots `columns … cards` tables. */
+
+/* HOMETOWN badge image — the source `<img width="200">` loses its width in the
+   round-trip and EDS stretches it to the full column (1024²). Cap + center it
+   to the source's small size. Scoped to the wrapped intro band's columns cell
+   so it never shrinks the hero, the video poster, or the icon/photo images in
+   the event/history sections (which live in their OWN sections). */
+main > .section.hometown-badge .columns img {
+  max-width: 240px;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+/* EVENT-SCHEDULE tables (FIELD DAYS, COLLEGIATE TAILGATES) — restyle the navy
+   card skin the source uses, overriding the generic `.columns table` grey
+   spreadsheet rule (columns.css). Scoped to `.section.event-table` so ONLY the
+   two wrapped 35-65 schedule blocks on this page are affected. */
+main > .section.event-table .columns table {
+  background-color: #365172; /* rgb(54,81,114) navy card */
+  border-collapse: collapse;
+}
+
+main > .section.event-table .columns table th,
+main > .section.event-table .columns table td {
+  padding: 12px;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid #fff; /* bottom-only borders (no side/grid lines) */
+}
+
+/* Body cells: white text on the navy fill. */
+main > .section.event-table .columns table td {
+  color: #fff;
+}
+
+/* Header row: light blue-grey fill, black bold text, heavier bottom rule. */
+main > .section.event-table .columns table th {
+  background: var(--color-surface-alt); /* #e9eff2 rgb(233,239,242) */
+  color: #000;
+  font-weight: 700;
+  border-bottom-width: 2px;
+}
+
 /* Hoegemeyer content typography — matches the source rich-text/columns styling
    (Oswald Bold headings in ink #20242d, 16px body). Scoped to migrated default
    content and the columns block so it doesn't affect the teaser/hero or other
@@ -573,6 +626,27 @@ main .columns > div > div:first-child :is(ol, ul) {
 main .default-content-wrapper :is(ol, ul) li,
 main .columns > div > div:first-child :is(ol, ul) li {
   padding: 4.8px 0;
+}
+
+/* Pull-quotes — the source renders <blockquote> quotes at Oswald 24px/800 with
+   a 40px left indent and 30px bottom gap (measured on live enlimited-grade-
+   soybeans, the only page authoring <blockquote>). Scoped to migrated content
+   (default content + columns cells) so the quote text overrides the generic
+   16px/400 body rule above; placed after it to keep specificity ascending. */
+main .default-content-wrapper blockquote,
+main .columns blockquote {
+  margin: 0 0 30px;
+  padding-left: 40px;
+}
+
+main .default-content-wrapper blockquote :is(p, span),
+main .columns blockquote :is(p, span) {
+  margin: 0;
+  font-family: var(--font-heading), var(--heading-font-family);
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 1.3;
+  color: var(--hoeg-ink);
 }
 
 /* Inline text links in migrated article content are navy (#375172), no
@@ -752,3 +826,116 @@ main > .section.text-align-left.logo .default-content-wrapper p:has(img) {
   margin-top: 30px;
   text-align: center;
 }
+
+/* ── Site-map link tree (opt-in via Section Metadata `Style: sitemap`) ─────────
+   The site-map page is a bulletless indented link tree. Live renders every list
+   level with `list-style: none`, no vertical rhythm, tight indents (top ul 18px,
+   nested 20px) and navy links — bold (700) at the top level, medium (500) when
+   nested. Migrated default content would otherwise inherit the generic body-list
+   styling (disc/circle bullets, 40px indent, loose <p> margins) and — because
+   the standalone `<p><a>` links get auto-tagged `.c-button` by decorateContent-
+   Buttons — the bright-blue `--link-color` instead of navy. These rules are
+   SCOPED to `main > .section.sitemap` so no other page's lists are touched
+   (articles' KEY POINTS discs, footer/nav lists, columns bodies all keep their
+   own styling). Placed at file end so it follows the generic default-content
+   rules it overrides (keeps specificity ascending; no body class). */
+
+/* These rules intentionally follow (and override) the generic default-content
+   list/link rules above; ordering by specificity would break that override, so
+   the descending-specificity rule is disabled for this cohesive block (same
+   approach as the text-align block at line ~474). */
+/* stylelint-disable no-descending-specificity */
+
+/* Bulletless at every level; kill the generic 30px list margins + 40px indent. */
+main > .section.sitemap .default-content-wrapper :is(ul, ol) {
+  margin: 0;
+  padding-left: 18px;
+  list-style: none;
+}
+
+/* Nested lists indent slightly more than the top level (live: 20px). */
+main > .section.sitemap .default-content-wrapper :is(ul, ol) :is(ul, ol) {
+  padding-left: 20px;
+}
+
+/* No per-item vertical padding (live li: 0) — the tree is tight, not airy. */
+main > .section.sitemap .default-content-wrapper :is(ul, ol) li {
+  padding: 0;
+  list-style: none;
+}
+
+/* The loose-list `<p>` wrappers around top/second-level links carry the body
+   paragraph margins (12.8px/4px); live uses bare `<li><a>`. Zero them so the
+   rhythm matches the bare-anchor nested items. */
+main > .section.sitemap .default-content-wrapper li > p {
+  margin: 0;
+}
+
+/* Navy links, no underline. Overrides the `.c-button` bright-blue that content-
+   button decoration applies to these standalone `<p><a>` links. Buttonised CTAs
+   don't occur on this page, so re-including `.c-button`/`.button` here is safe
+   and page-scoped. */
+main > .section.sitemap .default-content-wrapper a:any-link {
+  color: var(--hoeg-navy);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+main > .section.sitemap .default-content-wrapper a:hover {
+  color: var(--hoeg-navy);
+  text-decoration: underline;
+}
+
+/* Top-level category links (direct children of the outermost list) are bold.
+   `:any-link` keeps specificity level with the base link rule above so source
+   order (this rule is later) makes 700 win over the 500 default. */
+main > .section.sitemap .default-content-wrapper > :is(ul, ol) > li > p > a:any-link,
+main > .section.sitemap .default-content-wrapper > :is(ul, ol) > li > a:any-link {
+  font-weight: 700;
+}
+/* stylelint-enable no-descending-specificity */
+
+/* ── Legal & Trademark glossary (legal.html) ───────────────────────────────────
+   The legal page is the ONLY page using the VERTICAL jumpto-tabs variant and the
+   hoegemeyer-legal-sections transformer, which tags each glossary panel section
+   `Style: legal-glossary` (→ `.section.legal-glossary`). All rules here are
+   scoped to that token (glossary spacing/type) or to the legal-only
+   `main > .section:has(.jumpto-tabs.vertical)` header section (H1/date), so no
+   other page — including the traits-detail pages that use the HORIZONTAL
+   jumpto-tabs — is affected. Values measured from live computed styles.
+   Placed at file end so these follow the generic default-content rules they
+   override (keeps specificity ascending; no body class). */
+/* stylelint-disable no-descending-specificity */
+
+/* Glossary trademark entries: ~30px between paragraphs (live p margin 0 0 30px);
+   the migrated default is the boilerplate ~4px. Empty logo-spacer <p>s collapse
+   to 0 so the 30px rhythm lands between real entries, not doubled by blanks. */
+main > .section.legal-glossary .default-content-wrapper p {
+  margin: 0 0 30px;
+}
+
+main > .section.legal-glossary .default-content-wrapper p:empty {
+  margin: 0;
+}
+
+/* Inline bold trait-code labels ("AM", "AMXT", "Vorceed® Enlist…", the long AQ
+   performance disclaimer, etc.) are 12px on live, not the inherited 16px body
+   size. Scoped to the glossary sections so no other page's <strong> changes. */
+main > .section.legal-glossary .default-content-wrapper strong {
+  font-size: 12px;
+}
+
+/* Legal page header (date line + H1). Live: H1 margin 0 (no 90px gap below the
+   title), date 14px/tight. The header lives in the same first section as the
+   vertical jump-nav, so `:has(.jumpto-tabs.vertical)` scopes it to legal only.
+   The date is the first paragraph, immediately before the <h1>. */
+main > .section:has(.jumpto-tabs.vertical) .default-content-wrapper h1 {
+  margin: 0;
+}
+
+main > .section:has(.jumpto-tabs.vertical) .default-content-wrapper p:has(+ h1) {
+  margin: 0;
+  font-size: 14px;
+  line-height: 23px;
+}
+/* stylelint-enable no-descending-specificity */

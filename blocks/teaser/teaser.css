@@ -154,6 +154,33 @@ main > .section:has(.teaser.block.banner) {
   min-height: 250px;
 }
 
+/* HERO-L2 CTA — a solid white button (matches live: bg #fff, navy text, 23px
+   24px pad, 2px radius, ~60px tall). Only the deeproots hero-l2 carries a CTA
+   ("EXPLORE ALL PRODUCTS"); the other hero-l2 pages (traits-technology, about,
+   hometown-celebrations, hidf) have image + title only, so this rule is inert
+   there. Scoped to hero-l2 so banner/card CTAs are untouched. The CTA sits
+   flush-left under the title (the hero-l2 content column is left-aligned). */
+.teaser.block.hero-l2 .teaser-cta {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 20px;
+  padding: 23px 24px;
+  border-radius: 2px;
+  background-color: #fff;
+  color: var(--hoeg-navy);
+  font-family: var(--font-heading), arial, sans-serif;
+  font-weight: 700;
+  text-align: center;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.teaser.block.hero-l2 .teaser-cta:hover,
+.teaser.block.hero-l2 .teaser-cta:focus-visible {
+  background-color: var(--hoeg-surface);
+  color: var(--hoeg-navy-hover);
+}
+
 /* HERO-L1 — split content: title (left) + description (right), dark text. */
 .teaser.block.hero-l1 .teaser-content {
   display: flex;
