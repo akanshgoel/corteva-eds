@@ -110,12 +110,11 @@
   margin-bottom: 0;
 }
 
-/* Title is a plain heading — not an 88px interactive row. */
+/* The panel body already carries the title as an <h5> in source order
+   (title → image → text), so the summary label would only duplicate it —
+   hide it in this variant. */
 .accordion.non-accordion .accordion-item summary {
-  min-height: 0;
-  padding: 0;
-  margin: 0 0 16px;
-  cursor: default;
+  display: none;
 }
 
 /* No collapse chevron in this variant (JS also omits it). */
@@ -140,5 +139,16 @@
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* Card title (h5) — matches the source: Oswald Bold 18px/24px, dark slate. */
+.accordion.non-accordion .accordion-item-body h5 {
+  margin: 0 0 16px;
+  font-family: 'Oswald Bold', oswald, var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 24px;
+  color: rgb(32 36 45);
+  text-transform: none;
 }
 
