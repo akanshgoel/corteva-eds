@@ -66,36 +66,23 @@
    active ::after underline sits 20px below the tab (flush to the guide line).
    --------------------------------------------------------------------------- */
 
-/* The horizontal strip (with its full-bleed guide line) only renders at the
-   tablet breakpoint and up; below that the mobile dropdown shows instead and
-   the block keeps the base padded/centered layout (no full-bleed, no line). */
-@media (width >= 900px) {
-  /* Full-bleed the section wrapper that holds a horizontal jumpto-tabs so the
-     guide line can span the full section width. Scoped through `main > .section`
-     to outweigh the global `main > .section > div { padding: 0 32px }` gutter.
-     Only the horizontal variant is affected — the vertical variant is untouched.
-     The section holds several wrappers (breadcrumb/teaser/columns/jumpto-tabs),
-     so we target the jumpto-tabs-wrapper specifically, not the whole section. */
-  main > .section > .jumpto-tabs-wrapper:has(.jumpto-tabs.horizontal) {
-    max-width: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  /* The block spans full width and carries the full-bleed guide line. */
-  .jumpto-tabs.horizontal {
-    max-width: none;
-    padding: 0;
-    border-bottom: 5px solid #e1e5ea;
-  }
+/* Full-bleed the section wrapper that holds a horizontal jumpto-tabs at ALL
+   widths so the guide line + strip span the full section width (the source is
+   full-bleed on mobile too). Scoped through `main > .section` to outweigh the
+   global `main > .section > div { padding: 0 32px }` gutter. Only the horizontal
+   variant is affected — the vertical variant is untouched. The section holds
+   several wrappers (breadcrumb/teaser/columns/jumpto-tabs), so we target the
+   jumpto-tabs-wrapper specifically, not the whole section. */
+main > .section > .jumpto-tabs-wrapper:has(.jumpto-tabs.horizontal) {
+  max-width: none;
+  padding: 0;
+  margin: 0;
 }
 
-/* The horizontal strip's full-bleed gray guide line shows at ALL widths on the
-   source (not just tablet+), so carry it on the block at the base level. The
-   full-bleed section-wrapper override above (which needs `main > .section`
-   context) stays gated at >=900px; below that the block sits within the normal
-   gutter but still shows the guide line + strip. */
+/* The block spans full width and carries the full-bleed gray guide line. */
 .jumpto-tabs.horizontal {
+  max-width: none;
+  padding: 0;
   border-bottom: 5px solid #e1e5ea;
 }
 
@@ -290,6 +277,13 @@
     flex-wrap: nowrap;
     overflow-x: auto;
     padding: 20px 20px 0;
+
+    /* Hide the native scrollbar — the custom ‹ › track below replaces it. */
+    scrollbar-width: none;
+  }
+
+  .jumpto-tabs.horizontal .jumpto-tabs-list::-webkit-scrollbar {
+    display: none;
   }
 
   .jumpto-tabs.horizontal .jumpto-tabs-tab {
@@ -303,4 +297,76 @@
   .jumpto-tabs.vertical .jumpto-tabs-list {
     display: none;
   }
+
+  /* Show the scroll control on the horizontal strip on mobile (matches the
+     source `oversight-arrow-content-scroll`: a track with ‹ › arrow buttons
+     below the strip). Hidden above the breakpoint and when nothing overflows. */
+  .jumpto-tabs.horizontal .jumpto-tabs-scroll {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px 12px;
+  }
+}
+
+/* Scroll control — hidden by default (desktop, or when nothing to scroll). */
+.jumpto-tabs .jumpto-tabs-scroll {
+  display: none;
+}
+
+.jumpto-tabs .jumpto-tabs-scroll.is-hidden {
+  display: none !important;
+}
+
+/* The track is a thin grey rail; the thumb is a darker draggable-looking bar. */
+.jumpto-tabs .jumpto-tabs-scroll-track {
+  position: relative;
+  flex: 1 1 auto;
+  height: 4px;
+  border-radius: 2px;
+  background: #e1e5ea;
+}
+
+.jumpto-tabs .jumpto-tabs-scroll-thumb {
+  height: 100%;
+  min-width: 12%;
+  border-radius: 2px;
+  background: #95a0b4;
+}
+
+/* ‹ › arrow buttons flanking the track. */
+.jumpto-tabs .jumpto-tabs-scroll-prev,
+.jumpto-tabs .jumpto-tabs-scroll-next {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-brand-primary, #375172);
+  cursor: pointer;
+}
+
+.jumpto-tabs .jumpto-tabs-scroll-prev::before,
+.jumpto-tabs .jumpto-tabs-scroll-next::before {
+  content: '';
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid currentcolor;
+  border-bottom: 2px solid currentcolor;
+}
+
+.jumpto-tabs .jumpto-tabs-scroll-prev::before {
+  transform: rotate(135deg); /* ‹ */
+}
+
+.jumpto-tabs .jumpto-tabs-scroll-next::before {
+  transform: rotate(-45deg); /* › */
+}
+
+.jumpto-tabs .jumpto-tabs-scroll-prev:disabled,
+.jumpto-tabs .jumpto-tabs-scroll-next:disabled {
+  color: #c7cdd6;
+  cursor: default;
 }
