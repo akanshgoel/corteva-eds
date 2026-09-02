@@ -152,3 +152,49 @@
   text-transform: none;
 }
 
+/* Desktop: cards WITH an image (agronomy-first "AGRONOMY FIRST") use a 2-column
+   layout — a fixed 241×160 image on the left, title + body text stacked in the
+   right column. Cards WITHOUT an image (granular "RELATED ARTICLES") keep the
+   plain single-column stack, so they are intentionally excluded via :has().
+   Mobile keeps the stacked title → image → text order above. */
+@media (width >= 900px) {
+  .accordion.non-accordion .accordion-item-body:has(picture),
+  .accordion.non-accordion .accordion-item-body:has(img) {
+    display: grid;
+    grid-template-columns: 241px 1fr;
+    column-gap: 30px;
+    align-items: start;
+  }
+
+  /* Image cell — left column, spanning the full card height. */
+  /* stylelint-disable-next-line no-descending-specificity */
+  .accordion.non-accordion .accordion-item-body:has(picture) p:has(> picture),
+  .accordion.non-accordion .accordion-item-body:has(img) p:has(> img) {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    margin: 0;
+  }
+
+  .accordion.non-accordion .accordion-item-body:has(picture) img,
+  .accordion.non-accordion .accordion-item-body:has(img) img {
+    width: 241px;
+    height: 160px;
+    object-fit: cover;
+  }
+
+  /* Title (row 1) and body text (row 2) share the right column. */
+  /* stylelint-disable-next-line no-descending-specificity */
+  .accordion.non-accordion .accordion-item-body:has(picture) h5,
+  .accordion.non-accordion .accordion-item-body:has(img) h5 {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .accordion.non-accordion .accordion-item-body:has(picture) > p:not(:has(picture), :has(img)),
+  .accordion.non-accordion .accordion-item-body:has(img) > p:not(:has(picture), :has(img)) {
+    grid-column: 2;
+    grid-row: 2;
+    margin: 0;
+  }
+}
+
