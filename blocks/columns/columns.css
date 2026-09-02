@@ -189,6 +189,18 @@ main > .section > .columns-wrapper:has(.columns.cards) {
   min-width: 0;
 }
 
+/* Center a fixed-width card (card2/card7 are capped at 328px in teaser.css)
+   within its grid track. When the grid is single-column (mobile AND tablet) the
+   track spans the full content width (~688px at 768) while the card stays 328px,
+   so without this the card anchors LEFT — live centers it. At desktop the 3-up
+   track is ~328px, so the auto inline margins collapse to zero (no effect on the
+   3-up row). card3 fills 100% width, so it is unaffected. Scoped to
+   `.columns.cards` so card2/card7 usages outside a card grid are untouched. */
+.columns.cards > div > div > .teaser.block.card2,
+.columns.cards > div > div > .teaser.block.card7 {
+  margin-inline: auto;
+}
+
 /* The 65-35 article layout matches the live `--65-35` wrapper: it stays a
    single full-width column (rail full-width on mobile AND tablet) and only
    splits into 13fr/7fr with a 1.25rem (20px) gap at >= 1040px. */
