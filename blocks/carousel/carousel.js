@@ -70,8 +70,10 @@ const PLAY_ICON = '<svg class="carousel-play-icon" viewBox="0 0 16 18" aria-hidd
 // Thumbnail play glyph — a filled disc with a white triangle (matches the
 // source's video-thumb-play-button.svg on each nav thumbnail).
 const THUMB_PLAY_ICON = '<svg class="carousel-thumb-play-icon" viewBox="0 0 44 44" aria-hidden="true" focusable="false"><circle cx="22" cy="22" r="22" fill="rgba(0,0,0,0.55)"/><path d="M17 14v16l13-8z" fill="#fff"/></svg>';
-const CHEVRON_PREV = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15.5 4.5 8 12l7.5 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-const CHEVRON_NEXT = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8.5 4.5 16 12l-7.5 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+// Slim chevrons matching live's icomoon glyphs (\e912 / \e911): a thin single
+// stroke, rendered white at ~2.5rem in the bottom-right control row.
+const CHEVRON_PREV = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const CHEVRON_NEXT = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 /**
  * Parses an author-supplied video reference into a typed descriptor.
@@ -158,7 +160,20 @@ function playVideo(imageWrap, video, title) {
   let player;
   if (video.type === 'youtube') {
     player = el('iframe', 'carousel-content__player');
-    player.src = `https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+    // Use the privacy-enhanced nocookie host and pass an explicit `origin` so
+    // YouTube accepts the embed instead of showing its "Sign in to confirm
+    // you're not a bot" interstitial (that challenge fires when the embed has no
+    // valid origin/referrer). enablejsapi + origin is the standard robust embed.
+    const origin = (typeof window !== 'undefined' && window.location && window.location.origin) || '';
+    const params = new URLSearchParams({
+      autoplay: '1',
+      rel: '0',
+      modestbranding: '1',
+      playsinline: '1',
+      enablejsapi: '1',
+    });
+    if (origin && /^https?:/.test(origin)) params.set('origin', origin);
+    player.src = `https://www.youtube-nocookie.com/embed/${video.id}?${params.toString()}`;
     player.title = title || 'Video';
     player.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; fullscreen');
     player.setAttribute('allowfullscreen', '');
