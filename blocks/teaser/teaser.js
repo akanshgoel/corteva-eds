@@ -63,6 +63,13 @@ export default function decorate(block) {
     return;
   }
   if (cta) {
+    // A standalone CTA link inside `.columns` (e.g. the deeproots "The Dirt"
+    // card2 "Read More") is auto-tagged `.c-button` (filled blue button) by
+    // scripts.js decorateContentButtons before the teaser inflates. The teaser
+    // owns its own per-variant CTA styling (card2/card7 text-link with arrow,
+    // banner solid button, hero-l2 outlined) via `.teaser-cta`, so drop the
+    // generic button classes to prevent them overriding it.
+    cta.classList.remove('c-button', 'button', 'secondary');
     cta.classList.add('teaser-cta');
     content.append(cta);
   }
