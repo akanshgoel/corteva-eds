@@ -528,3 +528,31 @@ main > .section.text-align-center .columns img {
     margin-top: auto;
   }
 }
+
+/* "The Dirt" card-grid header: the captured section title ("The Dirt:
+   Information to help you grow stronger.") + intro ("Get the latest insights
+   from Hoegemeyer agronomists.") are emitted as default content ABOVE the card
+   grid, inside the same (blue split-gradient) section. Live centers them on the
+   white top band with a 44px title and a ~30px gap to the first card. Scope the
+   centering to this section's own default-content header (via the
+   `card-grid-header` section token) so the left-aligned card2 bodies are NOT
+   centered. Placed at file end so specificity stays ascending. */
+main > .section.card-grid-header > .default-content-wrapper {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+main > .section.card-grid-header > .default-content-wrapper :is(h1, h2, h3, h4, h5, h6, p) {
+  text-align: center;
+}
+
+main > .section.card-grid-header > .default-content-wrapper h2 {
+  margin-bottom: 0;
+  font-size: 32px;
+}
+
+@media (width >= 1040px) {
+  main > .section.card-grid-header > .default-content-wrapper h2 {
+    font-size: 44px;
+  }
+}
