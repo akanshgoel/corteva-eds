@@ -505,17 +505,21 @@ main > .section.text-align-center .columns img {
   }
 }
 
-/* "The Dirt" article cards (card2) inside the card grid follow live's responsive
-   shape. teaser.css caps card2 at 328px and stacks image-over-content — correct
-   for the 3-up desktop row (>= 1040px, handled by the CARD GRID rules above). But
-   below desktop live drops to ONE card per row at FULL container width:
+/* Card-grid article cards inside the card grid follow live's responsive shape.
+   This covers the deeproots "The Dirt" cards (card2) AND the corn/soybean trait
+   cards (card7) — both render identically on live. teaser.css caps them at 328px
+   and stacks image-over-content — correct for the 3-up desktop row (>= 1040px,
+   handled by the CARD GRID rules above). But below desktop live drops to ONE card
+   per row at FULL container width:
      - Tablet (768-1039): image-LEFT 50% / content-RIGHT 50%, side-by-side, the
        image filling the card height.
      - Mobile (< 768): image-TOP / content-below, stacked full width.
    Override the 328px cap (and the centering auto-margins) below desktop, scoped
-   to `.columns.cards` so the standalone 328px card2 (block library) is untouched. */
+   to `.columns.cards` so standalone 328px card2/card7 (block library) are
+   untouched. */
 @media (width < 1040px) {
-  .columns.cards > div > div > .teaser.block.card2 {
+  .columns.cards > div > div > .teaser.block.card2,
+  .columns.cards > div > div > .teaser.block.card7 {
     max-width: none;
     margin-inline: 0;
   }
@@ -529,27 +533,32 @@ main > .section.text-align-center .columns img {
    aspect ratio (overriding teaser.css's fixed 190px) so the migrated card is the
    same tall block, not a short content-height strip. */
 @media (width >= 768px) and (width < 1040px) {
-  .columns.cards > div > div > .teaser.block.card2 {
+  .columns.cards > div > div > .teaser.block.card2,
+  .columns.cards > div > div > .teaser.block.card7 {
     display: flex;
     align-items: stretch;
   }
 
-  .columns.cards > div > div > .teaser.block.card2 > .teaser-image {
+  .columns.cards > div > div > .teaser.block.card2 > .teaser-image,
+  .columns.cards > div > div > .teaser.block.card7 > .teaser-image {
     flex: 0 0 50%;
     aspect-ratio: 4 / 3;
   }
 
-  .columns.cards > div > div > .teaser.block.card2 > .teaser-image :is(picture, img) {
+  .columns.cards > div > div > .teaser.block.card2 > .teaser-image :is(picture, img),
+  .columns.cards > div > div > .teaser.block.card7 > .teaser-image :is(picture, img) {
     height: 100%;
   }
 
-  .columns.cards > div > div > .teaser.block.card2 > .teaser-content {
+  .columns.cards > div > div > .teaser.block.card2 > .teaser-content,
+  .columns.cards > div > div > .teaser.block.card7 > .teaser-content {
     flex: 1 1 50%;
   }
 
-  /* Push the "Read More" CTA to the bottom of the taller (image-height) card,
+  /* Push the CTA to the bottom of the taller (image-height) card,
      matching live (title/subtitle at top, CTA flush to the card's lower edge). */
-  .columns.cards > div > div > .teaser.block.card2 > .teaser-content > .teaser-cta {
+  .columns.cards > div > div > .teaser.block.card2 > .teaser-content > .teaser-cta,
+  .columns.cards > div > div > .teaser.block.card7 > .teaser-content > .teaser-cta {
     margin-top: auto;
   }
 }
