@@ -555,6 +555,13 @@ main > .section.text-align-center .columns img {
     flex: 1 1 50%;
   }
 
+  /* card7 content has no horizontal padding by default (padding: 20px 0) so its
+     text sits flush against the image in the side-by-side layout; live gives it
+     a 1.875rem (30px) left gap. card2 already carries 30px horizontal padding. */
+  .columns.cards > div > div > .teaser.block.card7 > .teaser-content {
+    padding-left: 1.875rem;
+  }
+
   /* Push the CTA to the bottom of the taller (image-height) card,
      matching live (title/subtitle at top, CTA flush to the card's lower edge). */
   .columns.cards > div > div > .teaser.block.card2 > .teaser-content > .teaser-cta,
