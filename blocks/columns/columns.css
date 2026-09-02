@@ -510,7 +510,13 @@ main > .section.text-align-center .columns img {
   }
 }
 
-/* Tablet side-by-side: image-left / content-right, each half the card width. */
+/* Tablet side-by-side: image-left / content-right, each half the card width.
+   Live drives the card HEIGHT from the image: the 50%-wide image carries a 4/3
+   aspect ratio (e.g. 472px wide -> ~359px tall at 1024), and the card stretches
+   to that height so the content column is tall with the title/subtitle at top
+   and "Read More" flush to the bottom. Give the image wrapper the same 4/3
+   aspect ratio (overriding teaser.css's fixed 190px) so the migrated card is the
+   same tall block, not a short content-height strip. */
 @media (width >= 768px) and (width < 1040px) {
   .columns.cards > div > div > .teaser.block.card2 {
     display: flex;
@@ -519,6 +525,7 @@ main > .section.text-align-center .columns img {
 
   .columns.cards > div > div > .teaser.block.card2 > .teaser-image {
     flex: 0 0 50%;
+    aspect-ratio: 4 / 3;
   }
 
   .columns.cards > div > div > .teaser.block.card2 > .teaser-image :is(picture, img) {
