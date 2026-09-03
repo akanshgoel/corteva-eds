@@ -1000,3 +1000,37 @@ main > .section.techsheet-lineup .default-content-wrapper ul li a {
   font-weight: 400;
   text-decoration: none;
 }
+
+/* Event-section CTAs ("REGISTER HERE", "REQUEST YOUR TICKETS") — on
+   hometown-celebrations these standalone links sit in the full-width section
+   HEADER above their [icon | table] grid (default content), not inside the
+   columns block, so the `.columns .c-button` rule (columns.css) can't reach
+   them. decorateContentButtons tags them `.c-button`; render them as the same
+   solid navy button, centered like live. Scoped to `.section.event-table` (a
+   page-only token) so no other page's default-content links are affected.
+   Placed at file end so specificity stays ascending vs the band utilities. */
+main > .section.event-table .default-content-wrapper p:has(> a.c-button) {
+  text-align: center;
+}
+
+main > .section.event-table .default-content-wrapper a.c-button {
+  display: inline-block;
+  border: 0;
+  border-radius: 2px;
+  padding: 23px 24px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-on-brand);
+  font-family: var(--font-heading), sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 14px;
+  text-decoration: none;
+  text-transform: none;
+}
+
+main > .section.event-table .default-content-wrapper a.c-button:hover,
+main > .section.event-table .default-content-wrapper a.c-button:focus-visible {
+  background-color: var(--color-brand-primary-hover);
+  color: var(--color-on-brand);
+  text-decoration: none;
+}
