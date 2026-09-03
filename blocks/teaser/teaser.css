@@ -227,6 +227,18 @@ main > .section:has(.teaser.block.banner) {
   color: #000;
 }
 
+/* Navy accent bar above the title on mobile/tablet (live: 40x5px, 20px below).
+   At desktop the layout becomes title | description with a vertical navy
+   divider on the description instead, so this bar is hidden there. */
+.teaser.block.hero-l1 .teaser-title::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 5px;
+  margin-bottom: 20px;
+  background-color: var(--hoeg-navy);
+}
+
 .teaser.block.hero-l1 .teaser-description {
   color: var(--hoeg-ink);
 }
@@ -462,6 +474,12 @@ main > .section:has(.teaser.block.banner) {
   .teaser.block.hero-l1 .teaser-title {
     flex: 0 1 auto;
     margin: 0;
+  }
+
+  /* Desktop uses the vertical divider on the description, so drop the title's
+     accent bar (mobile/tablet only). */
+  .teaser.block.hero-l1 .teaser-title::before {
+    display: none;
   }
 
   .teaser.block.hero-l1 .teaser-description {
