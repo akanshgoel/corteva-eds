@@ -939,3 +939,48 @@ main > .section:has(.jumpto-tabs.vertical) .default-content-wrapper p:has(+ h1) 
   line-height: 23px;
 }
 /* stylelint-enable no-descending-specificity */
+
+/* Tech-sheet lineup (e.g. enlimited-grade-soybeans "2026 Lineup"): the variety
+   links are flattened to a <ul> during import (a real leading-cell <table> would
+   be mis-decorated as an EDS block). Live renders them as a 2-column bordered
+   table (1px solid var(--color-muted) cells, centered navy 14px links). Restyle
+   the <ul> as that 2-col grid with collapsed 1px borders — same look at every
+   viewport (live keeps 2 columns down to mobile). Opt in via the section token
+   `techsheet-lineup`. */
+main > .section.techsheet-lineup .default-content-wrapper ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 1024px;
+  margin: 14px auto;
+  padding: 0;
+}
+
+main > .section.techsheet-lineup .default-content-wrapper ul li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 15px 5px 15px 20px;
+  border: 1px solid var(--color-muted);
+  text-align: center;
+}
+
+/* Collapse doubled inner borders so adjacent cells share a single 1px line. */
+main > .section.techsheet-lineup .default-content-wrapper ul li:nth-child(odd) {
+  border-right: 0;
+}
+
+main > .section.techsheet-lineup .default-content-wrapper ul li:not(:nth-last-child(-n + 2)) {
+  border-bottom: 0;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- lineup link color;
+   ordering vs the sitemap link rule above is intentional and harmless. */
+main > .section.techsheet-lineup .default-content-wrapper ul li a {
+  color: var(--hoeg-navy);
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+}
