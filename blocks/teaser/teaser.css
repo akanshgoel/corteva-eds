@@ -181,16 +181,28 @@ main > .section:has(.teaser.block.banner) {
   color: var(--hoeg-navy-hover);
 }
 
-/* HERO-L1 — a white CONTENT CARD (title + subhead) centered over a full-bleed
-   background image (matches live: 400px band, image cover; a max-1024px white
-   card with soft shadow, vertically + horizontally centered, left-aligned black
-   title + ink subhead). The `slim` modifier keeps the full 400px band (unlike
-   hero-l2's slim, which shortens to 250px). */
+/* HERO-L1 — matches live: a 240px IMAGE strip across the top on a light blue-
+   grey band (rgb(233,239,242)); a white CONTENT CARD (title + subhead) overlaps
+   the lower part of the image and hangs down onto the grey. NOT a full-bleed
+   cover image. The `slim` modifier keeps the 400px band (hero-l2 slim shortens).
+   The image wrapper (absolute, inset:0) carries the grey; its <img> is capped
+   to 240px so the grey shows below it. */
 .teaser.block.hero-l1 {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0 20px; /* side gutter only; keep the 400px band height exact */
+}
+
+.teaser.block.hero-l1 .teaser-image {
+  background-color: rgb(233 239 242);
+}
+
+/* Cap the image to a 240px top strip (top-anchored); the grey wrapper shows
+   below it. Overrides the shared full-bleed hero cover rule above. */
+.teaser.block.hero-l1 .teaser-image :is(picture, img) {
+  height: 240px;
+  object-position: center top;
 }
 
 .teaser.block.hero-l1 .teaser-content {
