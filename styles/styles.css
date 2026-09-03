@@ -637,6 +637,7 @@ main .default-content-wrapper blockquote,
 main .columns blockquote {
   margin: 0 0 30px;
   padding-left: 40px;
+  border-left: 5px solid var(--hoeg-navy); /* navy accent rule, matches live */
 }
 
 main .default-content-wrapper blockquote :is(p, span),
