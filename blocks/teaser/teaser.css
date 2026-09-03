@@ -181,14 +181,30 @@ main > .section:has(.teaser.block.banner) {
   color: var(--hoeg-navy-hover);
 }
 
-/* HERO-L1 — split content: title (left) + description (right), dark text. */
+/* HERO-L1 — a white CONTENT CARD (title + subhead) centered over a full-bleed
+   background image (matches live: 400px band, image cover; a max-1024px white
+   card with soft shadow, vertically + horizontally centered, left-aligned black
+   title + ink subhead). The `slim` modifier keeps the full 400px band (unlike
+   hero-l2's slim, which shortens to 250px). */
+.teaser.block.hero-l1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px; /* side gutter only; keep the 400px band height exact */
+}
+
 .teaser.block.hero-l1 .teaser-content {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 24px;
-  min-height: 400px;
-  padding: 40px 20px;
+  gap: 16px;
+  box-sizing: border-box;
+  padding: 30px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 11%);
+  text-align: left;
 }
 
 .teaser.block.hero-l1 .teaser-title {
@@ -199,9 +215,9 @@ main > .section:has(.teaser.block.banner) {
   color: var(--hoeg-ink);
 }
 
-.teaser.block.hero-l1.slim,
-.teaser.block.hero-l1.slim .teaser-content {
-  min-height: 250px;
+/* hero-l1 slim keeps the full 400px band (only hero-l2 slim shortens). */
+.teaser.block.hero-l1.slim {
+  min-height: 400px;
 }
 
 /* BANNER — full-bleed image, centred white content with a CTA button. */
@@ -407,19 +423,9 @@ main > .section:has(.teaser.block.banner) {
     font-size: 44px;
   }
 
-  /* hero-l1 becomes a two-column split: title | description with a divider */
+  /* hero-l1 card: roomier 60px padding on desktop (matches live). */
   .teaser.block.hero-l1 .teaser-content {
-    flex-direction: row;
-    align-items: center;
-    gap: 40px;
-  }
-
-  .teaser.block.hero-l1 .teaser-title {
-    flex: 0 0 auto;
-  }
-
-  .teaser.block.hero-l1 .teaser-description {
-    padding-left: 40px;
-    border-left: 1px solid currentcolor;
+    padding: 60px;
+    gap: 20px;
   }
 }
