@@ -423,9 +423,25 @@ main > .section:has(.teaser.block.banner) {
     font-size: 44px;
   }
 
-  /* hero-l1 card: roomier 60px padding on desktop (matches live). */
+  /* hero-l1 card on desktop: roomier 60px padding and a two-column split —
+     title (left) | description (right), the description separated by a navy
+     vertical divider (matches live: 5px solid rgb(55,81,114) + 40px pad, 60px
+     gap, vertically centered). */
   .teaser.block.hero-l1 .teaser-content {
+    flex-direction: row;
+    align-items: center;
+    gap: 60px;
     padding: 60px;
-    gap: 20px;
+  }
+
+  .teaser.block.hero-l1 .teaser-title {
+    flex: 0 1 auto;
+    margin: 0;
+  }
+
+  .teaser.block.hero-l1 .teaser-description {
+    flex: 0 0 auto;
+    padding-left: 40px;
+    border-left: 5px solid var(--hoeg-navy);
   }
 }
