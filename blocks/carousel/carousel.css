@@ -243,8 +243,8 @@ main > .section > .carousel-wrapper {
 .carousel .carousel-content .prev-btn svg,
 .carousel .carousel-content .next-btn svg {
   display: block;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 16px;
   margin: auto;
 }
 

@@ -74,6 +74,10 @@ const THUMB_PLAY_ICON = '<svg class="carousel-thumb-play-icon" viewBox="0 0 44 4
 // stroke, rendered white at ~2.5rem in the bottom-right control row.
 const CHEVRON_PREV = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const CHEVRON_NEXT = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+// Long horizontal arrows (← →) for the main slide controls next to the "n/N"
+// counter — matches live (a full shaft with an arrowhead, not a chevron).
+const ARROW_PREV = '<svg viewBox="0 0 32 16" aria-hidden="true" focusable="false"><path d="M31 8H1m0 0 7-7M1 8l7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const ARROW_NEXT = '<svg viewBox="0 0 32 16" aria-hidden="true" focusable="false"><path d="M1 8h30m0 0-7-7m7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 /**
  * Parses an author-supplied video reference into a typed descriptor.
@@ -297,12 +301,12 @@ export default function decorate(block) {
 
     // prev / count / next live in the left description region (shown when multi)
     const buttons = el('div', 'video-gallery__buttons');
-    const prev = el('button', 'prev-btn', CHEVRON_PREV);
+    const prev = el('button', 'prev-btn', ARROW_PREV);
     prev.type = 'button';
     prev.setAttribute('aria-label', 'Previous video');
     const count = el('span', 'count');
     count.setAttribute('aria-live', 'polite');
-    const next = el('button', 'next-btn', CHEVRON_NEXT);
+    const next = el('button', 'next-btn', ARROW_NEXT);
     next.type = 'button';
     next.setAttribute('aria-label', 'Next video');
     buttons.append(prev, count, next);
