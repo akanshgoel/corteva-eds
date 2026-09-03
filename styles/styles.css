@@ -540,6 +540,25 @@ main > .section.logo .default-content-wrapper img {
    (a different block, in a different section, with no `event-table` class) nor
    the deeproots `columns … cards` tables. */
 
+/* HOMETOWN badge band — the source `column_1_100.bg-primary-background` band
+   is a full-bleed split gradient: white top half, navy bottom half (source
+   `linear-gradient(#fff 50%, #375172 50%)`), 50px top/bottom padding. The
+   HOMETOWN badge sits on the white top, the two intro <h4>s on the navy bottom
+   in white text. The DA round-trip drops the `bg-primary-background` class, so
+   re-apply it here on the page-only `hometown-badge` section token. Full-bleed
+   via the 50vw margin trick (matches live's edge-to-edge band). */
+main > .section.hometown-badge {
+  margin-inline: calc(50% - 50vw);
+  padding: 50px 0;
+  background-image: linear-gradient(#fff 50%, var(--color-brand-primary) 50%);
+}
+
+/* Headings on the navy bottom half render white (source #fff). */
+main > .section.hometown-badge .default-content-wrapper :is(h1, h2, h3, h4, h5, h6),
+main > .section.hometown-badge .columns :is(h1, h2, h3, h4, h5, h6) {
+  color: #fff;
+}
+
 /* HOMETOWN badge image — the source `<img width="200">` loses its width in the
    round-trip and EDS stretches it to the full column (1024²). Cap + center it
    to the source's small size. Scoped to the wrapped intro band's columns cell
