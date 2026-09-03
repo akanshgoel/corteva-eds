@@ -67,11 +67,13 @@ main > .section:has(.teaser.block.banner) {
   padding: 0;
 }
 
-.teaser.block.hero-l1,
 .teaser.block.hero-l2,
 .teaser.block.banner {
   min-height: 400px;
 }
+
+/* hero-l1 band height is breakpoint-specific (set in the hero-l1 rules below):
+   mobile 463px, tablet 365px, desktop 400px — matching live. */
 
 .teaser.block.hero-l1 .teaser-image,
 .teaser.block.hero-l2 .teaser-image,
@@ -189,9 +191,11 @@ main > .section:has(.teaser.block.banner) {
    to 240px so the grey shows below it. */
 .teaser.block.hero-l1 {
   display: flex;
-  align-items: center;
+  align-items: flex-end; /* content card sits at the bottom of the band (live) */
   justify-content: center;
-  padding: 0 20px; /* side gutter only; keep the 400px band height exact */
+  box-sizing: border-box; /* height includes padding, matching live's band size */
+  height: 463px; /* 28.9375rem — mobile band height (live) */
+  padding: 50px 20px; /* 3.125rem 1.25rem (live mobile) */
 }
 
 .teaser.block.hero-l1 .teaser-image {
@@ -227,9 +231,13 @@ main > .section:has(.teaser.block.banner) {
   color: var(--hoeg-ink);
 }
 
-/* hero-l1 slim keeps the full 400px band (only hero-l2 slim shortens). */
-.teaser.block.hero-l1.slim {
-  min-height: 400px;
+/* hero-l1 band height + padding per breakpoint (live): tablet 365px / 50px 40px,
+   desktop 400px. Mobile (base above) is 463px / 50px 20px. */
+@media (width >= 768px) {
+  .teaser.block.hero-l1 {
+    height: 365px; /* 22.8125rem */
+    padding: 50px 40px; /* 3.125rem 2.5rem */
+  }
 }
 
 /* BANNER — full-bleed image, centred white content with a CTA button. */
@@ -433,6 +441,11 @@ main > .section:has(.teaser.block.banner) {
 
   .teaser.block.banner .teaser-title {
     font-size: 44px;
+  }
+
+  /* hero-l1 band height on desktop (live: 25rem). */
+  .teaser.block.hero-l1 {
+    height: 400px;
   }
 
   /* hero-l1 card on desktop: roomier 60px padding and a two-column split —
