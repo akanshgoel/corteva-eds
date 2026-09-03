@@ -650,6 +650,21 @@ main .columns blockquote :is(p, span) {
   color: var(--hoeg-ink);
 }
 
+/* Legal fine-print footnote sections (e.g. enlimited stewardship disclaimers).
+   Source wraps the text in `<span class="x-small">`, stripped on the DA
+   round-trip and left as a `<sup>` (raised, wrong). Tagged `fine-print` via the
+   enlimited transformer; render as live's 12px/20px normal-baseline small text.
+   The `sup` reset undoes the superscript raise + shrink so it reads as body
+   fine-print, not a raised glyph. */
+main > .section.fine-print .default-content-wrapper :is(p, sup, strong) {
+  margin: 0;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+  color: var(--hoeg-ink);
+  vertical-align: baseline;
+}
+
 /* Inline text links in migrated article content are navy (#375172), no
    underline — matching the source (the global --link-color #3b63fb blue is not
    used here). Scoped to default content + columns so other blocks keep their
