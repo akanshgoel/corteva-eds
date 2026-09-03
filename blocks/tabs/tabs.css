@@ -66,9 +66,12 @@
   padding: 0;
 }
 
+/* Bottom padding gives the ~30px gap live leaves between the last panel content
+   (the legal fine-print) and the footer; top/sides stay flush so the grey band
+   spans edge to edge. */
 .tabs.gray-background {
   margin: 0;
-  padding: 0;
+  padding: 0 0 30px;
 }
 
 /* Grey band is exactly the strip height (source: 63px = 20px top padding +
