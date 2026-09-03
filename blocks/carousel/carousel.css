@@ -236,8 +236,9 @@ main > .section > .carousel-wrapper {
   padding: 0;
   border: 0;
   background: none;
-  color: #fff;
+  color: #fff; /* arrows stay white (matches live — no color change on hover) */
   cursor: pointer;
+  transition: opacity 0.2s ease;
 }
 
 .carousel .carousel-content .prev-btn svg,
@@ -248,9 +249,20 @@ main > .section > .carousel-wrapper {
   margin: auto;
 }
 
+/* Live shows no color change on hover; keep the arrows white and add a subtle
+   opacity dim as the only affordance (also covers keyboard focus). Disabled
+   arrows at the ends fade further. */
 .carousel .carousel-content .prev-btn:hover,
-.carousel .carousel-content .next-btn:hover {
-  color: var(--carousel-navy);
+.carousel .carousel-content .next-btn:hover,
+.carousel .carousel-content .prev-btn:focus-visible,
+.carousel .carousel-content .next-btn:focus-visible {
+  opacity: 0.7;
+}
+
+.carousel .carousel-content .prev-btn:disabled,
+.carousel .carousel-content .next-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
 }
 
 .carousel .carousel-content .count {
