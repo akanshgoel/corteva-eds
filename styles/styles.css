@@ -1022,27 +1022,47 @@ main > .section:has(.jumpto-tabs.vertical) .default-content-wrapper p:has(+ h1) 
   line-height: 23px;
 }
 
-/* Desktop side-by-side: live floats the vertical tab list as a LEFT SIDEBAR
-   (187px, at the page's left edge) with the glossary content flowing to its
-   right (content column ~797px starting at +227px = 187 sidebar + 40 gap). In
-   our EDS DOM the tab list and each glossary panel are separate sibling
-   sections, so we float the jumpto-tabs wrapper left and indent the following
-   `legal-glossary` sections to clear it. Scoped to the legal page via the
-   vertical variant + the page-only `legal-glossary` token. Live only switches
-   the vertical tabs from a stacked column to this side-by-side (row) layout at
-   1040px — its `.cmp-tabs--vertical .cmp-tabs-wrapper` goes `flex-direction: row;
-   gap: 2.5rem` at `min-width: 1040px` — so match that breakpoint (below 1040px
-   the tabs stack; below 900px jumpto-tabs.css swaps in the dropdown). */
+/* Desktop side-by-side: live lays the whole tabs block out as a centered 1024px
+   column split into a 187px left sidebar (the tab list), a 40px gap, and a 797px
+   content column (`.cmp-tabs--vertical .cmp-tabs-wrapper`: flex row, gap 2.5rem,
+   max-width 64rem, centered). In our EDS DOM the tab list and each glossary panel
+   are SEPARATE sibling sections, so we can't use one flex row — instead we float
+   the tab list out of flow and align BOTH it and the glossary panels to the same
+   centered 1024px column:
+     - the sidebar floats to the column's LEFT edge — not the page gutter — via a
+       calc() left margin ((100% − 1024px)/2 centers the column in the 1440-wide
+       section), width 187px;
+     - each glossary panel is the centered 1024px column with a 227px (187+40)
+       left inset, so its text sits in the 797px column right of the sidebar.
+   This matches live exactly (sidebar x=column-left, content 797px). Scoped to the
+   legal page via the vertical variant + page-only `legal-glossary` token. Live
+   only switches from the stacked column to this row layout at 1040px, so match
+   that breakpoint (below 1040px the tabs stack; below 900px jumpto-tabs.css swaps
+   in the dropdown). */
 @media (width >= 1040px) {
   main > .section:has(.jumpto-tabs.vertical) > .jumpto-tabs-wrapper {
     float: left;
     width: 187px;
-    margin: 0;
+    margin: 0 0 0 calc((100% - 1024px) / 2);
+
+    /* Zero the generic section-child 0 32px gutter so the tab labels start at the
+       column's left edge (x = column-left), matching live. */
+    padding: 0;
   }
 
-  /* The glossary panels sit in the content column to the right of the sidebar. */
+  /* Live's vertical tab list is a full 187px wide (fills the sidebar); our base
+     rule sizes it to fit-content (~165px). Pin it to 187px on the legal page. */
+  main > .section:has(.jumpto-tabs.vertical) .jumpto-tabs.vertical .jumpto-tabs-list {
+    width: 187px;
+  }
+
+  /* Glossary panels share the centered 1024px column, inset 227px so their text
+     flows in the 797px column to the right of the floated sidebar. */
   main > .section.legal-glossary > div {
-    margin-left: 227px;
+    max-width: 1024px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 0 0 0 227px;
   }
 }
 /* stylelint-enable no-descending-specificity */
