@@ -1016,6 +1016,15 @@ main > .section:has(.jumpto-tabs.vertical) .default-content-wrapper h1 {
   margin: 0;
 }
 
+/* Live leaves a 50px gap between the blue breadcrumb band and the header
+   (band bottom → date top). In our DOM the breadcrumb band and the header
+   default-content share the same first section and render flush (0px), so add
+   the 50px above the header block (the default-content-wrapper that holds the
+   date + H1, identified by containing an <h1>). */
+main > .section:has(.jumpto-tabs.vertical) .default-content-wrapper:has(> h1) {
+  margin-top: 50px;
+}
+
 main > .section:has(.jumpto-tabs.vertical) .default-content-wrapper p:has(+ h1) {
   margin: 0;
   font-size: 14px;
