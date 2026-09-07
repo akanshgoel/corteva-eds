@@ -894,14 +894,26 @@ main > .section.sitemap .default-content-wrapper > :is(ul, ol) {
   list-style: none;
 }
 
-/* Top-level rows: bulletless, with live's 5px top+bottom breathing room (source
-   `.cmp-navigation__group > li > a { margin: 0.3125rem 0 }`). Using `padding`
-   (not the inner `<p>`'s margin) because adjacent block margins collapse (5+5 →
-   5px) while live shows a full 10px between items; padding doesn't collapse, so
-   two 5px paddings sum to the 10px gap live has. */
+/* Top-level rows: bulletless. Flex-column so the top link's `<p>` margins do
+   NOT collapse with the sibling row above/below — matching live's spacing model
+   where the 5px margin lives on the link (above any sub-list), not the row box. */
 main > .section.sitemap .default-content-wrapper > :is(ul, ol) > li {
-  padding: 5px 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
   list-style: none;
+}
+
+/* Live's 5px top+bottom breathing room (source `.cmp-navigation__group > li > a
+   { margin: 0.3125rem 0 }`) on the top link's `<p>` wrapper. Two adjacent plain
+   rows → 5+5 = 10px between them; a row followed by a sub-list gets only the
+   next row's 5px top after the sub-list (the sub-list's own 20px padding-bottom
+   provides its space) — exactly matching live (10px plain→plain, 5px after a
+   sub-list). Flex layout above prevents these margins from collapsing. */
+main > .section.sitemap .default-content-wrapper > :is(ul, ol) > li > p,
+main > .section.sitemap .default-content-wrapper > :is(ul, ol) > li > a {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 /* NESTED lists keep their bullets (live: disc at level 2, circle at level 3).
