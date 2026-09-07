@@ -37,6 +37,27 @@ export default function decorate(block) {
   image.className = 'teaser-image';
   if (picture) image.append(picture);
 
+  // CARD1 (seed-treatments product card): image on the RIGHT, a list of feature
+  // headings (Fungicides / Insecticides / …) on the LEFT, and a text-link CTA
+  // with an arrow at the bottom. Unlike other variants it has MULTIPLE headings,
+  // so render them all (the single-heading path below would drop the rest).
+  if (block.classList.contains('card1')) {
+    const content = document.createElement('div');
+    content.className = 'teaser-content';
+    block.querySelectorAll('h1, h2, h3, h4, h5, h6').forEach((h) => {
+      h.classList.add('teaser-feature');
+      content.append(h);
+    });
+    if (cta) {
+      cta.classList.remove('c-button', 'button', 'secondary');
+      cta.classList.add('teaser-cta');
+      content.append(cta);
+    }
+    // Content on the LEFT, image on the RIGHT (matches live).
+    block.replaceChildren(content, image);
+    return;
+  }
+
   // Content layer (title + optional description + optional CTA).
   const content = document.createElement('div');
   content.className = 'teaser-content';

@@ -443,9 +443,97 @@ main > .section:has(.teaser.block.banner) {
    this file only styles the card face above. */
 
 /* ===================================================================
+   CARD1 — seed-treatments product card: feature-heading list + CTA (left),
+   tall product image (right). Two sit in a columns (50-50). Measured from live:
+   card 502×400, a flex row of two 251px halves; content is a flex column with
+   the headings at the top and the navy arrow-link CTA pinned at the bottom;
+   image object-fit:cover fills its 400px-tall half.
+   =================================================================== */
+
+/* Mobile/tablet: image on TOP, feature list + CTA below (live uses
+   flex-direction:column-reverse on the DOM order content→image). */
+.teaser.block.card1 {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.teaser.block.card1 .teaser-content {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+}
+
+.teaser.block.card1 .teaser-image {
+  overflow: hidden;
+}
+
+.teaser.block.card1 .teaser-image :is(picture, img) {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Feature-heading list: 24px/30 Oswald-bold ink, flush (no default margins). */
+.teaser.block.card1 .teaser-feature {
+  margin: 0;
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 800;
+  color: var(--hoeg-ink);
+}
+
+/* CTA pinned to the bottom of the content column, navy 14px text-link + arrow. */
+.teaser.block.card1 .teaser-cta {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  color: var(--hoeg-navy);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.teaser.block.card1 .teaser-cta::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  margin-left: 9px;
+  border: solid var(--hoeg-navy);
+  border-width: 0 2px 2px 0;
+  transform: rotate(-45deg);
+  transition: margin-left 0.2s ease;
+}
+
+.teaser.block.card1 .teaser-cta:hover::after {
+  margin-left: 15px;
+}
+
+/* ===================================================================
    DESKTOP (min-width: 1040px)
    =================================================================== */
 @media (width >= 1040px) {
+  /* CARD1 desktop: side-by-side — feature list + CTA (left), tall image (right),
+     each half 50%, card 400px tall (matches live). */
+  .teaser.block.card1 {
+    flex-direction: row;
+    align-items: stretch;
+    min-height: 400px;
+  }
+
+  .teaser.block.card1 .teaser-content,
+  .teaser.block.card1 .teaser-image {
+    flex: 1 1 50%;
+    min-width: 0;
+  }
+
+  .teaser.block.card1 .teaser-content {
+    padding: 30px 30px 30px 0;
+  }
+
+  .teaser.block.card1 .teaser-image :is(picture, img) {
+    height: 100%;
+  }
+
   .teaser.block.hero-l1 .teaser-title,
   .teaser.block.hero-l2 .teaser-title {
     font-size: 56px;
