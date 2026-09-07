@@ -66,9 +66,12 @@
   padding: 0;
 }
 
+/* Bottom padding gives the ~30px gap live leaves between the last panel content
+   (the legal fine-print) and the footer; top/sides stay flush so the grey band
+   spans edge to edge. */
 .tabs.gray-background {
   margin: 0;
-  padding: 0;
+  padding: 0 0 30px;
 }
 
 /* Grey band is exactly the strip height (source: 63px = 20px top padding +
@@ -347,6 +350,17 @@
    are untouched. */
 .tabs .tabs-panel > div > :is(h1, h2, h3, h4, h5, h6, p) {
   text-align: center;
+}
+
+/* Legal fine-print footnote — the trailing paragraph in a panel (source
+   `<span class="x-small">`, whose class is stripped on the DA round-trip). Live
+   renders it left-aligned 12px/20px small print with no margin. It is always the
+   LAST direct <p> of the panel wrapper (intros sit above tables/video). */
+.tabs .tabs-panel > div > p:last-child {
+  margin: 0;
+  font-size: 12px;
+  line-height: 20px;
+  text-align: left;
 }
 
 /* stylelint-enable no-descending-specificity */

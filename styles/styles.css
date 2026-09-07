@@ -540,6 +540,25 @@ main > .section.logo .default-content-wrapper img {
    (a different block, in a different section, with no `event-table` class) nor
    the deeproots `columns … cards` tables. */
 
+/* HOMETOWN badge band — the source `column_1_100.bg-primary-background` band
+   is a full-bleed split gradient: white top half, navy bottom half (source
+   `linear-gradient(#fff 50%, #375172 50%)`), 50px top/bottom padding. The
+   HOMETOWN badge sits on the white top, the two intro <h4>s on the navy bottom
+   in white text. The DA round-trip drops the `bg-primary-background` class, so
+   re-apply it here on the page-only `hometown-badge` section token. Full-bleed
+   via the 50vw margin trick (matches live's edge-to-edge band). */
+main > .section.hometown-badge {
+  margin-inline: calc(50% - 50vw);
+  padding: 50px 0;
+  background-image: linear-gradient(#fff 50%, var(--color-brand-primary) 50%);
+}
+
+/* Headings on the navy bottom half render white (source #fff). */
+main > .section.hometown-badge .default-content-wrapper :is(h1, h2, h3, h4, h5, h6),
+main > .section.hometown-badge .columns :is(h1, h2, h3, h4, h5, h6) {
+  color: #fff;
+}
+
 /* HOMETOWN badge image — the source `<img width="200">` loses its width in the
    round-trip and EDS stretches it to the full column (1024²). Cap + center it
    to the source's small size. Scoped to the wrapped intro band's columns cell
@@ -637,6 +656,7 @@ main .default-content-wrapper blockquote,
 main .columns blockquote {
   margin: 0 0 30px;
   padding-left: 40px;
+  border-left: 5px solid var(--hoeg-navy); /* navy accent rule, matches live */
 }
 
 main .default-content-wrapper blockquote :is(p, span),
@@ -647,6 +667,21 @@ main .columns blockquote :is(p, span) {
   font-size: 24px;
   line-height: 1.3;
   color: var(--hoeg-ink);
+}
+
+/* Legal fine-print footnote sections (e.g. enlimited stewardship disclaimers).
+   Source wraps the text in `<span class="x-small">`, stripped on the DA
+   round-trip and left as a `<sup>` (raised, wrong). Tagged `fine-print` via the
+   enlimited transformer; render as live's 12px/20px normal-baseline small text.
+   The `sup` reset undoes the superscript raise + shrink so it reads as body
+   fine-print, not a raised glyph. */
+main > .section.fine-print .default-content-wrapper :is(p, sup, strong) {
+  margin: 0;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+  color: var(--hoeg-ink);
+  vertical-align: baseline;
 }
 
 /* Inline text links in migrated article content are navy (#375172), no
@@ -846,30 +881,78 @@ main > .section.text-align-left.logo .default-content-wrapper p:has(img) {
    approach as the text-align block at line ~474). */
 /* stylelint-disable no-descending-specificity */
 
-/* Bulletless at every level; kill the generic 30px list margins + 40px indent. */
-main > .section.sitemap .default-content-wrapper :is(ul, ol) {
+/* 30px gap below the H1 to the tree (live: h1 margin 0, list starts 30px below).
+   The default-content h1 keeps the global 0.25em bottom margin otherwise. */
+main > .section.sitemap .default-content-wrapper h1 {
+  margin-bottom: 30px;
+}
+
+/* TOP-LEVEL list: flush with the H1 (live root ul padding-left:0), bulletless. */
+main > .section.sitemap .default-content-wrapper > :is(ul, ol) {
   margin: 0;
-  padding-left: 18px;
+  padding-left: 0;
   list-style: none;
 }
 
-/* Nested lists indent slightly more than the top level (live: 20px). */
-main > .section.sitemap .default-content-wrapper :is(ul, ol) :is(ul, ol) {
-  padding-left: 20px;
-}
-
-/* No per-item vertical padding (live li: 0) — the tree is tight, not airy. */
-main > .section.sitemap .default-content-wrapper :is(ul, ol) li {
+/* Top-level rows: bulletless. Flex-column so the top link's `<p>` margins do
+   NOT collapse with the sibling row above/below — matching live's spacing model
+   where the 5px margin lives on the link (above any sub-list), not the row box. */
+main > .section.sitemap .default-content-wrapper > :is(ul, ol) > li {
+  display: flex;
+  flex-direction: column;
   padding: 0;
   list-style: none;
 }
 
-/* The loose-list `<p>` wrappers around top/second-level links carry the body
-   paragraph margins (12.8px/4px); live uses bare `<li><a>`. Zero them so the
-   rhythm matches the bare-anchor nested items. */
+/* Live's 5px top+bottom breathing room (source `.cmp-navigation__group > li > a
+   { margin: 0.3125rem 0 }`) on the top link's `<p>` wrapper. Two adjacent plain
+   rows → 5+5 = 10px between them; a row followed by a sub-list gets only the
+   next row's 5px top after the sub-list (the sub-list's own 20px padding-bottom
+   provides its space) — exactly matching live (10px plain→plain, 5px after a
+   sub-list). Flex layout above prevents these margins from collapsing. */
+main > .section.sitemap .default-content-wrapper > :is(ul, ol) > li > p,
+main > .section.sitemap .default-content-wrapper > :is(ul, ol) > li > a {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/* NESTED lists keep their bullets (live: disc at level 2, circle at level 3).
+   Live's rule is `padding-left: 1.25rem; padding-bottom: 1.25rem` (20px each);
+   in live's nav DOM the outside marker adds another ~20px, giving a +40px-per-
+   level indent (rendered left edges L1 208 → L2 248 → L3 288). Our EDS DOM
+   renders the marker tighter, so we set padding-left:40px to land on the same
+   left edges, and keep live's 20px bottom padding (the gap after a nested block
+   before the next top-level item). */
+main > .section.sitemap .default-content-wrapper :is(ul, ol) :is(ul, ol) {
+  margin: 0;
+  padding-left: 40px;
+  padding-bottom: 20px;
+  list-style: disc;
+}
+
+main > .section.sitemap .default-content-wrapper :is(ul, ol) :is(ul, ol) :is(ul, ol) {
+  list-style: circle;
+}
+
+/* NESTED rows have no per-item vertical padding (live: tight). Scoped to items
+   inside a nested list so the top-level 5px padding above is preserved. */
+main > .section.sitemap .default-content-wrapper :is(ul, ol) :is(ul, ol) li {
+  padding: 0;
+}
+
+/* Links: 16px/24 (live), navy — no oversized body font, tight row rhythm. */
+main > .section.sitemap .default-content-wrapper :is(ul, ol) li a {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* The loose-list `<p>` wrappers around the links carry body paragraph margins
+   (12.8px/4px) that don't match live. Zero them by default; the top-level rule
+   below restores live's 5px. */
 main > .section.sitemap .default-content-wrapper li > p {
   margin: 0;
 }
+
 
 /* Navy links, no underline. Overrides the `.c-button` bright-blue that content-
    button decoration applies to these standalone `<p><a>` links. Buttonised CTAs
@@ -933,9 +1016,156 @@ main > .section:has(.jumpto-tabs.vertical) .default-content-wrapper h1 {
   margin: 0;
 }
 
+/* Live leaves a 50px gap between the blue breadcrumb band and the header
+   (band bottom → date top). In our DOM the breadcrumb band and the header
+   default-content share the same first section and render flush (0px), so add
+   the 50px above the header block (the default-content-wrapper that holds the
+   date + H1, identified by containing an <h1>). */
+main > .section:has(.jumpto-tabs.vertical) .default-content-wrapper:has(> h1) {
+  margin-top: 50px;
+}
+
 main > .section:has(.jumpto-tabs.vertical) .default-content-wrapper p:has(+ h1) {
   margin: 0;
   font-size: 14px;
   line-height: 23px;
 }
+
+/* Live leaves a 40px gap between the H1 and the jump-to nav (H1 bottom → tablist
+   top). The nav wrapper sits in the same section as the header, immediately after
+   the H1 default-content, so it renders flush by default — add the 40px here. On
+   desktop the wrapper is floated and this margin is folded into its shorthand
+   below so the sidebar lines up with the glossary column (which carries its own
+   40px section margin). */
+main > .section:has(.jumpto-tabs.vertical) > .jumpto-tabs-wrapper {
+  margin-top: 40px;
+}
+
+/* Desktop side-by-side: live lays the whole tabs block out as a centered 1024px
+   column split into a 187px left sidebar (the tab list), a 40px gap, and a 797px
+   content column (`.cmp-tabs--vertical .cmp-tabs-wrapper`: flex row, gap 2.5rem,
+   max-width 64rem, centered). In our EDS DOM the tab list and each glossary panel
+   are SEPARATE sibling sections, so we can't use one flex row — instead we float
+   the tab list out of flow and align BOTH it and the glossary panels to the same
+   centered 1024px column:
+     - the sidebar floats to the column's LEFT edge — not the page gutter — via a
+       calc() left margin ((100% − 1024px)/2 centers the column in the 1440-wide
+       section), width 187px;
+     - each glossary panel is the centered 1024px column with a 227px (187+40)
+       left inset, so its text sits in the 797px column right of the sidebar.
+   This matches live exactly (sidebar x=column-left, content 797px). Scoped to the
+   legal page via the vertical variant + page-only `legal-glossary` token. Live
+   only switches from the stacked column to this row layout at 1040px, so match
+   that breakpoint (below 1040px the tabs stack; below 900px jumpto-tabs.css swaps
+   in the dropdown). */
+@media (width >= 1040px) {
+  main > .section:has(.jumpto-tabs.vertical) > .jumpto-tabs-wrapper {
+    float: left;
+    width: 187px;
+
+    /* keep the 40px top gap (see base rule); float to the column's left edge */
+    margin: 40px 0 0 calc((100% - 1024px) / 2);
+
+    /* Zero the generic section-child 0 32px gutter so the tab labels start at the
+       column's left edge (x = column-left), matching live. */
+    padding: 0;
+  }
+
+  /* Live's vertical tab list is a full 187px wide (fills the sidebar); our base
+     rule sizes it to fit-content (~165px). Pin it to 187px on the legal page. */
+  main > .section:has(.jumpto-tabs.vertical) .jumpto-tabs.vertical .jumpto-tabs-list {
+    width: 187px;
+  }
+
+  /* Glossary panels share the centered 1024px column, inset 227px so their text
+     flows in the 797px column to the right of the floated sidebar. */
+  main > .section.legal-glossary > div {
+    max-width: 1024px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 0 0 0 227px;
+  }
+}
 /* stylelint-enable no-descending-specificity */
+
+/* Tech-sheet lineup (e.g. enlimited-grade-soybeans "2026 Lineup"): the variety
+   links are flattened to a <ul> during import (a real leading-cell <table> would
+   be mis-decorated as an EDS block). Live renders them as a 2-column bordered
+   table (1px solid var(--color-muted) cells, centered navy 14px links). Restyle
+   the <ul> as that 2-col grid with collapsed 1px borders — same look at every
+   viewport (live keeps 2 columns down to mobile). Opt in via the section token
+   `techsheet-lineup`. */
+main > .section.techsheet-lineup .default-content-wrapper ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 1024px;
+  margin: 14px auto;
+  padding: 0;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- different section
+   token (techsheet-lineup vs sitemap); the selectors never both match one
+   element, so the ordering vs the sitemap nested-li rule is harmless. */
+main > .section.techsheet-lineup .default-content-wrapper ul li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 15px 5px 15px 20px;
+  border: 1px solid var(--color-muted);
+  text-align: center;
+}
+
+/* Collapse doubled inner borders so adjacent cells share a single 1px line. */
+main > .section.techsheet-lineup .default-content-wrapper ul li:nth-child(odd) {
+  border-right: 0;
+}
+
+main > .section.techsheet-lineup .default-content-wrapper ul li:not(:nth-last-child(-n + 2)) {
+  border-bottom: 0;
+}
+
+/* stylelint-disable-next-line no-descending-specificity -- lineup link color;
+   ordering vs the sitemap link rule above is intentional and harmless. */
+main > .section.techsheet-lineup .default-content-wrapper ul li a {
+  color: var(--hoeg-navy);
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+/* Event-section CTAs ("REGISTER HERE", "REQUEST YOUR TICKETS") — on
+   hometown-celebrations these standalone links sit in the full-width section
+   HEADER above their [icon | table] grid (default content), not inside the
+   columns block, so the `.columns .c-button` rule (columns.css) can't reach
+   them. decorateContentButtons tags them `.c-button`; render them as the same
+   solid navy button, centered like live. Scoped to `.section.event-table` (a
+   page-only token) so no other page's default-content links are affected.
+   Placed at file end so specificity stays ascending vs the band utilities. */
+main > .section.event-table .default-content-wrapper p:has(> a.c-button) {
+  text-align: center;
+}
+
+main > .section.event-table .default-content-wrapper a.c-button {
+  display: inline-block;
+  border: 0;
+  border-radius: 2px;
+  padding: 23px 24px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-on-brand);
+  font-family: var(--font-heading), sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 14px;
+  text-decoration: none;
+  text-transform: none;
+}
+
+main > .section.event-table .default-content-wrapper a.c-button:hover,
+main > .section.event-table .default-content-wrapper a.c-button:focus-visible {
+  background-color: var(--color-brand-primary-hover);
+  color: var(--color-on-brand);
+  text-decoration: none;
+}

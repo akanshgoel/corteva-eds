@@ -66,10 +66,11 @@
    active ::after underline sits 20px below the tab (flush to the guide line).
    --------------------------------------------------------------------------- */
 
-/* The horizontal strip (with its full-bleed guide line) only renders at the
-   tablet breakpoint and up; below that the mobile dropdown shows instead and
-   the block keeps the base padded/centered layout (no full-bleed, no line). */
-@media (width >= 900px) {
+/* The horizontal strip (with its full-bleed guide line) renders from the tablet
+   breakpoint (768px, matching live) and up; below that the mobile dropdown shows
+   instead and the block keeps the base padded/centered layout (no full-bleed,
+   no line). */
+@media (width >= 768px) {
   /* Full-bleed the section wrapper that holds a horizontal jumpto-tabs so the
      guide line can span the full section width. Scoped through `main > .section`
      to outweigh the global `main > .section > div { padding: 0 32px }` gutter.
@@ -133,6 +134,17 @@
    with padding 6px 15px 6px 0 and 6px vertical margin; active ::after is a navy
    5px bar covering the tab height, flush over the gray guide at the right edge.
    --------------------------------------------------------------------------- */
+
+/* The base block reserves a 40px side gutter for the horizontal strip. The
+   vertical variant always sits inside a section that already supplies its own
+   gutter (24/32px), and on desktop the sidebar float owns its position, so the
+   extra 40px only double-indents the mobile/tablet "Jump to:" dropdown (pushing
+   it inside the H1/body left edge). Zero it so the dropdown lines up with the
+   page content. */
+.jumpto-tabs.vertical {
+  padding: 0;
+}
+
 .jumpto-tabs.vertical .jumpto-tabs-list {
   display: flex;
   flex-direction: column;
@@ -262,18 +274,34 @@
   color: var(--color-ink);
 }
 
-/* Above the tablet breakpoint: show the strip, hide the dropdown. */
-@media (width >= 900px) {
-  .jumpto-tabs .jumpto-tabs-dropdown {
+/* Breakpoints match live: the HORIZONTAL strip appears from the tablet width
+   (768px) — live shows the "Jump To:" strip there, sized calc(100% - 5rem); the
+   VERTICAL (legal) sidebar switches at 900px. Below each variant's breakpoint
+   the mobile "Jump to:" dropdown shows instead. */
+
+/* Horizontal: strip >= 768px, dropdown hidden. */
+@media (width >= 768px) {
+  .jumpto-tabs.horizontal .jumpto-tabs-dropdown {
     display: none;
   }
 }
 
-/* Below the breakpoint: dropdown only. The variant selectors that turn the
-   list into a flex row/column carry `.horizontal`/`.vertical` (specificity
-   0,2,1), so this hide rule must match that specificity to win. */
+/* Horizontal: dropdown only below 768px (hide the strip). */
+@media (width < 768px) {
+  .jumpto-tabs.horizontal .jumpto-tabs-list {
+    display: none;
+  }
+}
+
+/* Vertical: sidebar >= 900px, dropdown hidden. */
+@media (width >= 900px) {
+  .jumpto-tabs.vertical .jumpto-tabs-dropdown {
+    display: none;
+  }
+}
+
+/* Vertical: dropdown only below 900px (hide the sidebar list). */
 @media (width < 900px) {
-  .jumpto-tabs.horizontal .jumpto-tabs-list,
   .jumpto-tabs.vertical .jumpto-tabs-list {
     display: none;
   }

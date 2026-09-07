@@ -150,16 +150,32 @@
   gap: 20px;
 }
 
-/* Full-bleed white→blue split background behind the card grid (live puts it on
-   the `.cardscontainer` itself, not a section modifier). Driven from the block
-   via `:has()` so it spans the viewport with cards centered above. Bottom margin
-   is dropped so the blue sits flush to the footer (it's the last section). */
-main > .section:has(.columns.cards) {
+/* Full-bleed white→blue split background behind the card grid. On live this is
+   a PER-CONTAINER modifier (`bg-blue-background`) — some card grids are blue,
+   others plain white (e.g. corn-traits: "CORN PRODUCTS" is blue, the "Vorceed"
+   trait grid is white). The parser carries the modifier as the
+   `bg-blue-background` variant class, so scope the gradient + its 50px band
+   padding to `.columns.cards.bg-blue-background` ONLY — plain card grids keep
+   the default section spacing and no band. Driven via `:has()` so the band
+   spans the viewport with cards centered above; bottom margin is dropped so the
+   blue sits flush to the footer. Split at 30% below desktop (live
+   mobile/tablet), 50% at >= 1040px (desktop). */
+/* stylelint-disable no-descending-specificity -- band rule adds the
+   bg-blue-background token, raising its specificity above the later
+   group-below rule; the ordering is intentional and harmless here. */
+main > .section:has(.columns.cards.bg-blue-background) {
   margin-bottom: 0;
   padding-top: 50px;
   padding-bottom: 50px;
-  background-image: linear-gradient(#fff 50%, #0072ce 50%);
+  background-image: linear-gradient(#fff 30%, #0072ce 30%);
 }
+
+@media (width >= 1040px) {
+  main > .section:has(.columns.cards.bg-blue-background) {
+    background-image: linear-gradient(#fff 50%, #0072ce 50%);
+  }
+}
+/* stylelint-enable no-descending-specificity */
 
 /* Card grid side gutter matches live (20px mobile / 40px tablet / 0 desktop),
    overriding the section's generic gutter. */
@@ -294,6 +310,8 @@ main > .section.group-below {
   margin-bottom: 52px;
 }
 
+/* stylelint-disable-next-line no-descending-specificity -- lower-specificity
+   sibling rule intentionally follows the higher-specificity card band above. */
 main > .section.group-below + .section {
   margin-top: 0;
 }
@@ -484,5 +502,98 @@ main > .section.text-align-center .columns img {
 @media (width < 1040px) {
   .columns[data-ratio="25-25-25-25"] > div {
     row-gap: 109px;
+  }
+}
+
+/* Card-grid article cards inside the card grid follow live's responsive shape.
+   This covers the deeproots "The Dirt" cards (card2) AND the corn/soybean trait
+   cards (card7) — both render identically on live. teaser.css caps them at 328px
+   and stacks image-over-content — correct for the 3-up desktop row (>= 1040px,
+   handled by the CARD GRID rules above). But below desktop live drops to ONE card
+   per row at FULL container width:
+     - Tablet (768-1039): image-LEFT 50% / content-RIGHT 50%, side-by-side, the
+       image filling the card height.
+     - Mobile (< 768): image-TOP / content-below, stacked full width.
+   Override the 328px cap (and the centering auto-margins) below desktop, scoped
+   to `.columns.cards` so standalone 328px card2/card7 (block library) are
+   untouched. */
+@media (width < 1040px) {
+  .columns.cards > div > div > .teaser.block.card2,
+  .columns.cards > div > div > .teaser.block.card7 {
+    max-width: none;
+    margin-inline: 0;
+  }
+}
+
+/* Tablet side-by-side: image-left / content-right, each half the card width.
+   Live drives the card HEIGHT from the image: the 50%-wide image carries a 4/3
+   aspect ratio (e.g. 472px wide -> ~359px tall at 1024), and the card stretches
+   to that height so the content column is tall with the title/subtitle at top
+   and "Read More" flush to the bottom. Give the image wrapper the same 4/3
+   aspect ratio (overriding teaser.css's fixed 190px) so the migrated card is the
+   same tall block, not a short content-height strip. */
+@media (width >= 768px) and (width < 1040px) {
+  .columns.cards > div > div > .teaser.block.card2,
+  .columns.cards > div > div > .teaser.block.card7 {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .columns.cards > div > div > .teaser.block.card2 > .teaser-image,
+  .columns.cards > div > div > .teaser.block.card7 > .teaser-image {
+    flex: 0 0 50%;
+    aspect-ratio: 4 / 3;
+  }
+
+  .columns.cards > div > div > .teaser.block.card2 > .teaser-image :is(picture, img),
+  .columns.cards > div > div > .teaser.block.card7 > .teaser-image :is(picture, img) {
+    height: 100%;
+  }
+
+  .columns.cards > div > div > .teaser.block.card2 > .teaser-content,
+  .columns.cards > div > div > .teaser.block.card7 > .teaser-content {
+    flex: 1 1 50%;
+  }
+
+  /* card7 content has no horizontal padding by default (padding: 20px 0) so its
+     text sits flush against the image in the side-by-side layout; live gives it
+     a 1.875rem (30px) left gap. card2 already carries 30px horizontal padding. */
+  .columns.cards > div > div > .teaser.block.card7 > .teaser-content {
+    padding-left: 1.875rem;
+  }
+
+  /* Push the CTA to the bottom of the taller (image-height) card,
+     matching live (title/subtitle at top, CTA flush to the card's lower edge). */
+  .columns.cards > div > div > .teaser.block.card2 > .teaser-content > .teaser-cta,
+  .columns.cards > div > div > .teaser.block.card7 > .teaser-content > .teaser-cta {
+    margin-top: auto;
+  }
+}
+
+/* "The Dirt" card-grid header: the captured section title ("The Dirt:
+   Information to help you grow stronger.") + intro ("Get the latest insights
+   from Hoegemeyer agronomists.") are emitted as default content ABOVE the card
+   grid, inside the same (blue split-gradient) section. Live centers them on the
+   white top band with a 44px title and a ~30px gap to the first card. Scope the
+   centering to this section's own default-content header (via the
+   `card-grid-header` section token) so the left-aligned card2 bodies are NOT
+   centered. Placed at file end so specificity stays ascending. */
+main > .section.card-grid-header > .default-content-wrapper {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+main > .section.card-grid-header > .default-content-wrapper :is(h1, h2, h3, h4, h5, h6, p) {
+  text-align: center;
+}
+
+main > .section.card-grid-header > .default-content-wrapper h2 {
+  margin-bottom: 0;
+  font-size: 32px;
+}
+
+@media (width >= 1040px) {
+  main > .section.card-grid-header > .default-content-wrapper h2 {
+    font-size: 44px;
   }
 }
