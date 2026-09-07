@@ -1028,9 +1028,12 @@ main > .section:has(.jumpto-tabs.vertical) .default-content-wrapper p:has(+ h1) 
    our EDS DOM the tab list and each glossary panel are separate sibling
    sections, so we float the jumpto-tabs wrapper left and indent the following
    `legal-glossary` sections to clear it. Scoped to the legal page via the
-   vertical variant + the page-only `legal-glossary` token; only applied at the
-   desktop breakpoint (mobile keeps the stacked dropdown). */
-@media (width >= 900px) {
+   vertical variant + the page-only `legal-glossary` token. Live only switches
+   the vertical tabs from a stacked column to this side-by-side (row) layout at
+   1040px — its `.cmp-tabs--vertical .cmp-tabs-wrapper` goes `flex-direction: row;
+   gap: 2.5rem` at `min-width: 1040px` — so match that breakpoint (below 1040px
+   the tabs stack; below 900px jumpto-tabs.css swaps in the dropdown). */
+@media (width >= 1040px) {
   main > .section:has(.jumpto-tabs.vertical) > .jumpto-tabs-wrapper {
     float: left;
     width: 187px;
