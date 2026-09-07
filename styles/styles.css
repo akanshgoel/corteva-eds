@@ -1021,6 +1021,27 @@ main > .section:has(.jumpto-tabs.vertical) .default-content-wrapper p:has(+ h1) 
   font-size: 14px;
   line-height: 23px;
 }
+
+/* Desktop side-by-side: live floats the vertical tab list as a LEFT SIDEBAR
+   (187px, at the page's left edge) with the glossary content flowing to its
+   right (content column ~797px starting at +227px = 187 sidebar + 40 gap). In
+   our EDS DOM the tab list and each glossary panel are separate sibling
+   sections, so we float the jumpto-tabs wrapper left and indent the following
+   `legal-glossary` sections to clear it. Scoped to the legal page via the
+   vertical variant + the page-only `legal-glossary` token; only applied at the
+   desktop breakpoint (mobile keeps the stacked dropdown). */
+@media (width >= 900px) {
+  main > .section:has(.jumpto-tabs.vertical) > .jumpto-tabs-wrapper {
+    float: left;
+    width: 187px;
+    margin: 0;
+  }
+
+  /* The glossary panels sit in the content column to the right of the sidebar. */
+  main > .section.legal-glossary > div {
+    margin-left: 227px;
+  }
+}
 /* stylelint-enable no-descending-specificity */
 
 /* Tech-sheet lineup (e.g. enlimited-grade-soybeans "2026 Lineup"): the variety
