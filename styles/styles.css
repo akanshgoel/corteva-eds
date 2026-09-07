@@ -1022,6 +1022,16 @@ main > .section:has(.jumpto-tabs.vertical) .default-content-wrapper p:has(+ h1) 
   line-height: 23px;
 }
 
+/* Live leaves a 40px gap between the H1 and the jump-to nav (H1 bottom → tablist
+   top). The nav wrapper sits in the same section as the header, immediately after
+   the H1 default-content, so it renders flush by default — add the 40px here. On
+   desktop the wrapper is floated and this margin is folded into its shorthand
+   below so the sidebar lines up with the glossary column (which carries its own
+   40px section margin). */
+main > .section:has(.jumpto-tabs.vertical) > .jumpto-tabs-wrapper {
+  margin-top: 40px;
+}
+
 /* Desktop side-by-side: live lays the whole tabs block out as a centered 1024px
    column split into a 187px left sidebar (the tab list), a 40px gap, and a 797px
    content column (`.cmp-tabs--vertical .cmp-tabs-wrapper`: flex row, gap 2.5rem,
@@ -1043,7 +1053,9 @@ main > .section:has(.jumpto-tabs.vertical) .default-content-wrapper p:has(+ h1) 
   main > .section:has(.jumpto-tabs.vertical) > .jumpto-tabs-wrapper {
     float: left;
     width: 187px;
-    margin: 0 0 0 calc((100% - 1024px) / 2);
+
+    /* keep the 40px top gap (see base rule); float to the column's left edge */
+    margin: 40px 0 0 calc((100% - 1024px) / 2);
 
     /* Zero the generic section-child 0 32px gutter so the tab labels start at the
        column's left edge (x = column-left), matching live. */
