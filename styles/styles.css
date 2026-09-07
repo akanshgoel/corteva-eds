@@ -881,22 +881,39 @@ main > .section.text-align-left.logo .default-content-wrapper p:has(img) {
    approach as the text-align block at line ~474). */
 /* stylelint-disable no-descending-specificity */
 
-/* Bulletless at every level; kill the generic 30px list margins + 40px indent. */
-main > .section.sitemap .default-content-wrapper :is(ul, ol) {
+/* Kill the generic 30px list margins + 40px indent. The TOP-LEVEL list is
+   bulletless (live: `list-style:none`, bold links flush to the 18px indent). */
+main > .section.sitemap .default-content-wrapper > :is(ul, ol) {
   margin: 0;
   padding-left: 18px;
   list-style: none;
 }
 
-/* Nested lists indent slightly more than the top level (live: 20px). */
+main > .section.sitemap .default-content-wrapper > :is(ul, ol) > li {
+  padding: 0;
+  list-style: none;
+}
+
+/* NESTED lists keep their bullets (live: disc at level 2, circle at level 3),
+   indented 20px so the marker sits under the parent label. */
 main > .section.sitemap .default-content-wrapper :is(ul, ol) :is(ul, ol) {
+  margin: 0;
   padding-left: 20px;
+  list-style: disc;
+}
+
+main > .section.sitemap .default-content-wrapper :is(ul, ol) :is(ul, ol) :is(ul, ol) {
+  list-style: circle;
 }
 
 /* No per-item vertical padding (live li: 0) — the tree is tight, not airy. */
 main > .section.sitemap .default-content-wrapper :is(ul, ol) li {
   padding: 0;
-  list-style: none;
+}
+
+/* line-height gives the row rhythm (live top link line-height 26px). */
+main > .section.sitemap .default-content-wrapper :is(ul, ol) li a {
+  line-height: 26px;
 }
 
 /* The loose-list `<p>` wrappers around top/second-level links carry the body
