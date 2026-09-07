@@ -894,8 +894,13 @@ main > .section.sitemap .default-content-wrapper > :is(ul, ol) {
   list-style: none;
 }
 
+/* Top-level rows: bulletless, with live's 5px top+bottom breathing room (source
+   `.cmp-navigation__group > li > a { margin: 0.3125rem 0 }`). Using `padding`
+   (not the inner `<p>`'s margin) because adjacent block margins collapse (5+5 →
+   5px) while live shows a full 10px between items; padding doesn't collapse, so
+   two 5px paddings sum to the 10px gap live has. */
 main > .section.sitemap .default-content-wrapper > :is(ul, ol) > li {
-  padding: 0;
+  padding: 5px 0;
   list-style: none;
 }
 
@@ -917,8 +922,9 @@ main > .section.sitemap .default-content-wrapper :is(ul, ol) :is(ul, ol) :is(ul,
   list-style: circle;
 }
 
-/* No per-item vertical padding (live li: 0) — the tree is tight, not airy. */
-main > .section.sitemap .default-content-wrapper :is(ul, ol) li {
+/* NESTED rows have no per-item vertical padding (live: tight). Scoped to items
+   inside a nested list so the top-level 5px padding above is preserved. */
+main > .section.sitemap .default-content-wrapper :is(ul, ol) :is(ul, ol) li {
   padding: 0;
 }
 
@@ -928,12 +934,13 @@ main > .section.sitemap .default-content-wrapper :is(ul, ol) li a {
   line-height: 24px;
 }
 
-/* The loose-list `<p>` wrappers around top/second-level links carry the body
-   paragraph margins (12.8px/4px); live uses bare `<li><a>`. Zero them so the
-   rhythm matches the bare-anchor nested items. */
+/* The loose-list `<p>` wrappers around the links carry body paragraph margins
+   (12.8px/4px) that don't match live. Zero them by default; the top-level rule
+   below restores live's 5px. */
 main > .section.sitemap .default-content-wrapper li > p {
   margin: 0;
 }
+
 
 /* Navy links, no underline. Overrides the `.c-button` bright-blue that content-
    button decoration applies to these standalone `<p><a>` links. Buttonised CTAs
@@ -1020,6 +1027,9 @@ main > .section.techsheet-lineup .default-content-wrapper ul {
   padding: 0;
 }
 
+/* stylelint-disable-next-line no-descending-specificity -- different section
+   token (techsheet-lineup vs sitemap); the selectors never both match one
+   element, so the ordering vs the sitemap nested-li rule is harmless. */
 main > .section.techsheet-lineup .default-content-wrapper ul li {
   display: flex;
   align-items: center;
