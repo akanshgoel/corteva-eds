@@ -899,12 +899,17 @@ main > .section.sitemap .default-content-wrapper > :is(ul, ol) > li {
   list-style: none;
 }
 
-/* NESTED lists keep their bullets (live: disc at level 2, circle at level 3)
-   and indent 40px per level (live left edges: L1 208 → L2 248 → L3 288). The
-   40px = 20px list padding + 20px marker gutter, matching live. */
+/* NESTED lists keep their bullets (live: disc at level 2, circle at level 3).
+   Live's rule is `padding-left: 1.25rem; padding-bottom: 1.25rem` (20px each);
+   in live's nav DOM the outside marker adds another ~20px, giving a +40px-per-
+   level indent (rendered left edges L1 208 → L2 248 → L3 288). Our EDS DOM
+   renders the marker tighter, so we set padding-left:40px to land on the same
+   left edges, and keep live's 20px bottom padding (the gap after a nested block
+   before the next top-level item). */
 main > .section.sitemap .default-content-wrapper :is(ul, ol) :is(ul, ol) {
   margin: 0;
   padding-left: 40px;
+  padding-bottom: 20px;
   list-style: disc;
 }
 
