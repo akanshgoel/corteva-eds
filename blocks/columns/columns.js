@@ -99,6 +99,33 @@ export default async function decorate(block) {
     });
   });
 
+  // Column-feature panels (granular-insights Log In / VRS): a 50-50 columns with
+  // an image column, whose text cell opens with a short eyebrow <p> followed by a
+  // heading. Live renders that eyebrow+heading beside a 5px navy accent bar. The
+  // authoring markdown flattens the source wrapper, so re-group the eyebrow +
+  // heading here into a `.column-feature-title` div and tag the block so
+  // columns.css can draw the accent bar + align the copy. Purely presentational.
+  if (block.dataset.ratio === '50-50' && block.querySelector('.columns-img-col')) {
+    const textCell = [...(block.firstElementChild?.children || [])]
+      .find((c) => !c.classList.contains('columns-img-col') && !c.querySelector('picture'));
+    const first = textCell && textCell.firstElementChild;
+    // The title group is an optional short eyebrow <p> followed by a heading, OR
+    // a heading on its own (the VRS panel has no eyebrow). The accent bar sits
+    // beside whichever leads the cell.
+    const isEyebrow = first && first.tagName === 'P'
+      && (first.textContent || '').trim().length <= 40 && !first.querySelector('a');
+    const heading = isEyebrow ? first.nextElementSibling : first;
+    const isHeading = heading && /^H[1-6]$/.test(heading.tagName);
+    if (isHeading) {
+      const titleGroup = document.createElement('div');
+      titleGroup.className = 'column-feature-title';
+      first.before(titleGroup);
+      if (isEyebrow) titleGroup.append(first, heading);
+      else titleGroup.append(heading);
+      block.classList.add('column-feature');
+    }
+  }
+
   // promote any nested block tables in cells (e.g. the card-grid teasers)
   await decorateNestedBlocks(block);
 }

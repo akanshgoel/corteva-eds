@@ -603,3 +603,50 @@ main > .section.card-grid-header > .default-content-wrapper h2 {
     font-size: 44px;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Column-feature panels (granular-insights Log In / VRS): a 50-50 text+image
+   feature. Live places a 5px navy accent bar to the LEFT of the eyebrow+heading
+   title group (columns.js wraps them in `.column-feature-title`), with a 40px
+   gap; the intro + CTA below align with the title text. Bar color is the
+   source's `--column-feature-container-green-line`, which resolves to navy on
+   this brand.
+   --------------------------------------------------------------------------- */
+/* stylelint-disable no-descending-specificity -- scoped column-feature-title
+   rules intentionally follow the generic .columns paragraph/heading rules. */
+
+/* Indent the whole text cell 45px (5px bar + 40px gap) so the title, intro and
+   CTA all align at the same left edge, matching live. The text cell is the one
+   WITHOUT the image column. */
+.columns.column-feature > div > div:not(.columns-img-col) {
+  position: relative;
+  padding-left: 45px;
+}
+
+/* The 5px navy accent bar sits in that gutter, spanning the title group only. */
+.columns.column-feature .column-feature-title {
+  position: relative;
+}
+
+.columns.column-feature .column-feature-title::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -45px;
+  width: 5px;
+  background-color: var(--color-brand-primary);
+}
+
+/* Eyebrow ("Get Started"): 14px, regular, ink — matches live's pre-title. */
+.columns.column-feature .column-feature-title > p:first-child {
+  margin: 0 0 0.25em;
+  color: var(--color-ink);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.columns.column-feature .column-feature-title > :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+}
+/* stylelint-enable no-descending-specificity */
