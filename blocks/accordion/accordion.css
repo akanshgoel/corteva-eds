@@ -115,3 +115,31 @@
 .accordion .accordion-item .accordion-item-body p:last-child {
   margin-bottom: 0;
 }
+
+/* Borderless content-list CTA ("Learn More" on the granular-insights RELATED
+   ARTICLES cards). Live styles it as a navy text-link (14px/700, 23px line) with
+   a long trailing arrow (→), NOT the default blue 16px body link. Reuse the
+   teaser card1 long-arrow (18×9 SVG, tinted navy via mask). */
+.accordion.borderless .accordion-item-body a {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-brand-primary);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 23px;
+  text-decoration: none;
+}
+
+.accordion.borderless .accordion-item-body a::after {
+  content: '';
+  width: 18px;
+  height: 9px;
+  margin-left: 8px;
+  background-color: var(--color-brand-primary);
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 9"><path d="M0 4.5h16M12.5 1L16.5 4.5 12.5 8" fill="none" stroke="black" stroke-width="1.2"/></svg>') no-repeat center / contain;
+  transition: margin-left 0.2s ease;
+}
+
+.accordion.borderless .accordion-item-body a:hover::after {
+  margin-left: 14px;
+}

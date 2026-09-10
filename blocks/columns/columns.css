@@ -256,6 +256,13 @@ main > .section > .columns-wrapper:has(.columns.cards) {
   text-align: center;
 }
 
+/* In a text+image feature (columnfeaturecontainer → columns 50-50 with an image
+   column, e.g. granular-insights Log In / VRS panels), live LEFT-aligns the CTA
+   under the copy — not centered like the article-column buttons above. */
+.columns[data-ratio="50-50"]:has(.columns-img-col) p:has(> .c-button) {
+  text-align: left;
+}
+
 .columns .c-button {
   display: inline-block;
   padding: 23px 24px;
@@ -280,16 +287,15 @@ main > .section > .columns-wrapper:has(.columns.cards) {
   text-decoration: none;
 }
 
-/* stylelint-enable no-descending-specificity */
-
 /* News detail pages left-align their CTAs (articles center them). tpl-news is
-   set by scripts.js from the URL path. */
-/* stylelint-disable-next-line no-descending-specificity -- body-scoped
-   override intentionally follows the higher-specificity 50-50 rule above. */
+   set by scripts.js from the URL path. Body-scoped override intentionally
+   follows the higher-specificity 50-50 rules above. */
 body.tpl-news .columns .button-wrapper,
 body.tpl-news .columns p:has(> .c-button) {
   text-align: left;
 }
+
+/* stylelint-enable no-descending-specificity */
 
 /* Opt-in `cta-left` section utility: left-align a columns CTA c-button that
    live renders flush-left (e.g. the 2026 Seed Guide PDF link), overriding the
