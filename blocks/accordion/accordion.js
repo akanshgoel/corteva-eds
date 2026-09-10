@@ -19,6 +19,13 @@
 export default function decorate(block) {
   block.classList.add('cmp-accordion');
 
+  // The `borderless` variant is a titled CONTENT LIST, not a collapsible FAQ
+  // (source `non-accordion` / feature-flag lists — e.g. seed-treatments "Corn
+  // Seed Treatments", granular-insights "RELATED ARTICLES"). Live renders every
+  // panel EXPANDED with no toggle. Open each <details> and drop the chevron
+  // (accordion.css hides it + neutralizes the summary cursor for this variant).
+  const alwaysOpen = block.classList.contains('borderless');
+
   [...block.children].forEach((row) => {
     const label = row.children[0];
     const body = row.children[1];
@@ -41,6 +48,7 @@ export default function decorate(block) {
     // Item wrapper.
     const details = document.createElement('details');
     details.className = 'accordion-item cmp-accordion__item';
+    if (alwaysOpen) details.open = true;
     details.append(summary, panel);
     row.replaceWith(details);
   });

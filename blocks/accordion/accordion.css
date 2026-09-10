@@ -86,6 +86,19 @@
   transform: rotate(180deg);
 }
 
+/* Borderless = always-open content list (panels opened by JS): hide the toggle
+   chevron and drop the summary's clickable affordances. Placed after the base
+   summary/icon rules so it overrides them without a specificity regression. */
+.accordion.borderless .accordion-item summary {
+  min-height: 0;
+  cursor: default;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.accordion.borderless .cmp-accordion__icon {
+  display: none;
+}
+
 /* Answer panel — Oswald 16px, black, matched side padding. */
 .accordion .accordion-item .accordion-item-body {
   padding: 0 10px 24px;
