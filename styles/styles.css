@@ -508,6 +508,22 @@ main > .section.text-align-left .columns :is(h1, h2, h3, h4, h5, h6, p) {
   text-align: left;
 }
 
+/* Top-padding utility — mirrors the source's `.top-padding { padding-top:
+   3.125rem }` (50px), authored on some heading blocks (e.g. the yield-contest
+   H1) for extra breathing room below the breadcrumb. Applied via Section
+   Metadata `Style: top-padding`. The 50px padding is the intended spacer, so
+   zero the section's own top margin AND the heading's default top margin inside
+   it — otherwise the section margin (40px) + h1 margin (~45px) would stack on
+   top of the padding and open a far larger gap than the source. */
+main > .section.top-padding {
+  margin-top: 0;
+  padding-top: 3.125rem;
+}
+
+main > .section.top-padding .default-content-wrapper > :first-child {
+  margin-top: 0;
+}
+
 
 main > .section.text-align-right .default-content-wrapper,
 main > .section.text-align-right .default-content-wrapper :is(h1, h2, h3, h4, h5, h6, p),
