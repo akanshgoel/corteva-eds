@@ -66,42 +66,49 @@
    active ::after underline sits 20px below the tab (flush to the guide line).
    --------------------------------------------------------------------------- */
 
-/* The horizontal strip (with its full-bleed guide line) renders from the tablet
-   breakpoint (768px, matching live) and up; below that the mobile dropdown shows
-   instead and the block keeps the base padded/centered layout (no full-bleed,
-   no line). */
-@media (width >= 768px) {
-  /* Full-bleed the section wrapper that holds a horizontal jumpto-tabs so the
-     guide line can span the full section width. Scoped through `main > .section`
-     to outweigh the global `main > .section > div { padding: 0 32px }` gutter.
-     Only the horizontal variant is affected — the vertical variant is untouched.
-     The section holds several wrappers (breadcrumb/teaser/columns/jumpto-tabs),
-     so we target the jumpto-tabs-wrapper specifically, not the whole section. */
-  main > .section > .jumpto-tabs-wrapper:has(.jumpto-tabs.horizontal) {
-    max-width: none;
-    padding: 0;
-    margin: 0;
-  }
+/* The horizontal strip renders as a full-bleed guide line + scrollable tab row
+   at ALL widths (matching live, which keeps the strip on mobile — it scrolls
+   horizontally rather than collapsing to a dropdown).
+   Full-bleed the section wrapper that holds a horizontal jumpto-tabs so the
+   guide line can span the full section width. Scoped through `main > .section`
+   to outweigh the global `main > .section > div { padding: 0 32px }` gutter.
+   Only the horizontal variant is affected — the vertical variant is untouched.
+   The section holds several wrappers (breadcrumb/teaser/columns/jumpto-tabs),
+   so we target the jumpto-tabs-wrapper specifically, not the whole section. */
+main > .section > .jumpto-tabs-wrapper:has(.jumpto-tabs.horizontal) {
+  max-width: none;
+  padding: 0;
+  margin: 0;
+}
 
-  /* The block spans full width and carries the full-bleed guide line. */
-  .jumpto-tabs.horizontal {
-    max-width: none;
-    padding: 0;
-    border-bottom: 5px solid #e1e5ea;
-  }
+/* The block spans full width and carries the full-bleed guide line. */
+.jumpto-tabs.horizontal {
+  max-width: none;
+  padding: 0;
+  border-bottom: 5px solid #e1e5ea;
 }
 
 /* The label row is constrained to 1024px and centered, with the tablet 40px
    gutter (0 on desktop). The guide line lives on the block above, not here, so
-   the line stays full-bleed while the labels line up with the page content. */
+   the line stays full-bleed while the labels line up with the page content.
+   `nowrap` keeps every tab on ONE line; the row scrolls horizontally when it
+   overflows (mobile), matching live — it never wraps or collapses. */
 .jumpto-tabs.horizontal .jumpto-tabs-list {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   align-items: flex-start;
   max-width: 64rem;
   margin: 0 auto;
   padding: 20px 40px 0;
   overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* Keep the label + each tab from shrinking so the row scrolls instead of
+   squashing on narrow screens. */
+.jumpto-tabs.horizontal .jumpto-tabs-title,
+.jumpto-tabs.horizontal .jumpto-tabs-tab {
+  flex: 0 0 auto;
 }
 
 @media (width >= 1040px) {
@@ -279,18 +286,10 @@
    VERTICAL (legal) sidebar switches at 900px. Below each variant's breakpoint
    the mobile "Jump to:" dropdown shows instead. */
 
-/* Horizontal: strip >= 768px, dropdown hidden. */
-@media (width >= 768px) {
-  .jumpto-tabs.horizontal .jumpto-tabs-dropdown {
-    display: none;
-  }
-}
-
-/* Horizontal: dropdown only below 768px (hide the strip). */
-@media (width < 768px) {
-  .jumpto-tabs.horizontal .jumpto-tabs-list {
-    display: none;
-  }
+/* Horizontal: the scrollable strip is always shown; the dropdown is never used
+   (live keeps the strip on mobile and scrolls it horizontally). */
+.jumpto-tabs.horizontal .jumpto-tabs-dropdown {
+  display: none;
 }
 
 /* Vertical: sidebar >= 900px, dropdown hidden. */
