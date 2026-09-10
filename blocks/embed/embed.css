@@ -55,3 +55,39 @@
     aspect-ratio: 0.636 !important; /* source mobile aspect ratio */
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Custom Eloqua form fragments (Contact Us, Become a Dealer, Newsletter,
+   Guess That Pest, Agronomy First). The committed fragment markup is
+   `.sections > .left-section (intro copy) + .right-section (the form)`. On live
+   these sit SIDE BY SIDE in a flex row within the 1024px content column; the
+   source stylesheet that does this isn't part of the migration, so lay it out
+   here. Measured on live: left ≈ 37%, right ≈ 55%, ~8% gap. Below the tablet
+   breakpoint the two stack (intro above form), matching live's responsive form.
+   --------------------------------------------------------------------------- */
+.embed .sections {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.embed .sections > .left-section,
+.embed .sections > .right-section {
+  min-width: 0; /* let flex children shrink instead of overflowing */
+}
+
+@media (width >= 900px) {
+  .embed .sections {
+    flex-direction: row;
+    gap: 8%;
+    align-items: flex-start;
+  }
+
+  .embed .sections > .left-section {
+    flex: 0 1 37%;
+  }
+
+  .embed .sections > .right-section {
+    flex: 0 1 55%;
+  }
+}
