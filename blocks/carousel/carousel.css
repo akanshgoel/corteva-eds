@@ -590,12 +590,14 @@ main > .section > .carousel-wrapper {
   .carousel .carousel-content__description-left .title {
     padding-bottom: 20px;
 
-    /* Match the source overlaid player title: Oswald Bold 32px/36px, weight 800
-       (measured on the live galleryvideoplayer). */
+    /* Match the source overlaid player title: Oswald Bold 24px/28px, weight 800
+       (measured on the live galleryvideoplayer AND the enlimited-grade-soybeans
+       gallery — both use the same treatment, so this one rule serves every
+       carousel on the site). */
     font-family: var(--font-heading);
-    font-size: 32px;
+    font-size: 24px;
     font-weight: 800;
-    line-height: 36px;
+    line-height: 28px;
   }
 
   .carousel .carousel-content__description-left-mobile {

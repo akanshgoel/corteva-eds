@@ -150,11 +150,13 @@ main > .section:has(.teaser.block.banner) {
   color: #fff;
 }
 
-/* CTA over a hero-l2/banner image (e.g. Granular Insights "LOGIN / Get Started")
-   is a solid WHITE box with navy text — matches the source .cmp-teaser__action-
-   link (white bg, #375172 text, 23px/24px padding, 2px radius, 14px Oswald). */
-.teaser.block.hero-l2 .teaser-cta,
-.teaser.block.banner .teaser-cta {
+/* CTA over a hero-l2 SLIM image (Granular Insights "LOGIN / Get Started") is a
+   solid WHITE box with navy text — matches the source .cmp-teaser__action-link
+   (white bg, #375172 text, 23px/24px padding, 2px radius, 14px Oswald). Scoped
+   to the `.slim` variant (the only one that carries this overlaid CTA) so the
+   non-slim hero-l2 heroes and the banner CTAs — which have their own styling —
+   are left untouched. */
+.teaser.block.hero-l2.slim .teaser-cta {
   display: inline-block;
   margin-top: 20px;
   padding: 23px 24px;
@@ -170,8 +172,7 @@ main > .section:has(.teaser.block.banner) {
   transition: color 0.2s ease;
 }
 
-.teaser.block.hero-l2 .teaser-cta:hover,
-.teaser.block.banner .teaser-cta:hover {
+.teaser.block.hero-l2.slim .teaser-cta:hover {
   color: var(--hoeg-navy-hover, #459aff);
   text-decoration: none;
 }
