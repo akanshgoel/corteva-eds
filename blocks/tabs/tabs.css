@@ -229,33 +229,22 @@
   font-size: 16px;
 }
 
-/* Intro links (e.g. the Facebook link) use the brand navy, not EDS link blue. */
-.tabs.gray-background .tabs-panel .article-filter-wrapper > p a {
+/* Intro TEXT links (e.g. the Facebook link) use the brand navy, not EDS link
+   blue. Excludes `.c-button` — a promoted CTA button owns its own appearance
+   from the global `.c-button` rule. */
+.tabs.gray-background .tabs-panel .article-filter-wrapper > p a:not(.c-button) {
   color: var(--hoeg-navy, var(--color-brand-primary));
   font-weight: 700;
   text-decoration: none;
 }
 
-/* The standalone "Guess Here" link renders as a solid navy button, centered
-   below the intro paragraph — matches live's .c-button exactly: navy bg, white
-   text, 23px/24px padding, 2px radius, Oswald Bold 14px/700, NO text-transform,
-   NO underline, and NO hover change (the live button has no :hover rule). */
+/* The standalone "Guess Here" CTA is the global `.c-button` (styled in
+   styles.css). Here we only handle its LAYOUT in this panel: centered, with
+   spacing above. Appearance (navy fill, Oswald 14px, radius) comes from the
+   global class so it stays consistent site-wide. */
 .tabs.gray-background .tabs-panel .article-filter-wrapper > p:has(> a:only-child) {
   margin-top: 1.5rem;
   text-align: center;
-}
-
-.tabs.gray-background .tabs-panel .article-filter-wrapper > p:has(> a:only-child) a {
-  display: inline-block;
-  padding: 23px 24px;
-  border-radius: 2px;
-  background-color: var(--hoeg-navy, var(--color-brand-primary));
-  color: #fff;
-  font-family: 'Oswald Bold', oswald, var(--font-heading);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1;
-  text-decoration: none;
 }
 
 /* Space above the search box: the article-filter follows the intro copy. */
@@ -347,19 +336,20 @@
 }
 
 /* Plain panel links render as brand-navy text links (live #375172/16px), not
-   the default EDS blue. Buttonised CTAs (a.button) are excluded. */
-.tabs .tabs-panel p a:any-link:not(.button),
-.tabs .tabs-panel li a:any-link:not(.button),
-.tabs .tabs-panel td a:any-link:not(.button) {
+   the default EDS blue. Buttonised CTAs (a.button / a.c-button) are excluded —
+   they own their appearance from the button rules. */
+.tabs .tabs-panel p a:any-link:not(.button, .c-button),
+.tabs .tabs-panel li a:any-link:not(.button, .c-button),
+.tabs .tabs-panel td a:any-link:not(.button, .c-button) {
   color: var(--hoeg-navy, #375172);
   font-size: 16px;
   font-weight: 400;
   text-decoration: none;
 }
 
-.tabs .tabs-panel p a:not(.button):hover,
-.tabs .tabs-panel li a:not(.button):hover,
-.tabs .tabs-panel td a:not(.button):hover {
+.tabs .tabs-panel p a:not(.button, .c-button):hover,
+.tabs .tabs-panel li a:not(.button, .c-button):hover,
+.tabs .tabs-panel td a:not(.button, .c-button):hover {
   text-decoration: underline;
 }
 

@@ -823,6 +823,29 @@ main .default-content-wrapper a.button.primary:focus-visible {
   color: var(--color-on-brand);
 }
 
+/* Global `.c-button` — the site's solid navy CTA (source `.c-button`): navy
+   #375172 fill, white text, Oswald Bold 14px, 2px radius, 23px/24px padding.
+   Self-contained so it carries its own appearance wherever the class appears
+   (a link, a span, or a promoted CTA). Blocks that need layout tweaks
+   (centering, left-align, theming) scope minor overrides on top — they must NOT
+   redefine the base look. Matches live, which has no hover change on the button. */
+main a.c-button,
+main .c-button {
+  display: inline-block;
+  padding: 23px 24px;
+  border: 0;
+  border-radius: 2px;
+  background-color: var(--color-brand-primary);
+  color: var(--color-on-brand);
+  font-family: var(--font-heading), sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 
 /* ── Left-aligned logo band utilities (opt-in via Section Metadata Style) ──────
    Placed at file end so these refinements follow the generic default-content
