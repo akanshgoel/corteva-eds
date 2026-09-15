@@ -65,6 +65,13 @@ export default async function decorate(block) {
   const link = block.querySelector('a[href]');
   const rawUrl = (link?.getAttribute('href') || block.textContent || '').trim();
 
+  // Optional overlay content: a heading (title) + paragraph(s) authored after the
+  // video link (e.g. soybean-traits "MAKE THE RIGHT MOVE"). Live overlays these
+  // on the poster. Captured before the block is cleared; absent on plain players.
+  const overlayHeading = block.querySelector('h1, h2, h3, h4, h5, h6');
+  const overlayParas = [...block.querySelectorAll('p')]
+    .filter((p) => !p.querySelector('picture, img, a') && p.textContent.trim());
+
   const ytId = youtubeId(rawUrl);
   const isDM = !ytId && isDynamicMediaVideo(rawUrl);
 
@@ -97,6 +104,32 @@ export default async function decorate(block) {
   block.textContent = '';
   block.append(facade);
 
+  // Overlay title + description (matches live's single-slide galleryvideoplayer
+  // `.carousel-content__description` block). Rendered as a SIBLING of the facade
+  // so video.css can lay it over the poster on desktop (position:absolute) but
+  // let it flow beneath as dark text on mobile — exactly what live does. Only
+  // built when the source authored them; the block gets `has-overlay` and the
+  // facade gets the scrim marker for the desktop gradient.
+  if (overlayHeading || overlayParas.length) {
+    block.classList.add('has-overlay');
+    facade.classList.add('has-overlay');
+    const overlay = document.createElement('div');
+    overlay.className = 'video-overlay';
+    if (overlayHeading) {
+      const h = document.createElement('h3');
+      h.className = 'video-overlay-title';
+      h.textContent = overlayHeading.textContent.trim();
+      overlay.append(h);
+    }
+    overlayParas.forEach((p) => {
+      const para = document.createElement('p');
+      para.className = 'video-overlay-desc';
+      para.textContent = p.textContent.trim();
+      overlay.append(para);
+    });
+    block.append(overlay);
+  }
+
   // ---- Click / keyboard: swap the facade for the real player. ----
   const play = () => {
     let player;
@@ -116,6 +149,9 @@ export default async function decorate(block) {
     }
     player.className = 'video-player';
     facade.replaceWith(player);
+    // Drop the poster overlay (title/description + scrim) once playing.
+    block.querySelector('.video-overlay')?.remove();
+    block.classList.remove('has-overlay');
     if (player.tagName === 'VIDEO') player.play?.().catch(() => {});
   };
 

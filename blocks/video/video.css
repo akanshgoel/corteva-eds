@@ -78,3 +78,72 @@
 .video .video-play-btn:focus-visible::before {
   background: #f2f2f2;
 }
+
+/* ── OVERLAY variant (single-slide galleryvideoplayer with title + description,
+   e.g. soybean-traits "MAKE THE RIGHT MOVE") ──────────────────────────────────
+   Live behaviour, matched per breakpoint:
+     • MOBILE (<900px): the title + description flow BELOW the poster as dark
+       text — NOT overlaid. The play button stays centred on the poster.
+     • DESKTOP (≥900px): the title + description overlay the lower-left of the
+       poster in white over a left-dark gradient scrim, play button on the
+       right.
+   The overlay is a sibling of the facade, so the mobile (default) case needs no
+   positioning — it just stacks under the poster. */
+.video.has-overlay .video-overlay {
+  margin-top: 20px;
+  color: var(--hoeg-ink, #202533);
+  text-align: left;
+}
+
+.video .video-overlay-title {
+  margin: 0 0 12px;
+  font-size: 24px;
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+.video .video-overlay-desc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Desktop: overlay the poster (white text over a left-dark scrim), play button
+   pushed to the right — matching live's absolute description-left. */
+@media (width >= 900px) {
+  .video.has-overlay {
+    position: relative;
+  }
+
+  .video .video-facade.has-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(90deg, rgb(0 0 0 / 55%) 0%, rgb(0 0 0 / 15%) 60%, rgb(0 0 0 / 0%) 100%);
+    pointer-events: none;
+  }
+
+  .video.has-overlay .video-overlay {
+    position: absolute;
+    z-index: 2;
+    left: 40px;
+    right: 40%;
+    bottom: 40px;
+    margin-top: 0;
+    color: #fff;
+  }
+
+  .video .video-overlay-title {
+    font-size: 32px;
+  }
+
+  .video .video-overlay-desc {
+    color: #fff;
+  }
+
+  .video .video-facade.has-overlay .video-play-btn {
+    left: auto;
+    right: 60px;
+  }
+}

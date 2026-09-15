@@ -34,6 +34,17 @@
   border-bottom: 1px solid var(--color-border-strong);
 }
 
+/* Borderless variant — the source `non-accordion` / `accordion__blue-color`
+   content lists (e.g. seed-treatments "Corn Seed Treatments") render WITHOUT
+   item rules on live. Scoped to `.accordion.borderless` so the shared FAQ
+   accordion (vorceed, etc.) keeps its 1px rules untouched. */
+.accordion.borderless .accordion-item,
+.accordion.borderless .cmp-accordion__item,
+.accordion.borderless .accordion-item:last-of-type,
+.accordion.borderless .cmp-accordion__item:last-of-type {
+  border: 0;
+}
+
 /* Question row (summary) — 88px tall, black bold label, chevron pushed right. */
 .accordion .accordion-item summary {
   position: relative;

@@ -89,7 +89,7 @@ main > .section:has(.breadcrumb) {
   align-items: center;
   margin: 0;
   color: var(--breadcrumb-color);
-  font-size: 14px; /* .875rem */
+  font-size: 16px; /* live computes 16px at desktop (source .875rem is overridden) */
   font-weight: 400;
   line-height: 23px; /* 1.4375rem */
 }
