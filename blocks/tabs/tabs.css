@@ -236,22 +236,26 @@
   text-decoration: none;
 }
 
-/* The standalone "Guess Here" link is a plain inline navy text link on the live
-   site (no button box) — just add spacing above the paragraph. Colour is
-   inherited from the panel link style; the underline shows on hover only. */
+/* The standalone "Guess Here" link renders as a solid navy button, centered
+   below the intro paragraph — matches live's .c-button exactly: navy bg, white
+   text, 23px/24px padding, 2px radius, Oswald Bold 14px/700, NO text-transform,
+   NO underline, and NO hover change (the live button has no :hover rule). */
 .tabs.gray-background .tabs-panel .article-filter-wrapper > p:has(> a:only-child) {
   margin-top: 1.5rem;
+  text-align: center;
 }
 
 .tabs.gray-background .tabs-panel .article-filter-wrapper > p:has(> a:only-child) a {
-  color: var(--hoeg-navy, var(--color-brand-primary));
-  font-family: var(--font-heading), arial, sans-serif;
-  font-size: 16px;
+  display: inline-block;
+  padding: 23px 24px;
+  border-radius: 2px;
+  background-color: var(--hoeg-navy, var(--color-brand-primary));
+  color: #fff;
+  font-family: 'Oswald Bold', oswald, var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
   text-decoration: none;
-}
-
-.tabs.gray-background .tabs-panel .article-filter-wrapper > p:has(> a:only-child) a:hover {
-  text-decoration: underline;
 }
 
 /* Space above the search box: the article-filter follows the intro copy. */
