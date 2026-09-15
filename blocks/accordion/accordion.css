@@ -111,6 +111,7 @@
    open with its title, image and body all visible, no chevron, no dividers, no
    88px header row. Items stack with a comfortable gap.
    Items stack with a comfortable gap. */
+/* stylelint-disable no-descending-specificity */
 .accordion.non-accordion .accordion-item,
 .accordion.non-accordion .cmp-accordion__item {
   border: 0;
@@ -122,6 +123,7 @@
   border: 0;
   margin-bottom: 0;
 }
+/* stylelint-enable no-descending-specificity */
 
 /* The panel body already carries the title as an <h5> in source order
    (title → image → text), so the summary label would only duplicate it —
