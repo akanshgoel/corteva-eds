@@ -236,27 +236,22 @@
   text-decoration: none;
 }
 
-/* The final standalone CTA link ("Guess Here") renders as a primary c-button:
-   the last intro paragraph holds only that link. */
+/* The standalone "Guess Here" link is a plain inline navy text link on the live
+   site (no button box) — just add spacing above the paragraph. Colour is
+   inherited from the panel link style; the underline shows on hover only. */
 .tabs.gray-background .tabs-panel .article-filter-wrapper > p:has(> a:only-child) {
   margin-top: 1.5rem;
 }
 
 .tabs.gray-background .tabs-panel .article-filter-wrapper > p:has(> a:only-child) a {
-  display: inline-block;
-  padding: 18px 24px;
-  border-radius: 2px;
-  background-color: var(--hoeg-navy, var(--color-brand-primary));
-  color: #fff;
+  color: var(--hoeg-navy, var(--color-brand-primary));
   font-family: var(--font-heading), arial, sans-serif;
-  font-weight: 700;
   font-size: 16px;
-  line-height: 1;
-  letter-spacing: 0.02em;
+  text-decoration: none;
 }
 
 .tabs.gray-background .tabs-panel .article-filter-wrapper > p:has(> a:only-child) a:hover {
-  background-color: var(--hoeg-navy-hover, var(--color-brand-primary-hover));
+  text-decoration: underline;
 }
 
 /* Space above the search box: the article-filter follows the intro copy. */
