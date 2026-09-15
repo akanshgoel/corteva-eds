@@ -122,6 +122,11 @@ export default async function decorate(block) {
   const configuredTabs = insideTabs
     ? []
     : (cfg.tabs || '').split(',').map((t) => t.trim()).filter(Boolean);
+  // Optional fixed category. When set (e.g. the "Guess That Pest" tab panel
+  // config `category | Guess That Pest`), the feed is pre-filtered to that
+  // category and no own tabs are shown — the Tabs block provides the tab UI and
+  // each panel scopes the SAME feed to its category. Empty = show all rows.
+  const fixedCategory = (cfg.category || '').trim();
 
   block.textContent = '';
 
@@ -177,6 +182,7 @@ export default async function decorate(block) {
   const compute = () => {
     const q = searchInput.value.trim().toLowerCase();
     filtered = all.filter((r) => {
+      if (fixedCategory && (r.category || '').trim() !== fixedCategory) return false;
       if (activeTab && (r.category || '').trim() !== activeTab) return false;
       if (q && !`${r.title || ''} ${r.description || ''}`.toLowerCase().includes(q)) return false;
       return true;

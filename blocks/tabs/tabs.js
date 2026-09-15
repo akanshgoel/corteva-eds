@@ -128,6 +128,21 @@ export default async function decorate(block) {
     if (wrapper) wrapper.classList.add('button-container');
   });
 
+  // The intro's standalone CTA link ("Guess Here") is a source `.c-button` (a
+  // solid navy button on live). The import flattens the c-button span, so tag
+  // the link with the global `.c-button` class; styles.css owns its appearance.
+  // A link counts as a standalone CTA only when it is its paragraph's ENTIRE
+  // content — this distinguishes it from an inline sentence link (e.g. the
+  // "Facebook" link), which shares its paragraph with surrounding text. (CSS
+  // `a:only-child` can't tell them apart: it ignores the sibling text nodes.)
+  block.querySelectorAll('.tabs-panel p a[href]').forEach((a) => {
+    if (a.closest('.article-filter')) return; // skip filter result links
+    const p = a.closest('p');
+    if (!p || p.textContent.trim() !== a.textContent.trim()) return; // inline link
+    if (a.querySelector('img, picture')) return; // never buttonize image links
+    a.classList.add('c-button');
+  });
+
   // Decorate blocks authored inside panels (e.g. Article Filter) — they arrive
   // as raw tables and would otherwise not be decorated.
   await Promise.all(
