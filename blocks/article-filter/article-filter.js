@@ -113,7 +113,15 @@ export default async function decorate(block) {
   // otherwise they're auto-derived from distinct `category` values in the index
   // (e.g. the articles feed: "All Blogs" / "Guess That Pest"). The news feed has
   // no category → no tabs.
-  const configuredTabs = (cfg.tabs || '').split(',').map((t) => t.trim()).filter(Boolean);
+  //
+  // When this filter is nested inside a Tabs block panel (the live "The Dirt"
+  // structure — a cmp-tabs grey band with one Article Filter per tab panel), the
+  // Tabs block owns the tab UI and each filter shows a single feed. Suppress the
+  // filter's own category tabs there so the tab bar isn't rendered twice.
+  const insideTabs = !!block.closest('.tabs.block, .tabs-panel');
+  const configuredTabs = insideTabs
+    ? []
+    : (cfg.tabs || '').split(',').map((t) => t.trim()).filter(Boolean);
 
   block.textContent = '';
 
@@ -155,8 +163,9 @@ export default async function decorate(block) {
   }
 
   // Resolve tab labels: explicit config, else distinct category values.
+  // Skipped entirely when nested in a Tabs block (that block owns the tab UI).
   let tabs = configuredTabs;
-  if (!tabs.length) {
+  if (!insideTabs && !tabs.length) {
     const cats = [...new Set(all.map((r) => (r.category || '').trim()).filter(Boolean))];
     if (cats.length > 1) tabs = cats;
   }
