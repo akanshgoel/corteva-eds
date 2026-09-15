@@ -49,6 +49,54 @@
   display: none;
 }
 
+/* Feature panel layout (image + text side by side) — mirrors the source
+   `.column-feature--image-text-side` used on the Granular Insights tabs: text
+   column left, image column right (~55/45), capped at 1024px and centred.
+   Detected by a panel wrapper that holds an image paragraph. The layout uses a
+   flat structure (image <p> as a sibling of the text elements, which survives
+   the DA round-trip), so CSS grid explicitly places the image in a right column
+   spanning all rows while the text elements auto-flow down the left column.
+   Only the panel's DIRECT wrapper div is targeted, so the nested RELATED
+   ARTICLES accordion (in the Help & Support panel) is unaffected. On mobile it
+   collapses to a single column (text, then image). */
+.tabs .tabs-panel > div:has(> p > picture),
+.tabs .tabs-panel > div:has(> p > img) {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.tabs .tabs-panel > div:has(> p > picture) img,
+.tabs .tabs-panel > div:has(> p > img) img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (width >= 900px) {
+  .tabs .tabs-panel > div:has(> p > picture),
+  .tabs .tabs-panel > div:has(> p > img) {
+    display: grid;
+    grid-template-columns: 1fr 45%;
+    column-gap: 48px;
+    align-items: center;
+  }
+
+  /* Text elements auto-flow down the left column. */
+  .tabs .tabs-panel > div:has(> p > picture) > :not(p:has(picture)),
+  .tabs .tabs-panel > div:has(> p > img) > :not(p:has(img)) {
+    grid-column: 1;
+  }
+
+  /* The image paragraph occupies the right column, spanning all rows. */
+  .tabs .tabs-panel > div:has(> p > picture) > p:has(picture),
+  .tabs .tabs-panel > div:has(> p > img) > p:has(img) {
+    grid-column: 2;
+    grid-row: 1 / 100;
+    align-self: center;
+    margin: 0;
+  }
+}
+
 /* ----- gray-background variant (grey band + navy active underline) ----- */
 /* stylelint-disable no-descending-specificity --
    Variant selectors intentionally follow the base rules; they target the same

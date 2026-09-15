@@ -219,7 +219,52 @@ export default async function decorate(block) {
     if (!dropdown.contains(e.target)) closeDropdown();
   });
 
-  block.append(dropdown, tablist);
+  // --- Mobile scroll control: a track with ‹ › arrows that scroll the strip
+  // horizontally (matches the source `oversight-arrow-content-scroll`). Shown
+  // only on narrow viewports where the strip overflows; CSS hides it otherwise.
+  const scroller = document.createElement('div');
+  scroller.className = 'jumpto-tabs-scroll';
+  const prevBtn = document.createElement('button');
+  prevBtn.type = 'button';
+  prevBtn.className = 'jumpto-tabs-scroll-prev';
+  prevBtn.setAttribute('aria-label', 'Scroll tabs left');
+  const track = document.createElement('div');
+  track.className = 'jumpto-tabs-scroll-track';
+  const thumb = document.createElement('div');
+  thumb.className = 'jumpto-tabs-scroll-thumb';
+  track.append(thumb);
+  const nextBtn = document.createElement('button');
+  nextBtn.type = 'button';
+  nextBtn.className = 'jumpto-tabs-scroll-next';
+  nextBtn.setAttribute('aria-label', 'Scroll tabs right');
+  scroller.append(prevBtn, track, nextBtn);
+
+  // Scroll the strip by ~60% of its visible width per arrow press.
+  const step = () => Math.max(120, Math.round(tablist.clientWidth * 0.6));
+  prevBtn.addEventListener('click', () => {
+    tablist.scrollBy({ left: -step(), behavior: 'smooth' });
+  });
+  nextBtn.addEventListener('click', () => {
+    tablist.scrollBy({ left: step(), behavior: 'smooth' });
+  });
+  // Keep the thumb reflecting scroll position + arrow enabled/disabled state.
+  const syncScroll = () => {
+    const max = tablist.scrollWidth - tablist.clientWidth;
+    const ratio = tablist.clientWidth / (tablist.scrollWidth || 1);
+    thumb.style.width = `${Math.max(12, Math.round(ratio * 100))}%`;
+    const pos = max > 0 ? tablist.scrollLeft / max : 0;
+    thumb.style.marginLeft = `${Math.round(pos * (100 - Math.max(12, ratio * 100)))}%`;
+    prevBtn.disabled = tablist.scrollLeft <= 0;
+    nextBtn.disabled = tablist.scrollLeft >= max - 1;
+    // Hide the whole control if there's nothing to scroll.
+    scroller.classList.toggle('is-hidden', max <= 1);
+  };
+  tablist.addEventListener('scroll', syncScroll, { passive: true });
+  window.addEventListener('resize', syncScroll);
+  // Initial sync after layout settles.
+  requestAnimationFrame(syncScroll);
+
+  block.append(dropdown, tablist, scroller);
 
   // --- Active-state syncing.
   const setActive = (href) => {
