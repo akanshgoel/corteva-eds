@@ -38,12 +38,14 @@
    content lists (e.g. seed-treatments "Corn Seed Treatments") render WITHOUT
    item rules on live. Scoped to `.accordion.borderless` so the shared FAQ
    accordion (vorceed, etc.) keeps its 1px rules untouched. */
+/* stylelint-disable no-descending-specificity */
 .accordion.borderless .accordion-item,
 .accordion.borderless .cmp-accordion__item,
 .accordion.borderless .accordion-item:last-of-type,
 .accordion.borderless .cmp-accordion__item:last-of-type {
   border: 0;
 }
+/* stylelint-enable no-descending-specificity */
 
 /* Question row (summary) — 88px tall, black bold label, chevron pushed right. */
 .accordion .accordion-item summary {
